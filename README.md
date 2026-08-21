@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+# React Kit
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A production-oriented React + TypeScript starter built with Vite. It ships a layered folder structure for API, features, state, routing, and shared UI so you can start building features instead of wiring the project from scratch.
 
-## Available Scripts
+## Stack
 
-In the project directory, you can run:
+| Layer | Library |
+| --- | --- |
+| UI | React 19 |
+| Build | Vite 8 + TypeScript |
+| Routing | React Router 7 |
+| Server state | TanStack Query |
+| Client state | Zustand |
+| HTTP | Axios |
+| Validation | Zod |
+| Lint | Oxlint |
 
-### `npm start`
+## Getting started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Open [http://localhost:5173](http://localhost:5173).
 
-### `npm test`
+### Scripts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Type-check and build for production |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Run Oxlint |
 
-### `npm run build`
+### Environment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Copy `.env.example` to `.env` and adjust as needed:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```env
+VITE_APP_NAME=React Kit
+VITE_API_BASE_URL=http://localhost:3000/api
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Values are read through `src/config/env.config.ts`.
 
-### `npm run eject`
+## Project structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```text
+src/
+├── api/                 # HTTP client, interceptors, endpoint modules
+├── assets/              # Fonts, icons, images, global CSS
+├── components/
+│   ├── common/          # Shared primitives (Button, Input, Modal, …)
+│   ├── features/        # Feature-specific UI (auth, dashboard, products)
+│   └── ui/              # Presentational UI (Card, Badge, Toast, …)
+├── config/              # App, env, routes, and theme config
+├── constants/           # API paths, routes, messages, regex
+├── contexts/            # Auth, theme, and notification providers
+├── hooks/               # Reusable React hooks
+├── layouts/             # Main, auth, and dashboard shells
+├── lib/                 # Axios, React Query, router, validation
+├── pages/               # Route-level screens
+├── services/            # Domain services over API endpoints
+├── store/               # Zustand stores (auth, user, ui)
+├── types/               # Shared TypeScript types
+├── utils/               # Formatters, helpers, validators
+├── App.tsx
+└── main.tsx
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Path alias `@/` maps to `src/`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Architecture notes
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **API layer** — `api/http-client.ts` and `api/interceptors.ts` wrap Axios. Endpoint files under `api/endpoints/` stay thin; `services/` owns domain calls.
+- **State** — Zustand for global UI/auth/user state (`useAuthStore`, `useUserStore`, `useUiStore`); TanStack Query for server data.
+- **Routing** — Route constants live in `constants/routes.constants.ts`; the router is assembled in `lib/router.config.tsx`.
+- **Providers** — `App.tsx` wires React Query, Auth, Theme, Notification, and an error boundary around the router.
+- **Components** — Prefer co-located folders (`Component.tsx`, `Component.types.ts`, `Component.styles.ts`, `index.ts`).
 
-## Learn More
+## Routes
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Path | Page |
+| --- | --- |
+| `/` | Redirects to dashboard |
+| `/login`, `/register`, `/forgot-password` | Auth |
+| `/dashboard`, `/analytics`, `/settings` | Dashboard |
+| `/products`, `/products/:id`, `/products/new` | Products |
+| `*` | 404 |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Private / internal starter kit.
