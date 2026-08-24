@@ -2,7 +2,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
 import { MainLayout } from '@/layouts/MainLayout'
 import { AuthLayout } from '@/layouts/AuthLayout'
-import { DashboardLayout } from '@/layouts/DashboardLayout'
+import { DashboardLayout } from '@/layouts/MasterLayout'
 import {
   LoginPage,
   RegisterPage,
