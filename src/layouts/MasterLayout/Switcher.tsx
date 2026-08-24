@@ -1620,7 +1620,7 @@ const Switcher = () => {
         </div>
     </div>
    </>
-  )
+  );
 }
 
 export default Switcher

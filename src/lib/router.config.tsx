@@ -2,7 +2,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
 import { MainLayout } from '@/layouts/MainLayout'
 import { AuthLayout } from '@/layouts/AuthLayout'
-import { DashboardLayout } from '@/layouts/MasterLayout'
+import { MasterLayout } from '@/layouts/MasterLayout'
 import {
   LoginPage,
   RegisterPage,
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <DashboardLayout />,
+        element: <MasterLayout />,
         children: [
           { path: ROUTES.DASHBOARD.slice(1), element: <DashboardHome /> },
           { path: ROUTES.ANALYTICS.slice(1), element: <AnalyticsPage /> },

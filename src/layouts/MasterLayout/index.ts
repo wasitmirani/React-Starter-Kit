@@ -1,1 +1,1 @@
-export { DashboardLayout } from './MasterLayout'
+export { MasterLayout } from './MasterLayout'
