@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import { Sidebar } from '@/layouts/MainLayout'
 import Switcher from '@/layouts/MasterLayout/Switcher'
-import HeaderMenu from '@/layouts/MasterLayout/Header'
+import HeaderMenu from '@/layouts/MasterLayout/HeaderMenu'
+import { SideBar } from '@/layouts/MasterLayout/SideBar'
 
 export function MasterLayout() {
   return (
@@ -19,7 +20,25 @@ export function MasterLayout() {
 
    <div className="page">
     <HeaderMenu />
+    <SideBar />
+    <div className="main-content app-content">
 
+{/* Start::page-header */}
+<div className="flex items-center justify-between page-header-breadcrumb my-2 flex-wrap gap-2">
+ <h1 className="page-title font-semibold! text-[20px]! mb-0!">CRM Dashboard</h1>
+ <ol className="breadcrumb mb-0!">
+     <li className="breadcrumb-item">
+         <a href="javascript:void(0);">Home</a>
+     </li>
+     <li className="breadcrumb-item">
+         <a href="javascript:void(0);">Dashboards</a>
+     </li>
+     <li className="breadcrumb-item active" aria-current="page">CRM</li>
+ </ol>
+</div>
+{/* End::page-header */}
+
+    </div>
     </div>
    {/* Scroll To Top */}
    <div className="scrollToTop justify-center">
