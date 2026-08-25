@@ -3,6 +3,40 @@ import { useUiStore } from '@/store'
 
 const DESKTOP_BP = 992
 
+function clearIconOverlay() {
+  document.documentElement.removeAttribute('data-icon-overlay')
+}
+
+function onSidebarMouseEnter() {
+  const html = document.documentElement
+  if (html.getAttribute('data-toggled') === 'icon-overlay-close') {
+    html.setAttribute('data-icon-overlay', 'open')
+  }
+}
+
+function onSidebarMouseLeave() {
+  clearIconOverlay()
+}
+
+function bindOverlayHover(enabled: boolean) {
+  const sidebar = document.getElementById('sidebar')
+  if (!sidebar) return
+
+  sidebar.removeEventListener('mouseenter', onSidebarMouseEnter)
+  sidebar.removeEventListener('mouseleave', onSidebarMouseLeave)
+
+  if (enabled) {
+    sidebar.addEventListener('mouseenter', onSidebarMouseEnter)
+    sidebar.addEventListener('mouseleave', onSidebarMouseLeave)
+    // Collapse click happens while pointer is still over the rail — keep labels until leave
+    if (sidebar.matches(':hover')) {
+      document.documentElement.setAttribute('data-icon-overlay', 'open')
+    }
+  } else {
+    clearIconOverlay()
+  }
+}
+
 function applySidebarToDom(open: boolean) {
   const html = document.documentElement
   const overlay = document.getElementById('responsive-overlay')
@@ -13,14 +47,18 @@ function applySidebarToDom(open: boolean) {
     html.setAttribute('data-vertical-style', 'overlay')
     if (open) {
       html.removeAttribute('data-toggled')
+      bindOverlayHover(false)
     } else {
       html.setAttribute('data-toggled', 'icon-overlay-close')
+      // Hover expands labels temporarily; click hamburger again to pin open
+      bindOverlayHover(true)
     }
     overlay?.classList.remove('active')
     return
   }
 
   html.removeAttribute('data-vertical-style')
+  bindOverlayHover(false)
   if (open) {
     html.setAttribute('data-toggled', 'open')
     overlay?.classList.add('active')
@@ -45,7 +83,7 @@ export function useSidebarToggle() {
 }
 
 /**
- * Syncs Zustand sidebar state to theme `data-toggled` / overlay.
+ * Syncs Zustand sidebar state to theme `data-toggled` / overlay hover.
  * Call once from MasterLayout only.
  * @param scriptsReady - re-apply after template switcher scripts finish (they may overwrite attrs).
  */
@@ -71,6 +109,9 @@ export function useSidebarDomSync(scriptsReady = true) {
     }
 
     window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      bindOverlayHover(false)
+    }
   }, [setSidebarOpen])
 }

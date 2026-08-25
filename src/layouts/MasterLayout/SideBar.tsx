@@ -136,13 +136,45 @@ export function SideBar() {
         </NavLink>
         <button
           type="button"
-          aria-label="Hide Sidebar"
+          aria-label="Toggle Sidebar"
           className="sidemenu-toggle horizontal-navtoggle"
           id="menuToggleBtn"
           onClick={onToggleClick}
         >
-          <i className="ti ti-layout-sidebar-left-collapse open-sidemenu-toggle text-xl" aria-hidden="true" />
-          <i className="ti ti-layout-sidebar-left-expand close-sidemenu-toggle text-xl" aria-hidden="true" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="open-sidemenu-toggle"
+            aria-hidden="true"
+          >
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <path d="M9 3v18" />
+            <path d="m16 15-3-3 3-3" />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="close-sidemenu-toggle"
+            aria-hidden="true"
+          >
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <path d="M9 3v18" />
+            <path d="m14 9 3 3-3 3" />
+          </svg>
         </button>
       </div>
 

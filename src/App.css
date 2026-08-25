@@ -17,6 +17,17 @@
 
 .app-sidebar button.sidemenu-toggle {
   width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-menuprimecolor);
+}
+
+.app-sidebar .sidemenu-toggle .open-sidemenu-toggle,
+.app-sidebar .sidemenu-toggle .close-sidemenu-toggle {
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 /* Keep native scroll — do not rely on SimpleBar for React-managed sidebar */
