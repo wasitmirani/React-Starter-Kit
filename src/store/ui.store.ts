@@ -11,9 +11,14 @@ interface UiState {
   setGlobalLoading: (loading: boolean) => void
 }
 
+const getInitialSidebarOpen = () => {
+  if (typeof window === 'undefined') return true
+  return window.innerWidth >= 992
+}
+
 export const useUiStore = create<UiState>((set) => ({
   theme: 'light',
-  sidebarOpen: true,
+  sidebarOpen: getInitialSidebarOpen(),
   globalLoading: false,
   setTheme: (theme) => set({ theme }),
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),

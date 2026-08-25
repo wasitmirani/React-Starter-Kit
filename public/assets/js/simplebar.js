@@ -1,7 +1,4 @@
+/* Disabled: SimpleBar mutates #sidebar-scroll and breaks React reconciliation of the menu. */
 (function () {
-    "use strict";
-    
-    var myElement = document.getElementById('sidebar-scroll');
-    new SimpleBar(myElement, { autoHide: true });
-    
-})();
+  'use strict'
+})()

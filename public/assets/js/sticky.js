@@ -1,11 +1,10 @@
 
 "use strict";
 (() => {
-  window.addEventListener('scroll', stickyFn);
   var navbar = document.getElementById("sidebar");
   var navbar1 = document.getElementById("header");
-  var sticky = navbar.offsetTop;
-  var sticky1 = navbar1.offsetTop;
+  if (!navbar || !navbar1) return;
+
   function stickyFn() {
     if (window.scrollY >= 75) {
       navbar.classList.add("sticky-pin")
@@ -17,5 +16,6 @@
   }
   window.addEventListener('scroll', stickyFn);
   window.addEventListener('DOMContentLoaded', stickyFn);
+  stickyFn();
 })();
 

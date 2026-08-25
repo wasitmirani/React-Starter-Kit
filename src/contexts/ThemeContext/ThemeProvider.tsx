@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { themeConfig, type ThemeMode } from '@/config/theme.config'
+import { applyNilovaThemeMode, getNilovaThemeMode } from '@/utils/helpers/theme.helper'
 import { ThemeContext } from './ThemeContext'
 
 interface ThemeProviderProps {
@@ -9,10 +10,12 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem(themeConfig.storageKey) as ThemeMode | null
-    return saved ?? themeConfig.defaultTheme
+    if (saved === 'light' || saved === 'dark') return saved
+    return getNilovaThemeMode() || themeConfig.defaultTheme
   })
 
   useEffect(() => {
+    applyNilovaThemeMode(theme)
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem(themeConfig.storageKey, theme)
   }, [theme])

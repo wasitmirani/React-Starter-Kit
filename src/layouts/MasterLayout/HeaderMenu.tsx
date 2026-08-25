@@ -1,4 +1,14 @@
-const HeaderMenu = ()=>{
+import type { MouseEvent } from 'react'
+import { useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
+
+const HeaderMenu = () => {
+    const { toggleSidebar } = useSidebarToggle()
+
+    const onToggleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault()
+        toggleSidebar()
+    }
+
     return (
      
     <>
@@ -26,17 +36,22 @@ const HeaderMenu = ()=>{
 
                     {/* Start::header-element */}
                     <div className="header-element lg:mx-0 mx-2 items-center! header-toggle-btn pe-3">
-                        <a aria-label="Hide Sidebar" className="sidemenu-toggle horizontal-navtoggle block lg:hidden" id="headerToggleBtn"
-                            data-bs-toggle="sidebar" href="javascript:void(0);">
+                        <a
+                            aria-label="Hide Sidebar"
+                            className="sidemenu-toggle horizontal-navtoggle block lg:hidden"
+                            id="headerToggleBtn"
+                            href="#"
+                            onClick={onToggleClick}
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
                                 className="lucide lucide-panel-left-close-icon lucide-panel-left-close open-sidemenu-toggle">
                                 <rect width="18" height="18" x="3" y="3" rx="2" />
                                 <path d="M9 3v18" />
                                 <path d="m16 15-3-3 3-3" />
                             </svg>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
                                 className="lucide lucide-panel-left-open-icon lucide-panel-left-open close-sidemenu-toggle">
                                 <rect width="18" height="18" x="3" y="3" rx="2" />
                                 <path d="M9 3v18" />
@@ -219,7 +234,15 @@ const HeaderMenu = ()=>{
                     {/* Start::header-element */}
                     <li className="header-element header-fullscreen">
                         {/* Start::header-link */}
-                        <a onclick="openFullscreen();" href="javascript:void(0);" className="header-link">
+                        <a
+                            href="#"
+                            className="header-link"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                const openFullscreen = (window as Window & { openFullscreen?: () => void }).openFullscreen
+                                openFullscreen?.()
+                            }}
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
                                 className="lucide lucide-maximize-icon lucide-maximize full-screen-open header-link-icon">
