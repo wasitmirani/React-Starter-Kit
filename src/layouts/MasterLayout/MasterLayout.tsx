@@ -4,7 +4,7 @@ import HeaderMenu from '@/layouts/MasterLayout/HeaderMenu'
 import { SideBar } from '@/layouts/MasterLayout/SideBar'
 import { useTemplateScripts } from '@/layouts/MasterLayout/useTemplateScripts'
 import { useSidebarDomSync, useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
-
+import BreadCrumb from '@/components/common/BreadCrumb'
 export function MasterLayout() {
   const scriptsReady = useTemplateScripts()
   useSidebarDomSync(scriptsReady)
@@ -19,24 +19,10 @@ export function MasterLayout() {
       <div className="page">
         <HeaderMenu />
         <SideBar />
-        <div className="main-content app-content">
-          <div className="flex items-center justify-between page-header-breadcrumb my-2 flex-wrap gap-2">
-            <h1 className="page-title font-semibold! text-[20px]! mb-0!">CRM Dashboard</h1>
-            <ol className="breadcrumb mb-0!">
-              <li className="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li className="breadcrumb-item">
-                <a href="#">Dashboards</a>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                CRM
-              </li>
-            </ol>
-          </div>
+        
 
-          <Outlet />
-        </div>
+
+        <Outlet />
       </div>
 
       <div className="scrollToTop justify-center">

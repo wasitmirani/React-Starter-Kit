@@ -1604,14 +1604,7 @@ const Switcher = () => {
                 </div>
                 <div className="block canvas-footer">
                     <div className="flex justify-between sm:flex-nowrap flex-wrap sm:gap-1 gap-2 text-nowrap">
-                        <a href="https://1.envato.market/MGEaN" target="_blank"
-                            className="ti-btn px-4! ti-btn-primary grow  md:grow-0 block text-center text-white!">
-                            Buy Now
-                        </a>
-                        <a href="https://1.envato.market/MGEaN" target="_blank"
-                            className="ti-btn px-4! ti-btn-secondary grow  md:grow-0 block text-center text-white!">
-                            Our Portfolio
-                        </a>
+                      
                         <a href="javascript:void(0);" id="reset-all"
                             className="ti-btn px-4! ti-btn-danger grow  md:grow-0 block text-center text-white!">Reset</a>
                     </div>
