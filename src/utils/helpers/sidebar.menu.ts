@@ -50,6 +50,13 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
   { type: 'heading', title: 'Web Apps' },
   {
     type: 'single',
+    id: 'users',
+    title: 'Users',
+    link: ROUTES.USERS,
+    icon: 'ti ti-users',
+  },
+  {
+    type: 'single',
     id: 'products',
     title: 'Products',
     link: ROUTES.PRODUCTS,

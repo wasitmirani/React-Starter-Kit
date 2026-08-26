@@ -12,6 +12,7 @@ export const protectedRoutes = [
   ROUTES.SETTINGS,
   ROUTES.PRODUCTS,
   ROUTES.PRODUCT_CREATE,
+  ROUTES.USERS,
 ] as const
 
 export const routeTitles: Record<string, string> = {
@@ -24,4 +25,5 @@ export const routeTitles: Record<string, string> = {
   [ROUTES.SETTINGS]: 'Settings',
   [ROUTES.PRODUCTS]: 'Products',
   [ROUTES.PRODUCT_CREATE]: 'Create Product',
+  [ROUTES.USERS]: 'Users',
 }

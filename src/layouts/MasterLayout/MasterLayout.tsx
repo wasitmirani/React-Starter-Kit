@@ -5,6 +5,8 @@ import { SideBar } from '@/layouts/MasterLayout/SideBar'
 import { useTemplateScripts } from '@/layouts/MasterLayout/useTemplateScripts'
 import { useSidebarDomSync, useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
 import BreadCrumb from '@/components/common/BreadCrumb'
+
+
 export function MasterLayout() {
   const scriptsReady = useTemplateScripts()
   useSidebarDomSync(scriptsReady)
@@ -19,10 +21,12 @@ export function MasterLayout() {
       <div className="page">
         <HeaderMenu />
         <SideBar />
-        
-
-
+        <div className="main-content app-content">
+        <div className="container-fluid page-container main-body-container">
+      
         <Outlet />
+        </div>
+        </div>
       </div>
 
       <div className="scrollToTop justify-center">

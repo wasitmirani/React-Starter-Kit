@@ -4,7 +4,7 @@ const BreadCrumb = ({activePage, breadcrumbs}: {activePage: string, breadcrumbs:
     return (
 
         <>
-            <div className="main-content app-content">
+            
           <div className="flex items-center justify-between page-header-breadcrumb my-2 flex-wrap gap-2">
             <h1 className="page-title font-semibold! text-[20px]! mb-0!">{activePage}</h1>
             <ol className="breadcrumb mb-0!">
@@ -24,8 +24,6 @@ const BreadCrumb = ({activePage, breadcrumbs}: {activePage: string, breadcrumbs:
               </li>
             </ol>
           </div>
-
-        </div>
         </>
     )
 }

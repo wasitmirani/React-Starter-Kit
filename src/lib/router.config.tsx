@@ -13,6 +13,7 @@ import {
   ProductListPage,
   ProductDetailPage,
   ProductCreatePage,
+  Users,
   NotFoundPage,
 } from '@/pages'
 
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
           { path: ROUTES.PRODUCTS.slice(1), element: <ProductListPage /> },
           { path: 'products/:id', element: <ProductDetailPage /> },
           { path: ROUTES.PRODUCT_CREATE.slice(1), element: <ProductCreatePage /> },
+          { path: ROUTES.USERS.slice(1), element: <Users /> },
         ],
       },
       { path: '*', element: <NotFoundPage /> },

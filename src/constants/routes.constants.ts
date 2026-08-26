@@ -9,5 +9,6 @@ export const ROUTES = {
   PRODUCTS: '/products',
   PRODUCT_DETAIL: '/products/:id',
   PRODUCT_CREATE: '/products/create',
+  USERS: '/users',
   NOT_FOUND: '*',
 } as const
