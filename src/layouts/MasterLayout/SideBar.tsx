@@ -91,7 +91,6 @@ export function SideBar() {
     ),
   )
   const [profileOpen, setProfileOpen] = useState(false)
-  const [profileMenuReady, setProfileMenuReady] = useState(false)
   const profileWrapRef = useRef<HTMLDivElement>(null)
   const profileBtnRef = useRef<HTMLButtonElement>(null)
   const profileMenuRef = useRef<HTMLDivElement>(null)
@@ -113,7 +112,6 @@ export function SideBar() {
 
   useLayoutEffect(() => {
     if (!profileOpen) {
-      setProfileMenuReady(false)
       setProfileMenuStyle({ visibility: 'hidden' })
       return
     }
@@ -135,6 +133,7 @@ export function SideBar() {
         left = Math.max(pad, rect.left - menuWidth - gap)
       }
 
+      // Align bottom of menu with bottom of profile button
       let top = rect.bottom - menuHeight
       if (top < pad) top = pad
       if (top + menuHeight > window.innerHeight - pad) {
@@ -146,7 +145,6 @@ export function SideBar() {
         ['--profile-menu-top' as string]: `${Math.round(top)}px`,
         ['--profile-menu-left' as string]: `${Math.round(left)}px`,
       })
-      setProfileMenuReady(true)
     }
 
     const raf = requestAnimationFrame(() => {
