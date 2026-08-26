@@ -36,7 +36,7 @@ const Switcher = () => {
                         <p className="switcher-style-head">Choose Suitable Theme:</p>
                         <ul className="grid grid-cols-12 gap-x-4 gap-y-2 layout-card-list">
                             <li className="col-span-6 layout-card-item">
-                                <input className="layout-radio" type="radio" name="theme-template-style" id="switcher-default-theme" checked={true} />
+                                <input className="layout-radio" type="radio" name="theme-template-style" id="switcher-default-theme" defaultChecked />
                                 <label className="layout-card" htmlFor="switcher-default-theme">
                                     <span className="layout-preview layout-image-preview block">
                                         <img src="/assets/images/media/themes/1.png" alt="Light Theme Layout" className="img-fluid" />
@@ -172,7 +172,7 @@ const Switcher = () => {
                         <p className="switcher-style-head">Theme Color Mode:</p>
                         <ul className="grid grid-cols-12 gap-x-4 gap-y-2 layout-card-list">
                             <li className="col-span-4 layout-card-item">
-                                <input className="layout-radio" type="radio" name="theme-style" id="switcher-light-theme" checked/>
+                                <input className="layout-radio" type="radio" name="theme-style" id="switcher-light-theme" defaultChecked />
                                 <label className="layout-card preview-light" htmlFor="switcher-light-theme">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -246,7 +246,7 @@ const Switcher = () => {
                         <p className="switcher-style-head">Directions:</p>
                         <ul className="grid grid-cols-12 gap-x-4 gap-y-2 layout-card-list">
                             <li className="col-span-4 layout-card-item">
-                                <input className="layout-radio" type="radio" name="direction" id="switcher-ltr" checked/>    
+                                <input className="layout-radio" type="radio" name="direction" id="switcher-ltr" defaultChecked />    
                                 <label className="layout-card" htmlFor="switcher-ltr">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -321,7 +321,7 @@ const Switcher = () => {
                         <ul className="grid grid-cols-12 gap-x-4 gap-y-2 layout-card-list">
                             <li className="col-span-4 layout-card-item">
                                 <input className="layout-radio" type="radio" name="navigation-style" id="switcher-vertical"
-                                    checked     />
+                                    defaultChecked />
                                 <label className="layout-card" htmlFor="switcher-vertical">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -545,7 +545,7 @@ const Switcher = () => {
                         <ul className="grid grid-cols-12 gap-x-4 gap-y-2 layout-card-list">
                             <li className="col-span-4 layout-card-item">
                                 <input className="layout-radio" type="radio" name="sidemenu-layout-styles"
-                                    id="switcher-default-menu" checked />
+                                    id="switcher-default-menu" defaultChecked />
                                 <label className="layout-card" htmlFor="switcher-default-menu">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -767,7 +767,7 @@ const Switcher = () => {
                         <ul className="grid grid-cols-12 gap-x-4 gap-y-2 layout-card-list">
                             <li className="col-span-4 layout-card-item">
                                 <input className="layout-radio" type="radio" name="page-styles" id="switcher-regular"
-                                    checked />
+                                    defaultChecked />
                                 <label className="layout-card" htmlFor="switcher-regular">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -913,7 +913,7 @@ const Switcher = () => {
     
                             <li className="col-span-4 layout-card-item">
                                 <input className="layout-radio" type="radio" name="layout-width" id="switcher-full-width"
-                                    checked />
+                                    defaultChecked />
                                 <label className="layout-card" htmlFor="switcher-full-width">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -989,7 +989,7 @@ const Switcher = () => {
                             <div className="flex">
                                 <div className="form-check switch-select">
                                     <input className="form-check-input align-text-bottom!" type="radio" name="menu-positions"
-                                        id="switcher-menu-fixed" checked />
+                                        id="switcher-menu-fixed" defaultChecked />
                                     <label className="form-check-label" htmlFor="switcher-menu-fixed">
                                         Fixed
                                     </label>
@@ -1012,7 +1012,7 @@ const Switcher = () => {
                             <div className="flex">
                                 <div className="form-check switch-select">
                                     <input className="form-check-input align-text-bottom!" type="radio" name="header-positions"
-                                        id="switcher-header-fixed" checked />
+                                        id="switcher-header-fixed" defaultChecked />
                                     <label className="form-check-label" htmlFor="switcher-header-fixed">
                                         Fixed
                                     </label>
@@ -1070,7 +1070,7 @@ const Switcher = () => {
     
                             <li className="col-span-4 layout-card-item">
                                 <input className="layout-radio" type="radio" name="page-loader" id="switcher-loader-disable"
-                                    checked />
+                                    defaultChecked />
                                 <label className="layout-card" htmlFor="switcher-loader-disable">
                                     <span className="layout-preview">
                                         <span className="layout-preview-inner">
@@ -1151,7 +1151,7 @@ const Switcher = () => {
                                 </li>
                         
                                 <li className="col-span-4 layout-card-item">
-                                    <input className="layout-radio" type="radio" name="menu-colors" id="switcher-menu-dark" checked />
+                                    <input className="layout-radio" type="radio" name="menu-colors" id="switcher-menu-dark" defaultChecked />
                                     <label className="layout-card preview-menu-dark" htmlFor="switcher-menu-dark" data-bs-toggle="tooltip"
                                         data-bs-placement="top" title="Dark Menu">
                                         <span className="layout-preview">
@@ -1305,7 +1305,7 @@ const Switcher = () => {
 
                                 <li className="col-span-4 layout-card-item">
                                     <input className="layout-radio color-input color-white" type="radio" name="header-colors"
-                                        id="switcher-header-light" checked />
+                                        id="switcher-header-light" defaultChecked />
                         
                                     <label className="layout-card preview-header-light" htmlFor="switcher-header-light"
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Light Header">

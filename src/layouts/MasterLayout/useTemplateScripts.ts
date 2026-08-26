@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
+import { observePrimaryColor } from '@/utils/theme-primary-sync'
 
 /** Layout / libs — load once while MasterLayout is mounted. */
 const LAYOUT_SCRIPTS = [
@@ -113,6 +114,11 @@ export function useTemplateScripts() {
   const layoutLoadedRef = useRef(false)
 
   useEffect(() => {
+    const stop = observePrimaryColor()
+    return stop
+  }, [])
+
+  useEffect(() => {
     syncBodyDashboardClass(pathname)
   }, [pathname])
 
@@ -160,6 +166,16 @@ export function useTemplateScripts() {
 
       if (cancelled) return
       reinitPreline()
+      // Re-apply saved primary + sync RGB triplet used by polish shadows
+      try {
+        const html = document.documentElement
+        const primary = localStorage.getItem('primaryRGB')
+        if (primary) {
+          html.style.setProperty('--color-primary', primary)
+        }
+      } catch {
+        // ignore storage access issues
+      }
       setScriptsReady(true)
     }
 

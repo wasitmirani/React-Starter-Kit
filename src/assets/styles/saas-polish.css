@@ -1,69 +1,39 @@
 /**
- * SaaS polish layer — dense, modern enterprise look on top of Nilova.
- * Loaded after template styles.css (via App). Do not edit public/assets/css/styles.css.
+ * SaaS polish layer — dense, modern look on top of Nilova.
+ * Do NOT lock brand/theme colors here — Switcher sets --color-primary dynamically.
  */
 
-:root,
-html.light,
-.light {
-  --color-bodybg: #f4f6f9;
-  --color-bodybg2: #f4f6f9;
-  --color-primary: #2563eb;
-  --color-primary-main: 37, 99, 235;
-  --color-secondary: #64748b;
-  --color-warning: #d97706;
-  --color-info: #0891b2;
-  --color-success: #059669;
-  --color-success-main: 5, 150, 105;
-  --color-danger: #dc2626;
-  --color-light: #f8fafc;
-  --color-dark: #0f172a;
-  --color-defaulttextcolor: #0f172a;
-  --color-defaultborder: #e5e7eb;
-  --color-defaultbackground: #f8fafc;
-  --color-menubg: #ffffff;
-  --color-menuprimecolor: #0f172a;
-  --color-menuiconcolor: #64748b;
-  --color-headericoncolor: #64748b;
-  --color-menubordercolor: #e5e7eb;
-  --color-headerbg: #ffffff;
-  --color-headerprimecolor: #0f172a;
-  --color-headerbordercolor: #e5e7eb;
-  --color-listhoverfocusbg: #f1f5f9;
-  --color-textmuted: #64748b;
-  --color-inputborder: #d1d5db;
-  --color-formcontrolbg: #ffffff;
+:root {
   --radius-defaultradius: 0.5rem;
   --shadow-boxshadow: 0 1px 2px rgb(15 23 42 / 5%);
   --saas-transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --saas-gap: 1rem;
   --saas-gap-sm: 0.75rem;
+  --font-defaultfont: "Plus Jakarta Sans", "Geist", system-ui, -apple-system, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Geist", system-ui, -apple-system, sans-serif;
+  --default-font-family: var(--font-defaultfont);
 }
 
 html.dark,
 .dark,
 [class='dark'] {
-  --color-bodybg: #0f172a;
-  --color-bodybg2: #0f172a;
-  --color-primary: #3b82f6;
-  --color-primary-main: 59, 130, 246;
-  --color-secondary: #94a3b8;
-  --color-defaulttextcolor: #f1f5f9;
-  --color-defaultborder: #334155;
-  --color-defaultbackground: #1e293b;
-  --color-menubg: #1e293b;
-  --color-menuprimecolor: #f1f5f9;
-  --color-menuiconcolor: #94a3b8;
-  --color-headericoncolor: #94a3b8;
-  --color-menubordercolor: #334155;
-  --color-headerbg: #1e293b;
-  --color-headerprimecolor: #f1f5f9;
-  --color-headerbordercolor: #334155;
-  --color-listhoverfocusbg: #334155;
-  --color-textmuted: #94a3b8;
-  --color-inputborder: #475569;
-  --color-formcontrolbg: #1e293b;
   --shadow-boxshadow: 0 1px 2px rgb(0 0 0 / 24%);
+}
+
+html,
+body {
+  font-family: var(--font-defaultfont) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6,
+.page-title,
+.box-title,
+.side-menu__label {
+  font-family: var(--font-defaultfont) !important;
+  letter-spacing: -0.02em;
 }
 
 /* ─── Dense page rhythm ─── */
