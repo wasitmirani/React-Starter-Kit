@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { ROUTES } from '@/constants/routes.constants'
 
 /** Layout / libs — load once while MasterLayout is mounted. */
 const LAYOUT_SCRIPTS = [
@@ -17,7 +18,31 @@ const LAYOUT_SCRIPTS = [
 const PAGE_SCRIPTS = [
   '/assets/js/crm-dashboard.js',
   '/assets/js/projects-dashboard.js',
+  '/assets/js/analytics-dashboard.js',
 ] as const
+
+const DASHBOARD_BODY_CLASSES = [
+  'crm-dashboard',
+  'analytics-dashboard',
+  'project-dashboard',
+] as const
+
+function dashboardBodyClass(pathname: string): (typeof DASHBOARD_BODY_CLASSES)[number] {
+  if (pathname === ROUTES.ANALYTICS || pathname.startsWith(`${ROUTES.ANALYTICS}/`)) {
+    return 'analytics-dashboard'
+  }
+  if (pathname === ROUTES.DASHBOARD) {
+    return 'project-dashboard'
+  }
+  return 'project-dashboard'
+}
+
+function syncBodyDashboardClass(pathname: string) {
+  const next = dashboardBodyClass(pathname)
+  for (const cls of DASHBOARD_BODY_CLASSES) {
+    document.body.classList.toggle(cls, cls === next)
+  }
+}
 
 const CRM_CHART_KEYS = [
   'crmtotalCustomers',
@@ -86,6 +111,19 @@ export function useTemplateScripts() {
   const { pathname } = useLocation()
   const [scriptsReady, setScriptsReady] = useState(false)
   const layoutLoadedRef = useRef(false)
+
+  useEffect(() => {
+    syncBodyDashboardClass(pathname)
+  }, [pathname])
+
+  useEffect(() => {
+    return () => {
+      for (const cls of DASHBOARD_BODY_CLASSES) {
+        document.body.classList.remove(cls)
+      }
+      document.body.classList.add('project-dashboard')
+    }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
