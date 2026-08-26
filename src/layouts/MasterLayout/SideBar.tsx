@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { NavLink, useLocation } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
 import { useTheme } from '@/contexts/ThemeContext'
@@ -90,9 +91,13 @@ export function SideBar() {
     ),
   )
   const [profileOpen, setProfileOpen] = useState(false)
+  const [profileMenuReady, setProfileMenuReady] = useState(false)
   const profileWrapRef = useRef<HTMLDivElement>(null)
   const profileBtnRef = useRef<HTMLButtonElement>(null)
-  const [profileMenuStyle, setProfileMenuStyle] = useState<CSSProperties>({})
+  const profileMenuRef = useRef<HTMLDivElement>(null)
+  const [profileMenuStyle, setProfileMenuStyle] = useState<CSSProperties>({
+    visibility: 'hidden',
+  })
 
   useEffect(() => {
     setOpenMenus((prev) => {
@@ -107,23 +112,51 @@ export function SideBar() {
   }, [location.pathname])
 
   useLayoutEffect(() => {
-    if (!profileOpen || !profileBtnRef.current) return
-    const update = () => {
-      const rect = profileBtnRef.current!.getBoundingClientRect()
-      const menuHeight = 280
-      const top = Math.min(
-        Math.max(8, rect.top),
-        window.innerHeight - menuHeight - 8,
-      )
-      setProfileMenuStyle({
-        top,
-        left: rect.right + 8,
-      })
+    if (!profileOpen) {
+      setProfileMenuReady(false)
+      setProfileMenuStyle({ visibility: 'hidden' })
+      return
     }
-    update()
+    if (!profileBtnRef.current) return
+
+    const update = () => {
+      const trigger = profileBtnRef.current
+      const menu = profileMenuRef.current
+      if (!trigger || !menu) return
+
+      const rect = trigger.getBoundingClientRect()
+      const menuWidth = menu.offsetWidth || 220
+      const menuHeight = menu.offsetHeight || 320
+      const gap = 8
+      const pad = 12
+
+      let left = rect.right + gap
+      if (left + menuWidth > window.innerWidth - pad) {
+        left = Math.max(pad, rect.left - menuWidth - gap)
+      }
+
+      let top = rect.bottom - menuHeight
+      if (top < pad) top = pad
+      if (top + menuHeight > window.innerHeight - pad) {
+        top = Math.max(pad, window.innerHeight - menuHeight - pad)
+      }
+
+      setProfileMenuStyle({
+        visibility: 'visible',
+        ['--profile-menu-top' as string]: `${Math.round(top)}px`,
+        ['--profile-menu-left' as string]: `${Math.round(left)}px`,
+      })
+      setProfileMenuReady(true)
+    }
+
+    const raf = requestAnimationFrame(() => {
+      update()
+      requestAnimationFrame(update)
+    })
     window.addEventListener('resize', update)
     window.addEventListener('scroll', update, true)
     return () => {
+      cancelAnimationFrame(raf)
       window.removeEventListener('resize', update)
       window.removeEventListener('scroll', update, true)
     }
@@ -132,9 +165,10 @@ export function SideBar() {
   useEffect(() => {
     if (!profileOpen) return
     const onPointerDown = (event: globalThis.MouseEvent) => {
-      if (!profileWrapRef.current?.contains(event.target as Node)) {
-        setProfileOpen(false)
-      }
+      const target = event.target as Node
+      const inTrigger = profileWrapRef.current?.contains(target)
+      const inMenu = profileMenuRef.current?.contains(target)
+      if (!inTrigger && !inMenu) setProfileOpen(false)
     }
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setProfileOpen(false)
@@ -317,48 +351,68 @@ export function SideBar() {
                       aria-hidden="true"
                     />
                   </button>
-
-                  <div
-                    className={`ti-dropdown-menu rounded-lg min-w-54! p-1!${profileOpen ? '' : ' hidden'}`}
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="mainProfile"
-                    style={profileOpen ? profileMenuStyle : undefined}
-                  >
-                    <NavLink
-                      to={ROUTES.SETTINGS}
-                      className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item"
-                      onClick={() => setProfileOpen(false)}
-                    >
-                      <i className="ti ti-user-circle text-lg"></i>
-                      View Profile
-                    </NavLink>
-                    <NavLink
-                      to={ROUTES.SETTINGS}
-                      className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item"
-                      onClick={() => setProfileOpen(false)}
-                    >
-                      <i className="ti ti-settings-cog text-lg"></i>
-                      Account Settings
-                    </NavLink>
-                    <button type="button" className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start">
-                      <i className="ti ti-lifebuoy text-lg"></i>
-                      Support
-                    </button>
-                    <button type="button" className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start">
-                      <i className="ti ti-bolt text-lg"></i>
-                      Activity Log
-                    </button>
-                    <button type="button" className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start">
-                      <i className="ti ti-calendar text-lg"></i>
-                      Events
-                    </button>
-                    <button type="button" className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start">
-                      <i className="ti ti-help text-lg"></i>
-                      Help
-                    </button>
-                  </div>
                 </div>
+                {profileOpen &&
+                  createPortal(
+                    <div
+                      ref={profileMenuRef}
+                      className="ti-dropdown-menu rounded-lg min-w-54! p-1! profile-drop-menu"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="mainProfile"
+                      style={profileMenuStyle}
+                    >
+                      <NavLink
+                        to={ROUTES.SETTINGS}
+                        className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <i className="ti ti-user-circle text-lg"></i>
+                        View Profile
+                      </NavLink>
+                      <NavLink
+                        to={ROUTES.SETTINGS}
+                        className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <i className="ti ti-settings-cog text-lg"></i>
+                        Account Settings
+                      </NavLink>
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <i className="ti ti-lifebuoy text-lg"></i>
+                        Support
+                      </button>
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <i className="ti ti-bolt text-lg"></i>
+                        Activity Log
+                      </button>
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <i className="ti ti-calendar text-lg"></i>
+                        Events
+                      </button>
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 rounded-md px-4 py-3 text-[15px]! text-sm ti-dropdown-item w-full text-start"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <i className="ti ti-help text-lg"></i>
+                        Help
+                      </button>
+                    </div>,
+                    document.body,
+                  )}
               </li>
             </ul>
           </div>

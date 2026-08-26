@@ -260,12 +260,22 @@
   z-index: 1050 !important;
 }
 
-/* Sidebar profile menu uses React fixed coords (escapes overflow) — do not force absolute */
-.app-sidebar .profile-drop > .ti-dropdown-menu {
+/* Sidebar profile menu is portaled to body — position via CSS vars from React */
+.profile-drop-menu.ti-dropdown-menu {
   position: fixed !important;
-  inset: unset !important;
-  transform: none !important;
+  top: var(--profile-menu-top, 0) !important;
+  left: var(--profile-menu-left, 0) !important;
+  right: auto !important;
+  bottom: auto !important;
+  inset-inline-start: var(--profile-menu-left, 0) !important;
+  inset-inline-end: auto !important;
   margin: 0 !important;
-  z-index: 1060 !important;
+  transform: none !important;
+  z-index: 2000 !important;
+  min-width: 13.75rem;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
 }
+
+
 
