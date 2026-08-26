@@ -59,10 +59,10 @@ function buildCrudActions<T>(
 ): DataTableAction<T>[] {
   const list: DataTableAction<T>[] = []
   if (onView) {
-    list.push({ key: 'view', label: 'View', icon: 'ri-eye-line', variant: 'view', onClick: onView })
+    list.push({ key: 'view', label: 'Call', icon: 'ri-phone-line', variant: 'view', onClick: onView })
   }
   if (onEdit) {
-    list.push({ key: 'edit', label: 'Edit', icon: 'ri-pencil-line', variant: 'edit', onClick: onEdit })
+    list.push({ key: 'edit', label: 'Edit', icon: 'ri-edit-line', variant: 'edit', onClick: onEdit })
   }
   if (onDelete) {
     list.push({
@@ -144,6 +144,7 @@ export function DataTable<T>({
               </th>
             ) : null}
 
+
             {visibleColumns.map((column) => (
               <th
                 key={column.key}
@@ -179,7 +180,7 @@ export function DataTable<T>({
                   onClick={onRowClick ? () => onRowClick(row, index) : undefined}
                 >
                   {selectable ? (
-                    <td onClick={(e) => e.stopPropagation()}>
+                    <th scope="row" onClick={(e) => e.stopPropagation()}>
                       <input
                         className={s.checkbox}
                         type="checkbox"
@@ -187,7 +188,7 @@ export function DataTable<T>({
                         onChange={() => toggleOne(id)}
                         aria-label={`Select row ${id}`}
                       />
-                    </td>
+                    </th>
                   ) : null}
 
                   {visibleColumns.map((column) => (
