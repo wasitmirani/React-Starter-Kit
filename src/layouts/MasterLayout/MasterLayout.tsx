@@ -1,16 +1,15 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import Switcher from '@/layouts/MasterLayout/Switcher'
 import HeaderMenu from '@/layouts/MasterLayout/HeaderMenu'
 import { SideBar } from '@/layouts/MasterLayout/SideBar'
 import { useTemplateScripts } from '@/layouts/MasterLayout/useTemplateScripts'
 import { useSidebarDomSync, useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
-import BreadCrumb from '@/components/common/BreadCrumb'
-
 
 export function MasterLayout() {
   const scriptsReady = useTemplateScripts()
   useSidebarDomSync(scriptsReady)
   const { closeSidebar } = useSidebarToggle()
+  const location = useLocation()
 
   return (
     <>
@@ -22,10 +21,11 @@ export function MasterLayout() {
         <HeaderMenu />
         <SideBar />
         <div className="main-content app-content">
-        <div className="container-fluid page-container main-body-container">
-      
-        <Outlet />
-        </div>
+          <div className="container-fluid page-container main-body-container">
+            <div key={location.pathname} className="saas-page-enter">
+              <Outlet />
+            </div>
+          </div>
         </div>
       </div>
 

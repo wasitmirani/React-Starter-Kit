@@ -1,21 +1,18 @@
 import BreadCrumb from '@/components/common/BreadCrumb';
-import { Chart } from '@/components/features/dashboard/Chart'
 
 export function AnalyticsPage() {
   return (
     <>
     <BreadCrumb activePage="Analytics" breadcrumbs={[ {label: "Dashboards", href: "/dashboard"}]} />
-    <div className="container-fluid page-container main-body-container">
 
-
-<div className="grid 2xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6">
+<div className="grid 2xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4">
     <div className="col">
         <div className="box">
             <div className="box-body">
                 <div className="flex flex-wrap items-center justify-between gap-1">
                     <div className="flex-1">
                         <p className="text-textmuted mb-2!">Visitors Online</p>
-                        <div className="font-semibold text-[22px]">53,673</div>
+                        <div className="font-semibold fs-22">53,673</div>
                     </div>
                     <div className="text-end">
                         <div className="anal-body">
@@ -34,12 +31,12 @@ export function AnalyticsPage() {
                 </div>
 
                 <div className="p-1 inline-flex items-center gap-2 text-textmuted">
-                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 text-[12px] font-medium">
+                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 fs-12 font-medium">
                         <i className="ti ti-arrow-up"></i>
                         7.5K+
                     </span>
 
-                    <span className="text-[12px] font-medium mr-1">
+                    <span className="fs-12 font-medium mr-1">
                         vs Previous month
                     </span>
                 </div>
@@ -54,7 +51,7 @@ export function AnalyticsPage() {
                     </div>
                     <div className="flex-1">
                         <p className="text-textmuted mb-2!">Bounce Rate</p>
-                        <div className="font-semibold text-[22px]">42%</div>
+                        <div className="font-semibold fs-22">42%</div>
                     </div>
                     <div className="text-end">
                         <div className="anal-body">
@@ -70,11 +67,11 @@ export function AnalyticsPage() {
                 </div>
 
                 <div className="p-1 inline-flex items-center gap-2 text-textmuted">
-                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 text-[12px] font-medium">
+                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 fs-12 font-medium">
                         <i className="ti ti-arrow-up"></i>
                         3.4K+
                     </span>
-                    <span className="text-[12px] font-medium mr-1">
+                    <span className="fs-12 font-medium mr-1">
                         vs Previous month
                     </span>
                 </div>
@@ -89,7 +86,7 @@ export function AnalyticsPage() {
                     </div>
                     <div className="flex-1">
                         <p className="text-textmuted mb-2!">Avg. Visit Duration</p>
-                        <div className="font-semibold text-[22px]">5m 42s</div>
+                        <div className="font-semibold fs-22">5m 42s</div>
                     </div>
                     <div className="text-end">
                         <div className="anal-body">
@@ -105,11 +102,11 @@ export function AnalyticsPage() {
                     </div>
                 </div>
                 <div className="p-1 inline-flex items-center gap-2 text-textmuted">
-                    <span className="bg-danger-transparent px-1 rounded-pill inline-flex items-center gap-1 text-[12px] font-medium">
+                    <span className="bg-danger-transparent px-1 rounded-pill inline-flex items-center gap-1 fs-12 font-medium">
                         <i className="ti ti-arrow-down"></i>
                         1.6K+
                     </span>
-                    <span className="text-[12px] font-medium mr-1">
+                    <span className="fs-12 font-medium mr-1">
                         vs Previous month
                     </span>
                 </div>
@@ -124,7 +121,7 @@ export function AnalyticsPage() {
                     </div>
                     <div className="flex-1">
                         <p className="text-textmuted mb-2!">Lead Analytics</p>
-                        <div className="font-semibold text-[22px]">3,859</div>
+                        <div className="font-semibold fs-22">3,859</div>
                     </div>
                     <div className="text-end">
                         <div className="anal-body">
@@ -140,11 +137,11 @@ export function AnalyticsPage() {
                     </div>
                 </div>
                 <div className="p-1 inline-flex items-center gap-2 text-textmuted">
-                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 text-[12px] font-medium">
+                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 fs-12 font-medium">
                         <i className="ti ti-arrow-up"></i>
                         2.4K+
                     </span>
-                    <span className="text-[12px] font-medium mr-1">
+                    <span className="fs-12 font-medium mr-1">
                         vs Previous month
                     </span>
                 </div>
@@ -159,7 +156,7 @@ export function AnalyticsPage() {
                     </div>
                     <div className="flex-1">
                         <p className="text-textmuted mb-2!">Sessions</p>
-                        <div className="font-semibold text-[22px]">97.66k</div>
+                        <div className="font-semibold fs-22">97.66k</div>
                     </div>
                     <div className="text-end">
                         <div className="anal-body">
@@ -183,11 +180,11 @@ export function AnalyticsPage() {
                 </div>
 
                 <div className="p-1 inline-flex items-center gap-2 text-textmuted">
-                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 text-[12px] font-medium">
+                    <span className="bg-success-transparent px-1 rounded-pill inline-flex items-center gap-1 fs-12 font-medium">
                         <i className="ti ti-arrow-up"></i>
                         2.7K+
                     </span>
-                    <span className="text-[12px] font-medium mr-1">
+                    <span className="fs-12 font-medium mr-1">
                         vs Previous month
                     </span>
                 </div>
@@ -216,7 +213,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">United States</div>
-                                <span className="text-[12px] text-gray-500">Increased by
+                                <span className="fs-12 text-gray-500">Increased by
                                     <span className="text-success font-medium ms-1">4.75%<i className="ti ti-arrow-narrow-up"></i></span>
                                 </span>
                             </div>
@@ -233,7 +230,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none mb-1">
                                 <div className="font-semibold mb-1">Argentina</div>
-                                <span className="text-[12px] text-gray-500">Increased by
+                                <span className="fs-12 text-gray-500">Increased by
                                     <span className="text-success font-medium ms-1">2.75%<i className="ti ti-arrow-narrow-up"></i></span>
                                 </span>
                             </div>
@@ -250,7 +247,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">Spain</div>
-                                <span className="text-[12px] text-gray-500">Increased by
+                                <span className="fs-12 text-gray-500">Increased by
                                     <span className="text-success font-medium ms-1">2.75%<i className="ti ti-arrow-narrow-up"></i></span>
                                 </span>
                             </div>
@@ -267,7 +264,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">Russia</div>
-                                <span className="text-[12px] text-gray-500">Decreased by
+                                <span className="fs-12 text-gray-500">Decreased by
                                     <span className="text-danger font-medium ms-1">1.4%<i className="ti ti-arrow-narrow-down"></i></span>
                                 </span>
                             </div>
@@ -284,7 +281,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">Uae</div>
-                                <span className="text-[12px] text-gray-500">Increased by
+                                <span className="fs-12 text-gray-500">Increased by
                                     <span className="text-success font-medium ms-1">1.3%<i className="ti ti-arrow-narrow-up"></i></span>
                                 </span>
                             </div>
@@ -301,7 +298,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">China</div>
-                                <span className="text-[12px] text-gray-500">Decreased by
+                                <span className="fs-12 text-gray-500">Decreased by
                                     <span className="text-danger font-medium ms-1">0.2%<i className="ti ti-arrow-narrow-down"></i></span>
                                 </span>
                             </div>
@@ -318,7 +315,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">Canada</div>
-                                <span className="text-[12px] text-gray-500">Increased by
+                                <span className="fs-12 text-gray-500">Increased by
                                     <span className="text-success font-medium ms-1">0.5%<i className="ti ti-arrow-narrow-up"></i></span>
                                 </span>
                             </div>
@@ -335,7 +332,7 @@ export function AnalyticsPage() {
                             </div>
                             <div className="flex-1 leading-none">
                                 <div className="font-semibold mb-1">Mexico</div>
-                                <span className="text-[12px] text-gray-500">Decreased by
+                                <span className="fs-12 text-gray-500">Decreased by
                                     <span className="text-danger font-medium ms-1">0.2%<i className="ti ti-arrow-narrow-down"></i></span>
                                 </span>
                             </div>
@@ -648,7 +645,7 @@ export function AnalyticsPage() {
 
             <div className="box-body p-0!">
                 <div className="flex items-center p-4">
-                    <div className="text-[22px] font-medium">$23,75K</div>
+                    <div className="fs-22 font-medium">$23,75K</div>
                     <span className="badge bg-success-transparent mx-1">
                         12.4% <i className="ti ti-trending-up"></i>
                     </span>
@@ -793,7 +790,7 @@ export function AnalyticsPage() {
                                         </div>
                                         <div className="flex-[1_1_auto]">
                                             <span className="font-medium">Chrome</span>
-                                            <span className="block text-textmuted text-[12px]">Google Browser</span>
+                                            <span className="block text-textmuted fs-12">Google Browser</span>
                                         </div>
                                     </div>
                                 </td>
@@ -837,7 +834,7 @@ export function AnalyticsPage() {
                                         </div>
                                         <div className="flex-[1_1_auto]">
                                             <span className="font-medium">Safari</span>
-                                            <span className="block text-textmuted text-[12px]">Apple Browser</span>
+                                            <span className="block text-textmuted fs-12">Apple Browser</span>
                                         </div>
                                     </div>
                                 </td>
@@ -875,7 +872,7 @@ export function AnalyticsPage() {
                                         </div>
                                         <div className="flex-[1_1_auto]">
                                             <span className="font-medium">Opera</span>
-                                            <span className="block text-textmuted text-[12px]">Opera Browser</span>
+                                            <span className="block text-textmuted fs-12">Opera Browser</span>
                                         </div>
                                     </div>
                                 </td>
@@ -915,7 +912,7 @@ export function AnalyticsPage() {
                                         </div>
                                         <div className="flex-[1_1_auto]">
                                             <span className="font-medium">Firefox</span>
-                                            <span className="block text-textmuted text-[12px]">Mozilla Browser</span>
+                                            <span className="block text-textmuted fs-12">Mozilla Browser</span>
                                         </div>
                                     </div>
                                 </td>
@@ -957,7 +954,7 @@ export function AnalyticsPage() {
                                         </div>
                                         <div className="flex-[1_1_auto]">
                                             <span className="font-medium">Edge</span>
-                                            <span className="block text-textmuted text-[12px]">Microsoft Browser</span>
+                                            <span className="block text-textmuted fs-12">Microsoft Browser</span>
                                         </div>
                                     </div>
                                 </td>
@@ -1001,7 +998,7 @@ export function AnalyticsPage() {
                         </div>
                         <div className="activity-content">
                             <div className="activity-title">
-                                <div className="text-[16px] font-medium">Proposal Sent</div>
+                                <div className="fs-16 font-medium">Proposal Sent</div>
                                 <span className="activity-time">10 min ago</span>
                             </div>
                             <p className="activity-text">
@@ -1022,7 +1019,7 @@ export function AnalyticsPage() {
                         </div>
                         <div className="activity-content">
                             <div className="activity-title">
-                                <div className="text-[16px] font-medium">Shannon Baker</div>
+                                <div className="fs-16 font-medium">Shannon Baker</div>
                                 <span className="activity-time">28 min ago</span>
                             </div>
                             <p className="activity-text">
@@ -1043,7 +1040,7 @@ export function AnalyticsPage() {
                         </div>
                         <div className="activity-content">
                             <div className="activity-title">
-                                <div className="text-[16px] font-medium">Charlie Brown</div>
+                                <div className="fs-16 font-medium">Charlie Brown</div>
                                 <span className="activity-time">45 min ago</span>
                             </div>
                             <p className="activity-text">
@@ -1065,7 +1062,7 @@ export function AnalyticsPage() {
                         </div>
                         <div className="activity-content">
                             <div className="activity-title">
-                                <div className="text-[16px] font-medium">Jane Smith</div>
+                                <div className="fs-16 font-medium">Jane Smith</div>
                                 <span className="activity-time">1 hr ago</span>
                             </div>
                             <p className="activity-text">
@@ -1087,7 +1084,7 @@ export function AnalyticsPage() {
                         </div>
                         <div className="activity-content">
                             <div className="activity-title">
-                                <div className="text-[16px] font-medium">Priya Mehta</div>
+                                <div className="fs-16 font-medium">Priya Mehta</div>
                                 <span className="activity-time">2 hrs ago</span>
                             </div>
                             <p className="activity-text">
@@ -1108,7 +1105,6 @@ export function AnalyticsPage() {
  </div>
 
 
-</div>
   </>
   )
 }

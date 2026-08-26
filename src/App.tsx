@@ -7,6 +7,9 @@ import { ThemeProvider } from '@/contexts/ThemeContext'
 import { NotificationProvider } from '@/contexts/NotificationContext'
 import { ErrorBoundary } from '@/pages'
 import './App.css'
+import './assets/styles/saas-polish.css'
+import './assets/styles/saas-motion.css'
+import './assets/styles/saas-refine.css'
 
 function App() {
   return (

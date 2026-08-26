@@ -22,6 +22,8 @@ export interface DataTableColumn<T> {
   render?: (row: T, index: number) => ReactNode
   align?: DataTableAlign
   className?: string
+  /** CSS width for th/td (e.g. "8%", "7rem", "110px"). */
+  width?: string
   hidden?: boolean
   sortable?: boolean
 }

@@ -1,3 +1,3 @@
 export const styles = {
-  root: 'productfilters',
+  root: 'mb-0',
 } as const

@@ -1,3 +1,2 @@
-.test{
-    color: red;
-}
+@import './variables.css';
+@import './mixins.css';

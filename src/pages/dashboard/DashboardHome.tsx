@@ -1,5 +1,3 @@
-import { StatsCard } from '@/components/features/dashboard/StatsCard'
-import { ActivityFeed } from '@/components/features/dashboard/ActivityFeed'
 import BreadCrumb from '@/components/common/BreadCrumb'
 
 export function DashboardHome() {
@@ -7,17 +5,16 @@ export function DashboardHome() {
   <>
     <BreadCrumb activePage="CRM Dashboard" breadcrumbs={[ {label: "Dashboards", href: "/dashboards"}]} />
     {/* Start:: row-1 */}
-    <div className="container-fluid page-container main-body-container">
-                <div className="grid grid-cols-12 gap-x-6">
-                    <div className="2xl:col-span-6 col-span-12 box-col-12">
-                        <div className="grid grid-cols-12 gap-x-6">
+                <div className="grid grid-cols-12 gap-x-4">
+                    <div className="xl:col-span-6 col-span-12 box-col-12">
+                        <div className="grid grid-cols-12 gap-x-4">
                             <div className="xl:col-span-4 lg:col-span-4 col-span-12">
                                 <div className="box dashboard-main-card primary">
                                     <div className="box-body">
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
-                                                <span className="block text-muted mb-3">Total Projects</span>
-                                                <div className="font-semibold fs-22 mb-3">2,755</div>
+                                                <span className="block text-muted mb-1">Total Projects</span>
+                                                <div className="font-semibold fs-22 mb-2">2,755</div>
                                                 <div>
                                                     <span className="badge bg-success-transparent me-1 d-inline-block">
                                                         <i className="ri-arrow-up-line me-1 fs-10"></i>2.13%
@@ -39,8 +36,8 @@ export function DashboardHome() {
                                     <div className="box-body">
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
-                                                <span className="block text-muted mb-3">Completed Projects</span>
-                                                <div className="font-semibold fs-22 mb-3">847</div>
+                                                <span className="block text-muted mb-1">Completed Projects</span>
+                                                <div className="font-semibold fs-22 mb-2">847</div>
                                                 <div>
                                                     <span className="badge bg-danger-transparent me-1 d-inline-block">
                                                         <i className="ri-arrow-down-line me-1 fs-10"></i>0.64%
@@ -62,8 +59,8 @@ export function DashboardHome() {
                                     <div className="box-body">
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
-                                                <span className="block text-muted mb-3">In Progress Projects</span>
-                                                <div className="font-semibold  fs-22 mb-3">1,763</div>
+                                                <span className="block text-muted mb-1">In Progress Projects</span>
+                                                <div className="font-semibold  fs-22 mb-2">1,763</div>
                                                 <div>
                                                     <span className="badge bg-success-transparent me-1 d-inline-block">
                                                         <i className="ri-arrow-up-line me-1 fs-10"></i>2.64%
@@ -223,8 +220,8 @@ export function DashboardHome() {
                             </div>
                         </div>
                     </div>
-                    <div className="2xl:col-span-6 col-span-12 box-col-12">
-                        <div className="grid grid-cols-12 gap-x-6">
+                    <div className="xl:col-span-6 col-span-12 box-col-12">
+                        <div className="grid grid-cols-12 gap-x-4">
                             <div className="xl:col-span-6 col-span-12">
                                 <div className="box overflow-hidden">
                                     <div className="box-header">
@@ -384,23 +381,19 @@ export function DashboardHome() {
                             </div>
                         </div>
                     </div>
-                    <div className="2xl:col-span-8 col-span-12">
-                        <div className="row">
-                            <div className="col-xl-12">
-                                <div className="box">
-                                    <div className="box-header">
-                                        <div className="box-title">
-                                            Projects Overview
-                                        </div>
-                                    </div>
-                                    <div className="box-body">
-                                        <div id="projects-overview"></div>
-                                    </div>
+                    <div className="xl:col-span-8 col-span-12">
+                        <div className="box">
+                            <div className="box-header">
+                                <div className="box-title">
+                                    Projects Overview
                                 </div>
+                            </div>
+                            <div className="box-body">
+                                <div id="projects-overview"></div>
                             </div>
                         </div>
                     </div>
-                    <div className="2xl:col-span-4 col-span-12">
+                    <div className="xl:col-span-4 col-span-12">
                         <div className="box">
                             <div className="box-header">
                                 <div className="box-title">
@@ -517,8 +510,8 @@ export function DashboardHome() {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-12 gap-x-6">
-                    <div className="2xl:col-span-3 col-span-12 box-col-12">
+                <div className="grid grid-cols-12 gap-x-4">
+                    <div className="xl:col-span-3 col-span-12 box-col-12">
                         <div className="box overflow-hidden">
                             <div className="box-header">
                                 <div className="box-title">Team Performance</div>
@@ -613,7 +606,7 @@ export function DashboardHome() {
                             </div>
                         </div>
                     </div>
-                    <div className="2xl:col-span-5 col-span-12 box-col-6">
+                    <div className="xl:col-span-5 col-span-12 box-col-6">
                         <div className="box overflow-hidden">
                             <div className="box-header justify-between">
                                 <div className="box-title">
@@ -782,14 +775,14 @@ export function DashboardHome() {
                             </div>
                         </div>
                     </div>
-                    <div className="2xl:col-span-4 col-span-12 box-col-6">
+                    <div className="xl:col-span-4 col-span-12 box-col-6">
                         <div className="box">
                             <div className="box-header pb-0 border-bottom-0 justify-between">
                                 <div className="box-title">Project Analytics</div>
                                 <a href="javascript:void(0);" className="text-muted fs-13">View All <i className="ti ti-arrow-narrow-right"></i></a>
                             </div>
                             <div className="box-body py-2!">
-                                <div className="grid grid-cols-12 gap-x-6">
+                                <div className="grid grid-cols-12 gap-x-4">
                                     <div className="xl:col-span-6 col-span-12">
                                        <div id="task-overview"></div>
                                     </div> 
@@ -877,7 +870,7 @@ export function DashboardHome() {
                 {/* End:: row-2 */}
 
                  {/* Start:: row-3 */}
-                 <div className="grid grid-cols-12 gap-x-6">
+                 <div className="grid grid-cols-12 gap-x-4">
                     <div className="xl:col-span-12 col-span-12">
                         <div className="box">
                             <div className="box-header justify-between">
@@ -936,7 +929,7 @@ export function DashboardHome() {
                                                 </td>
                                                 <td>
                                                     <div className="flex items-center">
-                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
                                                             <div className="progress-bar progress-bar-striped progress-bar-animated bg-primary" style={{width: '100%'}}></div>
                                                         </div>
                                                         <div className="ms-2">100%</div>
@@ -990,7 +983,7 @@ export function DashboardHome() {
                                                 </td>
                                                 <td>
                                                     <div className="flex items-center">
-                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow={60} aria-valuemin={0} aria-valuemax={100}>
                                                             <div className="progress-bar progress-bar-striped progress-bar-animated bg-secondary!" style={{width: '60%'}}></div>
                                                         </div>
                                                         <div className="ms-2">60%</div>
@@ -1035,7 +1028,7 @@ export function DashboardHome() {
                                                 </td>
                                                 <td>
                                                     <div className="flex items-center">
-                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
                                                             <div className="progress-bar progress-bar-striped progress-bar-animated bg-warning!" style={{width: '100%'}}></div>
                                                         </div>
                                                         <div className="ms-2">100%</div>
@@ -1089,7 +1082,7 @@ export function DashboardHome() {
                                                 </td>
                                                 <td>
                                                     <div className="flex items-center">
-                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow={80} aria-valuemin={0} aria-valuemax={100}>
                                                             <div className="progress-bar progress-bar-striped progress-bar-animated bg-info!" style={{width: '80%'}}></div>
                                                         </div>
                                                         <div className="ms-2">80%</div>
@@ -1137,7 +1130,7 @@ export function DashboardHome() {
                                                 </td>
                                                 <td>
                                                     <div className="flex items-center">
-                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
                                                             <div className="progress-bar progress-bar-striped progress-bar-animated bg-success!" style={{width: '100%'}}></div>
                                                         </div>
                                                         <div className="ms-2">100%</div>
@@ -1188,7 +1181,7 @@ export function DashboardHome() {
                                                 </td>
                                                 <td className="border-bottom-0">
                                                     <div className="flex items-center">
-                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress progress-animate progress-xs w-100" role="progressbar" aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
                                                             <div className="progress-bar progress-bar-striped progress-bar-animated bg-danger!" style={{width: '100%'}}></div>
                                                         </div>
                                                         <div className="ms-2">100%</div>
@@ -1264,7 +1257,6 @@ export function DashboardHome() {
                     </div>
                 </div>
                 {/* End:: row-3 */}
-            </div>
   </>
   )
 }

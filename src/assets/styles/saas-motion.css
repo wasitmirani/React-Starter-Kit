@@ -1,0 +1,483 @@
+/**
+ * Modern SaaS motion + dashboard experience layer.
+ * Subtle, professional animations. Respects reduced-motion.
+ */
+
+:root {
+  --saas-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --saas-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --saas-shadow-card: 0 1px 2px rgb(15 23 42 / 4%), 0 4px 12px rgb(15 23 42 / 3%);
+  --saas-shadow-lift: 0 8px 24px rgb(15 23 42 / 8%), 0 2px 6px rgb(15 23 42 / 4%);
+}
+
+/* Soft canvas */
+body.project-dashboard,
+body {
+  background-color: var(--color-bodybg) !important;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 0% -20%, rgba(37, 99, 235, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(8, 145, 178, 0.04), transparent);
+  background-attachment: fixed;
+}
+
+.main-content.app-content {
+  position: relative;
+}
+
+/* ─── Page enter ─── */
+.saas-page-enter {
+  animation: saasPageIn 340ms var(--saas-ease-out) both;
+}
+
+@keyframes saasPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger cards on the dashboard */
+.saas-page-enter .box {
+  animation: saasCardIn 400ms var(--saas-ease-out) both;
+}
+
+.saas-page-enter .grid > [class*='col-span']:nth-child(1) .box,
+.saas-page-enter .grid > .col:nth-child(1) .box {
+  animation-delay: 40ms;
+}
+.saas-page-enter .grid > [class*='col-span']:nth-child(2) .box,
+.saas-page-enter .grid > .col:nth-child(2) .box {
+  animation-delay: 80ms;
+}
+.saas-page-enter .grid > [class*='col-span']:nth-child(3) .box,
+.saas-page-enter .grid > .col:nth-child(3) .box {
+  animation-delay: 120ms;
+}
+.saas-page-enter .grid > [class*='col-span']:nth-child(4) .box,
+.saas-page-enter .grid > .col:nth-child(4) .box {
+  animation-delay: 160ms;
+}
+.saas-page-enter .grid > [class*='col-span']:nth-child(5) .box,
+.saas-page-enter .grid > .col:nth-child(5) .box {
+  animation-delay: 200ms;
+}
+.saas-page-enter .grid > [class*='col-span']:nth-child(n + 6) .box,
+.saas-page-enter .grid > .col:nth-child(n + 6) .box {
+  animation-delay: 240ms;
+}
+
+@keyframes saasCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Cards: premium interactive feel ─── */
+.box {
+  box-shadow: var(--saas-shadow-card) !important;
+  border-radius: 0.625rem !important;
+  transition:
+    transform 220ms var(--saas-ease),
+    box-shadow 220ms var(--saas-ease),
+    border-color 220ms var(--saas-ease) !important;
+  will-change: transform;
+}
+
+.main-content .grid > [class*='col'] > .box:hover,
+.main-content .grid > .col > .box:hover,
+.main-content .saas-listing-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--saas-shadow-lift) !important;
+  border-color: color-mix(in oklab, var(--color-primary) 18%, var(--color-defaultborder)) !important;
+}
+
+.main-content .box .box:hover {
+  transform: none;
+  box-shadow: var(--saas-shadow-card) !important;
+}
+
+.box .box-header {
+  transition: background-color 200ms var(--saas-ease);
+}
+
+.box:hover > .box-header {
+  background-color: color-mix(in oklab, var(--color-primary) 3%, transparent) !important;
+}
+
+.box .box-title {
+  position: relative;
+  padding-inline-start: 0.65rem;
+}
+
+.box .box-title::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0.85em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--color-primary), color-mix(in oklab, var(--color-primary) 40%, #22d3ee));
+  opacity: 0.9;
+}
+
+/* ─── Stat KPI cards ─── */
+.dashboard-main-card {
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-main-card::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -1.25rem;
+  top: -1.25rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-primary) 14%, transparent), transparent 70%);
+  pointer-events: none;
+  transition: transform 320ms var(--saas-ease);
+}
+
+.dashboard-main-card.success::after {
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-success) 16%, transparent), transparent 70%);
+}
+
+.dashboard-main-card.secondary::after {
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-secondary) 16%, transparent), transparent 70%);
+}
+
+.dashboard-main-card.warning::after {
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-warning) 16%, transparent), transparent 70%);
+}
+
+.dashboard-main-card:hover::after {
+  transform: scale(1.2);
+}
+
+.dashboard-main-card .box-body {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1.05rem !important;
+}
+
+.dashboard-main-card .text-muted,
+.dashboard-main-card .text-textmuted {
+  font-size: 0.72rem !important;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem !important;
+  color: var(--color-textmuted) !important;
+}
+
+.dashboard-main-card .fs-22,
+.dashboard-main-card .font-semibold.fs-22 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.45rem !important;
+  line-height: 1.15;
+  color: var(--color-defaulttextcolor);
+}
+
+.dashboard-main-card .avatar {
+  transition: transform 280ms var(--saas-ease), box-shadow 280ms var(--saas-ease);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-primary) 8%, transparent);
+}
+
+.dashboard-main-card.success .avatar {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-success) 10%, transparent);
+}
+
+.dashboard-main-card.secondary .avatar {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-secondary) 10%, transparent);
+}
+
+.dashboard-main-card:hover .avatar {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.dashboard-main-card .badge {
+  transition: transform 200ms var(--saas-ease);
+}
+
+.dashboard-main-card:hover .badge {
+  transform: translateY(-1px);
+}
+
+/* ─── Priority / nested task cards ─── */
+.swiper-task .border.border-defaultborder,
+.box .p-6.border.border-defaultborder {
+  padding: 0.85rem 0.95rem !important;
+  border-radius: 0.55rem !important;
+  background: linear-gradient(180deg, #fff, #fafbfc);
+  transition:
+    transform 200ms var(--saas-ease),
+    box-shadow 200ms var(--saas-ease),
+    border-color 200ms var(--saas-ease);
+}
+
+.swiper-task .border.border-defaultborder:hover,
+.box .p-6.border.border-defaultborder:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--color-primary) 22%, var(--color-defaultborder)) !important;
+  box-shadow: 0 6px 16px rgb(15 23 42 / 6%);
+}
+
+/* Progress bars — soft fill animation feel */
+.progress {
+  overflow: hidden;
+  border-radius: 999px !important;
+  background-color: color-mix(in oklab, var(--color-primary) 8%, #f1f5f9) !important;
+}
+
+.progress-bar {
+  border-radius: 999px;
+  transition: width 700ms var(--saas-ease-out) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-100%);
+  animation: saasShimmer 2.2s var(--saas-ease) infinite;
+}
+
+@keyframes saasShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ─── Activity feed ─── */
+.project-dashboard .projects-recent-activity-list > li,
+.projects-recent-activity-list > li {
+  position: relative;
+  padding: 0.65rem 0.35rem !important;
+  margin-bottom: 0 !important;
+  border: 0 !important;
+  border-radius: 0.5rem;
+  transition: background-color 180ms var(--saas-ease);
+}
+
+.project-dashboard .projects-recent-activity-list > li + li,
+.projects-recent-activity-list > li + li {
+  border-top: 1px solid #eef2f7 !important;
+}
+
+.project-dashboard .projects-recent-transactions-list > li {
+  margin-bottom: 0.75rem !important;
+}
+
+.projects-recent-activity-list > li:hover {
+  background-color: #f8fafc;
+}
+
+.projects-recent-activity-list .avatar {
+  transition: transform 220ms var(--saas-ease), box-shadow 220ms var(--saas-ease);
+}
+
+.projects-recent-activity-list > li:hover .avatar {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 12%, transparent);
+}
+
+.projects-recent-activity-list .font-semibold {
+  font-size: 0.8125rem;
+  letter-spacing: -0.01em;
+}
+
+.projects-recent-activity-list .fs-14.text-muted,
+.projects-recent-activity-list .text-muted {
+  font-size: 0.75rem !important;
+  line-height: 1.4;
+}
+
+.projects-recent-activity-list .badge.bg-light {
+  font-size: 0.625rem !important;
+  font-weight: 500;
+  padding: 0.15rem 0.4rem !important;
+  border-radius: 0.3rem !important;
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  border-color: transparent !important;
+}
+
+.team-performance-list > li {
+  border-radius: 0.45rem;
+  padding-inline: 0.35rem !important;
+  transition: background-color 180ms var(--saas-ease);
+}
+
+.team-performance-list > li:hover {
+  background-color: #f8fafc;
+}
+
+/* ─── Buttons & controls ─── */
+.ti-btn {
+  transition:
+    transform 160ms var(--saas-ease),
+    box-shadow 160ms var(--saas-ease),
+    background-color 160ms var(--saas-ease),
+    border-color 160ms var(--saas-ease),
+    color 160ms var(--saas-ease) !important;
+}
+
+.ti-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.ti-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.ti-btn-primary {
+  box-shadow: 0 1px 2px rgb(37 99 235 / 25%), 0 4px 10px rgb(37 99 235 / 18%);
+}
+
+.ti-btn-primary:hover {
+  box-shadow: 0 2px 4px rgb(37 99 235 / 28%), 0 8px 16px rgb(37 99 235 / 22%);
+}
+
+.ti-form-control:focus,
+.form-control:focus,
+.form-select:focus {
+  transform: translateY(-0.5px);
+}
+
+/* ─── Table row motion ─── */
+.table.saas-data-table tbody tr {
+  transition: background-color 160ms var(--saas-ease), transform 160ms var(--saas-ease);
+}
+
+.table.saas-data-table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+.table.saas-data-table tbody tr:hover td {
+  background-color: transparent;
+}
+
+.saas-action-btn {
+  transition:
+    transform 160ms var(--saas-ease),
+    background-color 160ms var(--saas-ease),
+    box-shadow 160ms var(--saas-ease) !important;
+}
+
+.saas-action-btn:hover {
+  transform: translateY(-1px) scale(1.05);
+}
+
+/* ─── Page header ─── */
+.page-header-breadcrumb {
+  animation: saasPageIn 360ms var(--saas-ease-out) both;
+}
+
+.page-title {
+  background: linear-gradient(90deg, var(--color-defaulttextcolor) 0%, color-mix(in oklab, var(--color-defaulttextcolor) 70%, var(--color-primary)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .page-title {
+    color: var(--color-defaulttextcolor) !important;
+    background: none;
+  }
+}
+
+/* ─── Nav micro-interactions ─── */
+.app-sidebar .side-menu__item {
+  transition:
+    background-color 180ms var(--saas-ease),
+    color 180ms var(--saas-ease),
+    transform 180ms var(--saas-ease),
+    padding-inline-start 180ms var(--saas-ease) !important;
+}
+
+.app-sidebar .side-menu__item:hover {
+  transform: translateX(2px);
+}
+
+.app-sidebar .side-menu__item.active {
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.app-header .header-link {
+  transition:
+    background-color 160ms var(--saas-ease),
+    color 160ms var(--saas-ease),
+    transform 160ms var(--saas-ease) !important;
+}
+
+.app-header .header-link:hover {
+  transform: translateY(-1px);
+}
+
+/* Chart container breathing room */
+#projects-overview,
+[id$='-overview'],
+[id$='-chart'] {
+  min-height: 16rem;
+}
+
+/* Listing toolbar */
+.saas-listing-toolbar .ti-btn,
+.saas-search .form-control {
+  transition:
+    box-shadow 180ms var(--saas-ease),
+    border-color 180ms var(--saas-ease),
+    transform 180ms var(--saas-ease);
+}
+
+.saas-search .form-control:focus {
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-main), 0.12), 0 4px 12px rgb(15 23 42 / 4%);
+}
+
+/* Scroll top */
+.scrollToTop {
+  transition:
+    opacity 200ms var(--saas-ease),
+    transform 200ms var(--saas-ease) !important;
+}
+
+.scrollToTop:hover {
+  transform: translateY(-3px);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .main-content .box:hover,
+  .ti-btn:hover:not(:disabled),
+  .dashboard-main-card:hover .avatar,
+  .app-sidebar .side-menu__item:hover {
+    transform: none !important;
+  }
+}

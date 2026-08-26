@@ -1,0 +1,278 @@
+/**
+ * Fine refinement pass — premium details on top of polish + motion.
+ */
+
+/* Sticky glass header */
+.app-header.sticky,
+.app-header {
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  background-color: color-mix(in oklab, var(--color-headerbg) 86%, transparent) !important;
+  box-shadow: 0 1px 0 var(--color-headerbordercolor);
+}
+
+.app-header .header-search-bar {
+  border-radius: 0.5rem !important;
+  border: 1px solid var(--color-defaultborder) !important;
+  background: color-mix(in oklab, #fff 90%, var(--color-light)) !important;
+  transition:
+    border-color 180ms var(--saas-ease, ease),
+    box-shadow 180ms var(--saas-ease, ease) !important;
+}
+
+.app-header .header-search-bar:hover,
+.app-header .header-search-bar:focus-within {
+  border-color: color-mix(in oklab, var(--color-primary) 35%, var(--color-defaultborder)) !important;
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-main), 0.1);
+}
+
+.app-header .header-link {
+  border-radius: 0.5rem !important;
+}
+
+.app-header .header-link:hover {
+  background-color: color-mix(in oklab, var(--color-primary) 6%, transparent) !important;
+}
+
+/* Sidebar chrome */
+.app-sidebar {
+  border-inline-end: 1px solid var(--color-menubordercolor);
+}
+
+.app-sidebar .main-sidebar-header {
+  border-bottom: 1px solid var(--color-menubordercolor);
+  min-height: 3.25rem;
+}
+
+.app-sidebar .side-menu__item {
+  border-radius: 0.5rem !important;
+  margin-inline: 0.35rem;
+  width: calc(100% - 0.7rem);
+}
+
+.app-sidebar .side-menu__item.active {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--color-primary) 14%, transparent),
+    color-mix(in oklab, var(--color-primary) 4%, transparent)
+  ) !important;
+}
+
+.app-sidebar .category-name {
+  opacity: 0.7;
+}
+
+/* Slim elegant scrollbars */
+.main-content.app-content,
+.app-sidebar .main-sidebar,
+.table-responsive {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-textmuted) 45%, transparent) transparent;
+}
+
+.main-content.app-content::-webkit-scrollbar,
+.app-sidebar .main-sidebar::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.main-content.app-content::-webkit-scrollbar-thumb,
+.app-sidebar .main-sidebar::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-textmuted) 40%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.main-content.app-content::-webkit-scrollbar-thumb:hover,
+.app-sidebar .main-sidebar::-webkit-scrollbar-thumb:hover,
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--color-textmuted) 60%, transparent);
+  background-clip: padding-box;
+}
+
+/* Dropdowns */
+.ti-dropdown-menu,
+.hs-dropdown-menu.ti-dropdown-menu {
+  border: 1px solid var(--color-defaultborder) !important;
+  border-radius: 0.55rem !important;
+  box-shadow: 0 10px 30px rgb(15 23 42 / 10%), 0 2px 6px rgb(15 23 42 / 4%) !important;
+  padding: 0.35rem !important;
+  animation: saasMenuIn 160ms var(--saas-ease-out, ease) both;
+}
+
+@keyframes saasMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ti-dropdown-item {
+  border-radius: 0.375rem !important;
+  font-size: 0.8125rem !important;
+  padding: 0.4rem 0.65rem !important;
+  transition: background-color 140ms ease, color 140ms ease !important;
+}
+
+.ti-dropdown-item:hover {
+  background-color: color-mix(in oklab, var(--color-primary) 8%, transparent) !important;
+  color: var(--color-primary) !important;
+}
+
+/* KPI cards on Users — match dashboard language */
+.dashboard-main-card .fs-12,
+.dashboard-main-card .text-textmuted.fs-12,
+.dashboard-main-card .mb-2.text-textmuted {
+  font-size: 0.72rem !important;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem !important;
+}
+
+.dashboard-main-card .badge:not(.saas-status) {
+  font-size: 0.625rem !important;
+  border-radius: 0.3rem !important;
+}
+
+/* Avatar polish */
+.avatar {
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.avatar.avatar-rounded img,
+.avatar.avatar-rounded {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-defaultborder) 80%, transparent);
+}
+
+.avatar.online::before,
+.avatar.online::after {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Checkboxes */
+.form-check-input {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.3rem !important;
+  border-color: #cbd5e1 !important;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-main), 0.15) !important;
+}
+
+/* Pagination chips */
+.ti-pagination .page-link {
+  border: 1px solid transparent !important;
+  background: transparent;
+  color: var(--color-textmuted);
+}
+
+.ti-pagination .page-link:hover {
+  background: #f1f5f9 !important;
+  color: var(--color-defaulttextcolor) !important;
+}
+
+.ti-pagination .page-link.active {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgb(37 99 235 / 22%);
+}
+
+/* Table selected row */
+.table.saas-data-table tbody tr:has(input:checked) td {
+  background-color: color-mix(in oklab, var(--color-primary) 5%, transparent) !important;
+}
+
+/* Listing box: seamless header → table */
+.saas-listing-box > .box-header {
+  border-bottom-color: #eef2f7 !important;
+  background: linear-gradient(180deg, #fff, #fcfcfd) !important;
+}
+
+.saas-listing-box .saas-table-footer {
+  background: #fcfcfd !important;
+}
+
+/* Soft divider under breadcrumb */
+.page-header-breadcrumb {
+  padding-bottom: 0.55rem !important;
+  margin-bottom: 0.85rem !important;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-defaultborder) 70%, transparent);
+}
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  opacity: 0.45;
+}
+
+/* Auth / form pages */
+.saas-auth-page .page-title {
+  font-size: 1.35rem !important;
+}
+
+.authentication .box {
+  border-radius: 0.85rem !important;
+}
+
+/* Toast-ish alerts if present */
+.alert {
+  border-radius: 0.55rem !important;
+  border-width: 1px !important;
+}
+
+/* Chart / empty chart container */
+#projects-overview:empty::before {
+  content: 'Loading chart…';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16rem;
+  color: var(--color-textmuted);
+  font-size: 0.8125rem;
+}
+
+/* Focus visible for keyboard users */
+:focus-visible {
+  outline: 2px solid rgba(var(--color-primary-main), 0.45);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Dark refinements */
+html.dark .app-header,
+.dark .app-header {
+  background-color: color-mix(in oklab, var(--color-headerbg) 88%, transparent) !important;
+}
+
+html.dark .saas-listing-box > .box-header,
+.dark .saas-listing-box > .box-header {
+  background: linear-gradient(180deg, var(--color-customwhite), transparent) !important;
+}
+
+html.dark .page-header-breadcrumb,
+.dark .page-header-breadcrumb {
+  border-bottom-color: var(--color-defaultborder);
+}

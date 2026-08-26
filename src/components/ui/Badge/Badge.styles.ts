@@ -1,3 +1,3 @@
 export const styles = {
-  root: 'badge',
+  root: 'badge bg-primary-transparent',
 } as const

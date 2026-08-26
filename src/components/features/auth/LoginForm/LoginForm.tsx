@@ -26,9 +26,12 @@ export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
   return (
     <form className={`${styles.root} ${className}`.trim()} onSubmit={handleSubmit}>
       <Input>
-        <label htmlFor="login-email">Email</label>
+        <label className="form-label" htmlFor="login-email">
+          Email
+        </label>
         <input
           id="login-email"
+          className="ti-form-control"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -36,9 +39,12 @@ export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
         />
       </Input>
       <Input>
-        <label htmlFor="login-password">Password</label>
+        <label className="form-label" htmlFor="login-password">
+          Password
+        </label>
         <input
           id="login-password"
+          className="ti-form-control"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

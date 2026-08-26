@@ -82,10 +82,10 @@ const DEMO_APPLICANTS: ApplicantRow[] = [
 const PER_PAGE = 3
 
 const STATUS_BADGE: Record<ApplicantStatus, string> = {
-  New: 'badge bg-primary-transparent',
-  Pending: 'badge bg-warning-transparent',
-  Hired: 'badge bg-success-transparent',
-  Rejected: 'badge bg-danger-transparent',
+  New: 'badge bg-primary-transparent saas-status',
+  Pending: 'badge bg-warning-transparent saas-status',
+  Hired: 'badge bg-success-transparent saas-status',
+  Rejected: 'badge bg-danger-transparent saas-status',
 }
 
 function formatAppliedOn(isoDate: string) {
@@ -121,23 +121,27 @@ const columns: DataTableColumn<ApplicantRow>[] = [
     key: 'code',
     header: 'ID',
     sortable: true,
+    width: '6.5rem',
+    className: 'saas-col-id',
   },
   {
     key: 'name',
-    header: 'User Name',
+    header: 'User',
     sortable: true,
+    width: '22%',
+    className: 'saas-col-user',
     render: (row) => (
-      <div className="flex items-center">
-        <span className="avatar avatar-sm me-2 avatar-rounded">
+      <div className="saas-user-cell">
+        <span className="avatar avatar-sm avatar-rounded">
           {row.avatarUrl ? (
-            <img src={row.avatarUrl} alt={row.name} />
+            <img src={row.avatarUrl} alt="" />
           ) : (
             <span className="avatar-initial bg-primary text-white">{row.name.charAt(0)}</span>
           )}
         </span>
-        <div>
-          {row.name}
-          <span className="text-textmuted fs-12 block">{row.email}</span>
+        <div className="saas-user-meta min-w-0">
+          <div className="saas-user-name">{row.name}</div>
+          <div className="saas-user-email">{row.email}</div>
         </div>
       </div>
     ),
@@ -145,21 +149,29 @@ const columns: DataTableColumn<ApplicantRow>[] = [
   {
     key: 'position',
     header: 'Position',
-    render: (row) => <div className="badge bg-light text-default">{row.position}</div>,
+    width: '16%',
+    className: 'saas-col-position',
+    render: (row) => <span className="saas-cell-text">{row.position}</span>,
   },
   {
     key: 'appliedOn',
-    header: 'Applied On',
+    header: 'Applied',
     sortable: true,
-    render: (row) => formatAppliedOn(row.appliedOn),
+    width: '8.5rem',
+    className: 'saas-col-date',
+    render: (row) => <span className="saas-cell-muted">{formatAppliedOn(row.appliedOn)}</span>,
   },
   {
     key: 'experience',
-    header: 'Experience',
+    header: 'Exp.',
+    width: '6rem',
+    className: 'saas-col-exp',
   },
   {
     key: 'status',
     header: 'Status',
+    width: '7rem',
+    className: 'saas-col-status',
     render: (row) => <span className={STATUS_BADGE[row.status]}>{row.status}</span>,
   },
 ]

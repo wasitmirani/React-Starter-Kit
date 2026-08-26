@@ -1,3 +1,6 @@
 export const styles = {
-  root: 'card',
+  root: 'box',
+  body: 'box-body',
+  header: 'box-header',
+  title: 'box-title',
 } as const

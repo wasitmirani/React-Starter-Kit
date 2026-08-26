@@ -232,7 +232,7 @@ function DataTableInner<T>(
         <thead className={theadClassName}>
           <tr className={s.row}>
             {selectionEnabled ? (
-              <th scope="col">
+              <th scope="col" className={s.selectCol} style={{ width: '2.75rem' }}>
                 <input
                   className={s.checkbox}
                   type="checkbox"
@@ -251,6 +251,7 @@ function DataTableInner<T>(
                 key={column.key}
                 scope="col"
                 className={[alignClass(column.align), column.className].filter(Boolean).join(' ')}
+                style={column.width ? { width: column.width } : undefined}
                 data-column={column.key}
               >
                 <div className={s.thInner}>
@@ -283,7 +284,11 @@ function DataTableInner<T>(
               </th>
             ))}
 
-            {hasActions ? <th scope="col">{actionsHeader}</th> : null}
+            {hasActions ? (
+              <th scope="col" className={s.actionsCol} style={{ width: '7.5rem' }}>
+                {actionsHeader}
+              </th>
+            ) : null}
           </tr>
         </thead>
 
@@ -321,7 +326,7 @@ function DataTableInner<T>(
                   onClick={onRowClick ? (e) => handleRowClick(row, index, e) : undefined}
                 >
                   {selectionEnabled ? (
-                    <th scope="row" onClick={(e) => e.stopPropagation()}>
+                    <td className={s.selectCol} onClick={(e) => e.stopPropagation()}>
                       <input
                         className={s.checkbox}
                         type="checkbox"
@@ -329,20 +334,21 @@ function DataTableInner<T>(
                         onChange={() => toggleOne(id)}
                         aria-label={`Select row ${id}`}
                       />
-                    </th>
+                    </td>
                   ) : null}
 
                   {visibleColumns.map((column) => (
                     <td
                       key={column.key}
                       className={[alignClass(column.align), column.className].filter(Boolean).join(' ')}
+                      style={column.width ? { width: column.width } : undefined}
                     >
                       {cellValue(column, row, index)}
                     </td>
                   ))}
 
                   {hasActions ? (
-                    <td onClick={(e) => e.stopPropagation()}>
+                    <td className={s.actionsCol} onClick={(e) => e.stopPropagation()}>
                       <div className={s.actions}>
                         {actions!.map((action) => {
                           if (!isActionVisible(action, row)) return null

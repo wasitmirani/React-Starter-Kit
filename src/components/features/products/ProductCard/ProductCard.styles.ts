@@ -1,3 +1,3 @@
 export const styles = {
-  root: 'productcard',
+  root: '',
 } as const

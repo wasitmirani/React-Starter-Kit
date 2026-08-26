@@ -1,30 +1,32 @@
-const BreadCrumb = ({activePage, breadcrumbs}: {activePage: string, breadcrumbs: {label: string, href: string}[]}) => {
-  
-   
-    return (
+import { Link } from 'react-router-dom'
 
-        <>
-            
-          <div className="flex items-center justify-between page-header-breadcrumb my-2 flex-wrap gap-2">
-            <h1 className="page-title font-semibold! text-[20px]! mb-0!">{activePage}</h1>
-            <ol className="breadcrumb mb-0!">
-              <li className="breadcrumb-item">
-                <a href="/">Home</a>
-              </li>
-              {breadcrumbs.map(breadcrumb=>{
-                return (
-                    <li className="breadcrumb-item"  key={breadcrumb.label}>
-                        <a href={breadcrumb.href}>{breadcrumb.label}</a>
-                    </li>
-                )
-              })}
-              
-              <li className="breadcrumb-item active" aria-current="page">
-                {activePage}
-              </li>
-            </ol>
-          </div>
-        </>
-    )
+const BreadCrumb = ({
+  activePage,
+  breadcrumbs,
+}: {
+  activePage: string
+  breadcrumbs: { label: string; href: string }[]
+}) => {
+  return (
+    <div className="flex items-center justify-between page-header-breadcrumb flex-wrap gap-2">
+      <div>
+        <h1 className="page-title mb-0!">{activePage}</h1>
+      </div>
+      <ol className="breadcrumb mb-0!">
+        <li className="breadcrumb-item">
+          <Link to="/">Home</Link>
+        </li>
+        {breadcrumbs.map((breadcrumb) => (
+          <li className="breadcrumb-item" key={breadcrumb.label}>
+            <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
+          </li>
+        ))}
+        <li className="breadcrumb-item active" aria-current="page">
+          {activePage}
+        </li>
+      </ol>
+    </div>
+  )
 }
-export default BreadCrumb;
+
+export default BreadCrumb

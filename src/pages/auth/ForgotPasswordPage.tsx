@@ -2,12 +2,12 @@ import { PasswordReset } from '@/components/features/auth/PasswordReset'
 
 export function ForgotPasswordPage() {
   return (
-    <section className="page auth-page">
-      <h1>Reset password</h1>
+    <div className="saas-auth-page p-6">
+      <h1 className="page-title">Reset password</h1>
       <p>We will email you a reset link.</p>
       <PasswordReset>
-        <p>Password reset form placeholder.</p>
+        <p className="text-textmuted mb-0">Password reset form placeholder.</p>
       </PasswordReset>
-    </section>
+    </div>
   )
 }

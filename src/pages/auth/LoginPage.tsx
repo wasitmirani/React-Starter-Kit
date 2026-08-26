@@ -4,13 +4,13 @@ import { ROUTES } from '@/constants/routes.constants'
 
 export function LoginPage() {
   return (
-    <section className="page auth-page">
-      <h1>Sign in</h1>
+    <div className="saas-auth-page p-6">
+      <h1 className="page-title">Sign in</h1>
       <p>Welcome back. Enter your credentials to continue.</p>
       <LoginForm />
       <p>
         No account? <Link to={ROUTES.REGISTER}>Create one</Link>
       </p>
-    </section>
+    </div>
   )
 }

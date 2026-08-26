@@ -1,3 +1,3 @@
 export const styles = {
-  root: 'input',
+  root: 'saas-field',
 } as const

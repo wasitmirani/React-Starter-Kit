@@ -28,13 +28,24 @@ export function SignupForm({ onSuccess, className = '' }: SignupFormProps) {
   return (
     <form className={`${styles.root} ${className}`.trim()} onSubmit={handleSubmit}>
       <Input>
-        <label htmlFor="signup-name">Name</label>
-        <input id="signup-name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <label className="form-label" htmlFor="signup-name">
+          Name
+        </label>
+        <input
+          id="signup-name"
+          className="ti-form-control"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </Input>
       <Input>
-        <label htmlFor="signup-email">Email</label>
+        <label className="form-label" htmlFor="signup-email">
+          Email
+        </label>
         <input
           id="signup-email"
+          className="ti-form-control"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -42,9 +53,12 @@ export function SignupForm({ onSuccess, className = '' }: SignupFormProps) {
         />
       </Input>
       <Input>
-        <label htmlFor="signup-password">Password</label>
+        <label className="form-label" htmlFor="signup-password">
+          Password
+        </label>
         <input
           id="signup-password"
+          className="ti-form-control"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -52,9 +66,12 @@ export function SignupForm({ onSuccess, className = '' }: SignupFormProps) {
         />
       </Input>
       <Input>
-        <label htmlFor="signup-confirm">Confirm password</label>
+        <label className="form-label" htmlFor="signup-confirm">
+          Confirm password
+        </label>
         <input
           id="signup-confirm"
+          className="ti-form-control"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
