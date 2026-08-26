@@ -143,6 +143,97 @@
   justify-content: center;
 }
 
+/* Modern active route — soft fill, no border glow / inset bar */
+.app-sidebar .side-menu__item {
+  position: relative;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.app-sidebar .side-menu__item::before,
+.app-sidebar .side-menu__item::after,
+.app-sidebar .main-sidebar .main-menu .slide.has-sub .side-menu__item::before,
+.app-sidebar .main-sidebar .main-menu .slide.has-sub .side-menu__item.active::before,
+.app-sidebar .main-sidebar .main-menu .slide.has-sub .side-menu__item:hover::before {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+.app-sidebar .side-menu__item.active,
+.app-sidebar .side-menu__item.active.active,
+.app-sidebar .slide-menu .side-menu__item.active,
+.app-sidebar .slide-menu.child1 .slide.active .side-menu__item.active {
+  background: color-mix(in oklab, var(--color-primary) 18%, transparent) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border-radius: 0.5rem !important;
+  box-shadow: none !important;
+}
+
+.app-sidebar .side-menu__item.active .side-menu__icon,
+.app-sidebar .side-menu__item.active .side-menu__label,
+.app-sidebar .side-menu__item.active .side-menu__angle,
+.app-sidebar .slide-menu.child1 .slide.active .side-menu__item.active .side-menu__angle,
+.app-sidebar .slide-menu .side-menu__item.active .side-menu__angle {
+  color: #fff !important;
+  fill: #fff !important;
+  opacity: 1 !important;
+}
+
+/* Light menu: primary text on soft primary wash */
+[data-menu-styles='light'] .app-sidebar .side-menu__item.active,
+[data-menu-styles='light'] .app-sidebar .side-menu__item.active.active,
+[data-menu-styles='light'] .app-sidebar .slide-menu .side-menu__item.active {
+  background: color-mix(in oklab, var(--color-primary) 12%, transparent) !important;
+  color: var(--color-primary) !important;
+}
+
+[data-menu-styles='light'] .app-sidebar .side-menu__item.active .side-menu__icon,
+[data-menu-styles='light'] .app-sidebar .side-menu__item.active .side-menu__label,
+[data-menu-styles='light'] .app-sidebar .side-menu__item.active .side-menu__angle {
+  color: var(--color-primary) !important;
+  fill: var(--color-primary) !important;
+}
+
+[data-menu-styles='light'] .app-sidebar .slide.has-sub.open > .side-menu__item:not(.active),
+[data-menu-styles='light'] .app-sidebar .slide.has-sub.open > .side-menu__item:not(.active) .side-menu__icon,
+[data-menu-styles='light'] .app-sidebar .slide.has-sub.open > .side-menu__item:not(.active) .side-menu__label,
+[data-menu-styles='light'] .app-sidebar .slide.has-sub.open > .side-menu__item:not(.active) .side-menu__angle {
+  color: var(--color-primary) !important;
+}
+
+/* Parent open (has active child) — quieter than the leaf active item */
+.app-sidebar .slide.has-sub.open > .side-menu__item:not(.active),
+.app-sidebar .slide.has-sub > .side-menu__item.active:not(.active.active) {
+  background: color-mix(in oklab, var(--color-primary) 10%, transparent) !important;
+  color: #fff !important;
+}
+
+.app-sidebar .slide.has-sub.open > .side-menu__item:not(.active) .side-menu__icon,
+.app-sidebar .slide.has-sub.open > .side-menu__item:not(.active) .side-menu__label,
+.app-sidebar .slide.has-sub.open > .side-menu__item:not(.active) .side-menu__angle {
+  color: #fff !important;
+}
+
+/* Child links: compact, no outline box */
+.app-sidebar .slide-menu.child1 .side-menu__item {
+  min-height: 2rem;
+  margin-block: 0.1rem;
+  padding-block: 0.35rem !important;
+}
+
+.app-sidebar .slide-menu.child1 .side-menu__item:not(.active):hover {
+  background: color-mix(in oklab, #fff 6%, transparent) !important;
+  color: #fff !important;
+}
+
+.app-sidebar .slide-menu.child1 .side-menu__item:not(.active):hover .side-menu__label,
+.app-sidebar .slide-menu.child1 .side-menu__item:not(.active):hover .side-menu__angle {
+  color: #fff !important;
+}
+
+
 /*
  * Fix Preline Floating UI misplacement in SPA navigations.
  * Keep menus anchored to their .hs-dropdown / .ti-dropdown trigger via CSS.

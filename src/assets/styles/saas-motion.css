@@ -416,11 +416,11 @@ body {
 }
 
 .app-sidebar .side-menu__item:hover {
-  transform: translateX(2px);
+  transform: none;
 }
 
 .app-sidebar .side-menu__item.active {
-  box-shadow: inset 3px 0 0 var(--color-primary);
+  box-shadow: none;
 }
 
 .app-header .header-link {

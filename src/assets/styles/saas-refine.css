@@ -50,14 +50,6 @@
   width: calc(100% - 0.7rem);
 }
 
-.app-sidebar .side-menu__item.active {
-  background: linear-gradient(
-    90deg,
-    color-mix(in oklab, var(--color-primary) 14%, transparent),
-    color-mix(in oklab, var(--color-primary) 4%, transparent)
-  ) !important;
-}
-
 .app-sidebar .category-name {
   opacity: 0.7;
 }
