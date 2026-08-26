@@ -222,6 +222,7 @@ export function UserListing() {
   }, [])
 
   return (
+    
     <div className="2xl:col-span-8 col-span-12">
       <div className="box">
         <div className="box-header justify-between">
