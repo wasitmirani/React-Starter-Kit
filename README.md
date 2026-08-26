@@ -52,16 +52,16 @@ src/
 ├── api/                 # HTTP client, interceptors, endpoint modules
 ├── assets/              # Fonts, icons, images, global CSS
 ├── components/
-│   ├── common/          # Shared primitives (Button, Input, Modal, …)
+│   ├── common/          # Shared primitives (Button, Input, Modal, DataTable, …)
 │   ├── features/        # Feature-specific UI (auth, dashboard, products)
 │   └── ui/              # Presentational UI (Card, Badge, Toast, …)
 ├── config/              # App, env, routes, and theme config
 ├── constants/           # API paths, routes, messages, regex
 ├── contexts/            # Auth, theme, and notification providers
 ├── hooks/               # Reusable React hooks
-├── layouts/             # Main, auth, and dashboard shells
+├── layouts/             # Main, auth, and master (app shell) layouts
 ├── lib/                 # Axios, React Query, router, validation
-├── pages/               # Route-level screens
+├── pages/               # Route-level screens (auth, dashboard, products, users)
 ├── services/            # Domain services over API endpoints
 ├── store/               # Zustand stores (auth, user, ui)
 ├── types/               # Shared TypeScript types
@@ -77,6 +77,7 @@ Path alias `@/` maps to `src/`.
 - **API layer** — `api/http-client.ts` and `api/interceptors.ts` wrap Axios. Endpoint files under `api/endpoints/` stay thin; `services/` owns domain calls.
 - **State** — Zustand for global UI/auth/user state (`useAuthStore`, `useUserStore`, `useUiStore`); TanStack Query for server data.
 - **Routing** — Route constants live in `constants/routes.constants.ts`; the router is assembled in `lib/router.config.tsx`.
+- **Layouts** — `MainLayout` is the root shell; `AuthLayout` wraps public auth pages; `MasterLayout` wraps the authenticated app (header, sidebar, theme scripts). Sidebar items come from `utils/helpers/sidebar.menu.ts`.
 - **Providers** — `App.tsx` wires React Query, Auth, Theme, Notification, and an error boundary around the router.
 - **Components** — Prefer co-located folders (`Component.tsx`, `Component.types.ts`, `Component.styles.ts`, `index.ts`).
 
@@ -86,8 +87,13 @@ Path alias `@/` maps to `src/`.
 | --- | --- |
 | `/` | Redirects to dashboard |
 | `/login`, `/register`, `/forgot-password` | Auth |
-| `/dashboard`, `/analytics`, `/settings` | Dashboard |
-| `/products`, `/products/:id`, `/products/new` | Products |
+| `/dashboard` | Dashboard (CRM) |
+| `/dashboard/analytics` | Analytics |
+| `/dashboard/settings` | Settings |
+| `/products` | Product list |
+| `/products/:id` | Product detail |
+| `/products/create` | Create product |
+| `/users` | Users |
 | `*` | 404 |
 
 ## License
