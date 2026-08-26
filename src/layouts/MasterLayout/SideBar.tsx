@@ -65,7 +65,7 @@ function MultiMenuItem({
           {item.children.map((child) => (
             <li key={child.link} className="slide">
               <NavLink to={child.link} end={child.end} className={menuLinkClass}>
-                <i className={`${child.icon} side-menu-doublemenu__icon`} aria-hidden="true"></i>
+                <i className={`side-menu-doublemenu__icon`} aria-hidden="true"></i>
                 {child.title}
               </NavLink>
             </li>

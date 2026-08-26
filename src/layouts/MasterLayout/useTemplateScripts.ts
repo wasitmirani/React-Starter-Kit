@@ -1,27 +1,49 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
-const TEMPLATE_SCRIPTS = [
+/** Layout / libs — load once while MasterLayout is mounted. */
+const LAYOUT_SCRIPTS = [
   '/assets/js/sticky.js',
   // simplebar.js intentionally omitted — it rewrites #sidebar-scroll and breaks React menu updates
-  '/assets/js/crm-dashboard.js',
+  '/assets/libs/swiper/swiper-bundle.min.js',
   '/assets/js/custom.js',
   '/assets/js/custom-switcher.min.js',
-  '/assets/libs/swiper/swiper-bundle.min.js',
-  '/assets/js/projects-dashboard.js',
-
-
 ] as const
 
-function loadScript(src: string): Promise<void> {
+/**
+ * Page widgets (charts, swipers, etc.) — must re-execute after SPA navigations
+ * because they query DOM nodes that React replaces on each route.
+ */
+const PAGE_SCRIPTS = [
+  '/assets/js/crm-dashboard.js',
+  '/assets/js/projects-dashboard.js',
+] as const
+
+const CRM_CHART_KEYS = [
+  'crmtotalCustomers',
+  'crmtotalDeals',
+  'crmtotalRevenue',
+  'crmtotalConversion',
+] as const
+
+type DestroyableChart = { destroy?: () => void }
+
+function loadScript(src: string, forceReload = false): Promise<void> {
   return new Promise((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>(`script[data-template-src="${src}"]`)
-    if (existing) {
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[data-template-src="${src}"]`,
+    )
+
+    if (existing && !forceReload) {
       resolve()
       return
     }
 
+    existing?.remove()
+
     const script = document.createElement('script')
-    script.src = src
+    // Cache-bust so the browser re-executes page scripts on route revisit
+    script.src = forceReload ? `${src}?v=${Date.now()}` : src
     script.async = false
     script.dataset.templateSrc = src
     script.onload = () => resolve()
@@ -30,27 +52,77 @@ function loadScript(src: string): Promise<void> {
   })
 }
 
+function destroyTemplateCharts() {
+  for (const key of CRM_CHART_KEYS) {
+    const chart = (window as unknown as Record<string, DestroyableChart | undefined>)[key]
+    try {
+      chart?.destroy?.()
+    } catch {
+      // ignore stale instances from a previous route
+    }
+    delete (window as unknown as Record<string, unknown>)[key]
+  }
+}
+
+function reinitPreline() {
+  try {
+    ;(
+      window as unknown as {
+        HSStaticMethods?: { autoInit?: () => void }
+      }
+    ).HSStaticMethods?.autoInit?.()
+  } catch {
+    // Preline may not be ready on first paint
+  }
+}
+
 /**
- * Loads non-menu theme scripts after MasterLayout mounts.
+ * Loads non-menu theme scripts after MasterLayout mounts, and re-runs page
+ * widget scripts whenever the route changes (SPA navigation / revisit).
  * Menu / hamburger interactions are handled in React (useSidebarToggle + SideBar).
  * @returns true once scripts have finished loading (switcher may have mutated html attrs).
  */
 export function useTemplateScripts() {
+  const { pathname } = useLocation()
   const [scriptsReady, setScriptsReady] = useState(false)
+  const layoutLoadedRef = useRef(false)
 
   useEffect(() => {
     let cancelled = false
 
     const run = async () => {
-      for (const src of TEMPLATE_SCRIPTS) {
+      if (!layoutLoadedRef.current) {
+        for (const src of LAYOUT_SCRIPTS) {
+          if (cancelled) return
+          try {
+            await loadScript(src, false)
+          } catch {
+            // Continue loading remaining scripts even if one fails
+          }
+        }
+        if (!cancelled) layoutLoadedRef.current = true
+      }
+
+      // Wait one frame so the new Outlet content is in the DOM before page scripts query it
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => resolve())
+      })
+      if (cancelled) return
+
+      destroyTemplateCharts()
+
+      for (const src of PAGE_SCRIPTS) {
         if (cancelled) return
         try {
-          await loadScript(src)
+          await loadScript(src, true)
         } catch {
           // Continue loading remaining scripts even if one fails
         }
       }
-      if (!cancelled) setScriptsReady(true)
+
+      if (cancelled) return
+      reinitPreline()
+      setScriptsReady(true)
     }
 
     void run()
@@ -58,7 +130,7 @@ export function useTemplateScripts() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [pathname])
 
   return scriptsReady
 }

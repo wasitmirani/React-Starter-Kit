@@ -1,6 +1,11 @@
 (function () {
     "use strict";
 
+    // Skip when dashboard nodes are not on the current route (SPA navigation)
+    if (!document.querySelector("#task-activity")) {
+        return;
+    }
+
     /* Task Activity */
     var options = {
         series: [44, 55, 67, 83],

@@ -43,7 +43,7 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
     title: 'Dashboards',
     icon: 'ti ti-layout-dashboard',
     children: [
-      { title: 'Sales', link: ROUTES.DASHBOARD, icon: 'ti ti-currency-dollar', end: true },
+      { title:'CRM', link: ROUTES.DASHBOARD, icon: 'ti ti-building-community', end: true },
       { title: 'Analytics', link: ROUTES.ANALYTICS, icon: 'ti ti-chart-bar' },
     ],
   },
