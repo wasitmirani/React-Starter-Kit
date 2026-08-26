@@ -6,6 +6,10 @@ const TEMPLATE_SCRIPTS = [
   '/assets/js/crm-dashboard.js',
   '/assets/js/custom.js',
   '/assets/js/custom-switcher.min.js',
+  '/assets/libs/swiper/swiper-bundle.min.js',
+  '/assets/js/projects-dashboard.js',
+
+
 ] as const
 
 function loadScript(src: string): Promise<void> {

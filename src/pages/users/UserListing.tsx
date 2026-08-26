@@ -75,11 +75,34 @@ export function UserListing() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
 
   return (
-    <div className="box">
-      <div className="box-header">
-        <div className="box-title">Users</div>
-      </div>
-      <div className="box-body">
+    <div className="2xl:col-span-5 xl:col-span-7 col-span-12">
+    <div className="box overflow-hidden">
+        <div className="box-header justify-between">
+            <div className="box-title">
+                Top Selling Products
+            </div>
+            <div className="flex gap-2">
+                <button className="ti-btn ti-btn-outline-light ti-btn-sm"><i className="ri-upload-2-line"></i>
+                    Export</button>
+                <div className="ti-dropdown hs-dropdown inline-flex">
+                    <a href="#" className="ti-btn ti-btn-light ti-btn-sm hs-dropdown-toggle" aria-expanded="false">
+                        Sort By<i className="ri-arrow-down-s-line align-middle ms-1 inline-block"></i>
+                    </a>
+                    <ul className="ti-dropdown-menu hs-dropdown-menu hidden" role="menu" data-placement="bottom-end" style={{transform: 'translate3d(801px, 406.5px, 0px)'}}>
+                        <li>
+                            <a className="ti-dropdown-item" href="#">Last Week</a>
+                        </li>
+                        <li>
+                            <a className="ti-dropdown-item" href="#">Last Month</a>
+                        </li>
+                        <li>
+                            <a className="ti-dropdown-item" href="#">Last Year</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div className="box-body p-0!">
         <DataTable
           columns={columns}
           data={DEMO_USERS}
@@ -91,7 +114,9 @@ export function UserListing() {
           onDelete={(user) => console.log('delete', user.id)}
           emptyMessage="No users found."
         />
-      </div>
-    </div>
+        </div>
+        </div>
+        </div>
+
   )
 }
