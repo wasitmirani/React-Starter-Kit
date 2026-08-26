@@ -5,13 +5,13 @@ export function AnalyticsPage() {
     <>
     <BreadCrumb activePage="Analytics" breadcrumbs={[ {label: "Dashboards", href: "/dashboard"}]} />
 
-<div className="grid 2xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4">
+<div className="grid 2xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4 gap-y-0 analytics-kpi-row">
     <div className="col">
         <div className="box">
             <div className="box-body">
                 <div className="flex flex-wrap items-center justify-between gap-1">
                     <div className="flex-1">
-                        <p className="text-textmuted mb-2!">Visitors Online</p>
+                        <p className="text-textmuted mb-1!">Visitors Online</p>
                         <div className="font-semibold fs-22">53,673</div>
                     </div>
                     <div className="text-end">
@@ -50,7 +50,7 @@ export function AnalyticsPage() {
                     <div>
                     </div>
                     <div className="flex-1">
-                        <p className="text-textmuted mb-2!">Bounce Rate</p>
+                        <p className="text-textmuted mb-1!">Bounce Rate</p>
                         <div className="font-semibold fs-22">42%</div>
                     </div>
                     <div className="text-end">
@@ -85,7 +85,7 @@ export function AnalyticsPage() {
                     <div>
                     </div>
                     <div className="flex-1">
-                        <p className="text-textmuted mb-2!">Avg. Visit Duration</p>
+                        <p className="text-textmuted mb-1!">Avg. Visit Duration</p>
                         <div className="font-semibold fs-22">5m 42s</div>
                     </div>
                     <div className="text-end">
@@ -120,7 +120,7 @@ export function AnalyticsPage() {
                     <div>
                     </div>
                     <div className="flex-1">
-                        <p className="text-textmuted mb-2!">Lead Analytics</p>
+                        <p className="text-textmuted mb-1!">Lead Analytics</p>
                         <div className="font-semibold fs-22">3,859</div>
                     </div>
                     <div className="text-end">
@@ -155,7 +155,7 @@ export function AnalyticsPage() {
                     <div>
                     </div>
                     <div className="flex-1">
-                        <p className="text-textmuted mb-2!">Sessions</p>
+                        <p className="text-textmuted mb-1!">Sessions</p>
                         <div className="font-semibold fs-22">97.66k</div>
                     </div>
                     <div className="text-end">

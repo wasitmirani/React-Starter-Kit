@@ -10,6 +10,7 @@ import './App.css'
 import './assets/styles/saas-polish.css'
 import './assets/styles/saas-motion.css'
 import './assets/styles/saas-refine.css'
+import './assets/styles/saas-dashboard.css'
 
 function App() {
   return (

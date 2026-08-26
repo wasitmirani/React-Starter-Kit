@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
 import { useTheme } from '@/contexts/ThemeContext'
@@ -90,6 +90,9 @@ export function SideBar() {
     ),
   )
   const [profileOpen, setProfileOpen] = useState(false)
+  const profileWrapRef = useRef<HTMLDivElement>(null)
+  const profileBtnRef = useRef<HTMLButtonElement>(null)
+  const [profileMenuStyle, setProfileMenuStyle] = useState<CSSProperties>({})
 
   useEffect(() => {
     setOpenMenus((prev) => {
@@ -102,6 +105,47 @@ export function SideBar() {
       return next
     })
   }, [location.pathname])
+
+  useLayoutEffect(() => {
+    if (!profileOpen || !profileBtnRef.current) return
+    const update = () => {
+      const rect = profileBtnRef.current!.getBoundingClientRect()
+      const menuHeight = 280
+      const top = Math.min(
+        Math.max(8, rect.top),
+        window.innerHeight - menuHeight - 8,
+      )
+      setProfileMenuStyle({
+        top,
+        left: rect.right + 8,
+      })
+    }
+    update()
+    window.addEventListener('resize', update)
+    window.addEventListener('scroll', update, true)
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('scroll', update, true)
+    }
+  }, [profileOpen])
+
+  useEffect(() => {
+    if (!profileOpen) return
+    const onPointerDown = (event: globalThis.MouseEvent) => {
+      if (!profileWrapRef.current?.contains(event.target as Node)) {
+        setProfileOpen(false)
+      }
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setProfileOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [profileOpen])
 
   const toggleSubmenu = (id: string) => (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -248,8 +292,9 @@ export function SideBar() {
             </ul>
             <ul className="main-menu mb-0! border-t! border-menubordercolor py-2 block">
               <li className="slide">
-                <div className="hs-dropdown [--placement:right-start] ti-dropdown relative inline-flex w-full profile-drop">
+                <div ref={profileWrapRef} className="ti-dropdown relative inline-flex w-full profile-drop">
                   <button
+                    ref={profileBtnRef}
                     type="button"
                     id="mainProfile"
                     className="hs-dropdown-toggle flex w-full items-center gap-3 rounded-md px-4 py-2"
@@ -274,10 +319,11 @@ export function SideBar() {
                   </button>
 
                   <div
-                    className={`hs-dropdown-menu rounded-lg min-w-54! p-1! ti-dropdown-menu${profileOpen ? '' : ' hidden'}`}
+                    className={`ti-dropdown-menu rounded-lg min-w-54! p-1!${profileOpen ? '' : ' hidden'}`}
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="mainProfile"
+                    style={profileOpen ? profileMenuStyle : undefined}
                   >
                     <NavLink
                       to={ROUTES.SETTINGS}

@@ -1,11 +1,12 @@
 import BreadCrumb from '@/components/common/BreadCrumb'
+import { SortByDropdown } from '@/components/common/SortByDropdown/SortByDropdown'
 
 export function DashboardHome() {
   return (
   <>
-    <BreadCrumb activePage="CRM Dashboard" breadcrumbs={[ {label: "Dashboards", href: "/dashboards"}]} />
+    <BreadCrumb activePage="CRM Dashboard" breadcrumbs={[ {label: "Dashboards", href: "/dashboard"}]} />
     {/* Start:: row-1 */}
-                <div className="grid grid-cols-12 gap-x-4">
+                <div className="grid grid-cols-12 gap-x-4 dashboard-home">
                     <div className="xl:col-span-6 col-span-12 box-col-12">
                         <div className="grid grid-cols-12 gap-x-4">
                             <div className="xl:col-span-4 lg:col-span-4 col-span-12">
@@ -612,23 +613,7 @@ export function DashboardHome() {
                                 <div className="box-title">
                                     Upcoming Deadlines
                                 </div>
-                                <div className="ti-dropdown hs-dropdown inline-flex">
-                                    <a href="javascript:void(0);" className="ti-btn ti-btn-light ti-btn-sm hs-dropdown-toggle"
-                                        aria-expanded="false">
-                                        Sort By<i className="ri-arrow-down-s-line middle ms-1 inline-block"></i>
-                                    </a>
-                                    <ul className="ti-dropdown-menu hs-dropdown-menu hidden" role="menu">
-                                        <li>
-                                            <a className="ti-dropdown-item" href="javascript:void(0);">Last Week</a>
-                                        </li>
-                                        <li>
-                                            <a className="ti-dropdown-item" href="javascript:void(0);">Last Month</a>
-                                        </li>
-                                        <li>
-                                            <a className="ti-dropdown-item" href="javascript:void(0);">Last Year</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <SortByDropdown buttonClassName="ti-btn-light" />
                             </div>
                             <div className="box-body p-0!">
                                 <div className="table-responsive">
@@ -645,8 +630,8 @@ export function DashboardHome() {
                                             <tr>
                                                 <td>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="form-check mb-0"> 
-                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task1" /> 
+                                                        <div className="form-check mb-0">
+                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task1" />
                                                         </div>
                                                         <a href="javascript:void(0);" className="urgent-task-title font-medium text-default">Fix Critical Bug in Payment Gateway</a>
                                                     </div>
@@ -664,11 +649,11 @@ export function DashboardHome() {
                                             <tr>
                                                 <td>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="form-check mb-0"> 
-                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task2" /> 
+                                                        <div className="form-check mb-0">
+                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task2" />
                                                         </div>
                                                         <a href="javascript:void(0);" className="urgent-task-title font-medium text-default">Deploy Latest Security Update</a>
-                                                    </div>    
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <span className="text-danger">High</span>
@@ -685,11 +670,11 @@ export function DashboardHome() {
                                             <tr>
                                                 <td>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="form-check mb-0"> 
-                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task3" /> 
+                                                        <div className="form-check mb-0">
+                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task3" />
                                                         </div>
                                                         <a href="javascript:void(0);" className="urgent-task-title font-medium text-default">Complete Mobile App Feature Testing</a>
-                                                    </div>    
+                                                    </div>
                                                 </td>
                                                 <td>
                                                    <span className="text-secondary">Medium</span>
@@ -700,17 +685,17 @@ export function DashboardHome() {
                                                 <td>
                                                     <span className="badge bg-success-transparent">
                                                         Completed
-                                                    </span>    
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="form-check mb-0"> 
-                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task4" /> 
+                                                        <div className="form-check mb-0">
+                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task4" />
                                                         </div>
                                                         <a href="javascript:void(0);" className="urgent-task-title font-medium text-default">Resolve User Account Login Issue</a>
-                                                    </div>    
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <span className="text-danger">High</span>
@@ -721,18 +706,18 @@ export function DashboardHome() {
                                                 <td>
                                                     <span className="badge bg-primary-transparent">
                                                         In Progress
-                                                    </span>    
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td className="border-bottom-0">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="form-check mb-0"> 
-                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task6" /> 
+                                                        <div className="form-check mb-0">
+                                                            <input className="form-check-input" type="checkbox" value="" id="urgent-task6" />
                                                         </div>
                                                         <a href="javascript:void(0);" className="urgent-task-title font-medium text-default">Update API for New Payment Method</a>
-                                                    </div>    
-                                                </td> 
+                                                    </div>
+                                                </td>
                                                 <td className="border-bottom-0">
                                                     <span className="text-danger">High</span>
                                                 </td>
@@ -742,7 +727,7 @@ export function DashboardHome() {
                                                 <td className="border-bottom-0">
                                                     <span className="badge bg-success-transparent">
                                                         Completed
-                                                    </span>    
+                                                    </span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -750,28 +735,28 @@ export function DashboardHome() {
                                 </div>
                             </div>
                             <div className="box-footer">
-                                <div className="flex items-center"> 
-                                    <div> Showing 5 Entries <i className="bi bi-arrow-right ms-2 font-semibold"></i> </div> 
-                                    <div className="ms-auto"> 
+                                <div className="flex items-center">
+                                    <div> Showing 5 Entries <i className="bi bi-arrow-right ms-2 font-semibold"></i> </div>
+                                    <div className="ms-auto">
                                         <nav aria-label="Page navigation" className="pagination-style-5">
                                             <ul className="ti-pagination mb-0!">
                                                 <li className="page-item disabled rtl:rotate-180">
-                                                    <a aria-label="anchor" className="page-link" href="javascript:void(0);">
-                                                        <i className="ri-arrow-left-double-line"></i>
+                                                    <a className="page-link" href="javascript:void(0);">
+                                                        <i className="ri-arrow-left-s-line align-middle leading-none"></i>
                                                     </a>
                                                 </li>
                                                 <li className="page-item"><a className="page-link" href="javascript:void(0);">1</a></li>
-                                                <li className="page-item "><a className="page-link active" href="javascript:void(0);">2</a></li>
+                                                <li className="page-item"><a className="page-link active" href="javascript:void(0);">2</a></li>
                                                 <li className="page-item"><a className="page-link" href="javascript:void(0);">3</a></li>
-                                                <li className="page-item">
-                                                    <a aria-label="anchor" className="page-link" href="javascript:void(0);">
-                                                        <i className="ri-arrow-right-double-line"></i>
+                                                <li className="page-item rtl:rotate-180">
+                                                    <a className="page-link" href="javascript:void(0);">
+                                                        <i className="ri-arrow-right-s-line align-middle leading-none"></i>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </nav>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -881,23 +866,7 @@ export function DashboardHome() {
                                     <div> 
                                         <input className="form-control form-control-sm" type="text" placeholder="Search Here" aria-label=".form-control-sm example" /> 
                                     </div> 
-                                    <div className="ti-dropdown hs-dropdown inline-flex">
-                                        <a href="javascript:void(0);" className="ti-btn ti-btn-primary ti-btn-sm hs-dropdown-toggle"
-                                            aria-expanded="false">
-                                            Sort By<i className="ri-arrow-down-s-line middle ms-1 inline-block"></i>
-                                        </a>
-                                        <ul className="ti-dropdown-menu hs-dropdown-menu hidden" role="menu">
-                                            <li>
-                                                <a className="ti-dropdown-item" href="javascript:void(0);">Last Week</a>
-                                            </li>
-                                            <li>
-                                                <a className="ti-dropdown-item" href="javascript:void(0);">Last Month</a>
-                                            </li>
-                                            <li>
-                                                <a className="ti-dropdown-item" href="javascript:void(0);">Last Year</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <SortByDropdown buttonClassName="ti-btn-primary" />
                                 </div>
                             </div>
                             <div className="box-body p-0!">

@@ -222,7 +222,7 @@ body {
 .box .p-6.border.border-defaultborder {
   padding: 0.85rem 0.95rem !important;
   border-radius: 0.55rem !important;
-  background: linear-gradient(180deg, #fff, #fafbfc);
+  background: var(--color-light);
   transition:
     transform 200ms var(--saas-ease),
     box-shadow 200ms var(--saas-ease),
@@ -233,14 +233,14 @@ body {
 .box .p-6.border.border-defaultborder:hover {
   transform: translateY(-1px);
   border-color: color-mix(in oklab, var(--color-primary) 22%, var(--color-defaultborder)) !important;
-  box-shadow: 0 6px 16px rgb(15 23 42 / 6%);
+  box-shadow: 0 6px 16px color-mix(in oklab, var(--color-defaulttextcolor) 8%, transparent);
 }
 
 /* Progress bars — soft fill animation feel */
 .progress {
   overflow: hidden;
   border-radius: 999px !important;
-  background-color: color-mix(in oklab, var(--color-primary) 8%, #f1f5f9) !important;
+  background-color: color-mix(in oklab, var(--color-primary) 12%, var(--color-light)) !important;
 }
 
 .progress-bar {
@@ -278,7 +278,7 @@ body {
 
 .project-dashboard .projects-recent-activity-list > li + li,
 .projects-recent-activity-list > li + li {
-  border-top: 1px solid #eef2f7 !important;
+  border-top: 1px solid var(--color-defaultborder) !important;
 }
 
 .project-dashboard .projects-recent-transactions-list > li {
@@ -286,7 +286,7 @@ body {
 }
 
 .projects-recent-activity-list > li:hover {
-  background-color: #f8fafc;
+  background-color: color-mix(in oklab, var(--color-primary) 6%, transparent);
 }
 
 .projects-recent-activity-list .avatar {
@@ -314,8 +314,8 @@ body {
   font-weight: 500;
   padding: 0.15rem 0.4rem !important;
   border-radius: 0.3rem !important;
-  background: #f1f5f9 !important;
-  color: #64748b !important;
+  background: var(--color-light) !important;
+  color: var(--color-textmuted) !important;
   border-color: transparent !important;
 }
 
@@ -326,7 +326,7 @@ body {
 }
 
 .team-performance-list > li:hover {
-  background-color: #f8fafc;
+  background-color: color-mix(in oklab, var(--color-primary) 6%, transparent);
 }
 
 /* ─── Buttons & controls ─── */
@@ -369,7 +369,7 @@ body {
 }
 
 .table.saas-data-table tbody tr:hover {
-  background-color: #f8fafc !important;
+  background-color: color-mix(in oklab, var(--color-primary) 6%, transparent) !important;
 }
 
 .table.saas-data-table tbody tr:hover td {

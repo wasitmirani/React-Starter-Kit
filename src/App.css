@@ -142,3 +142,39 @@
   align-items: center;
   justify-content: center;
 }
+
+/*
+ * Fix Preline Floating UI misplacement in SPA navigations.
+ * Keep menus anchored to their .hs-dropdown / .ti-dropdown trigger via CSS.
+ */
+.hs-dropdown,
+.ti-dropdown {
+  position: relative !important;
+}
+
+.hs-dropdown > .hs-dropdown-menu,
+.hs-dropdown > .ti-dropdown-menu,
+.ti-dropdown > .hs-dropdown-menu,
+.ti-dropdown > .ti-dropdown-menu,
+.header-element.hs-dropdown > .hs-dropdown-menu,
+.header-element.hs-dropdown > .ti-dropdown-menu,
+.header-element.ti-dropdown > .ti-dropdown-menu {
+  position: absolute !important;
+  inset: auto !important;
+  transform: none !important;
+  margin-top: 0.35rem !important;
+  top: 100% !important;
+  inset-inline-end: 0 !important;
+  inset-inline-start: auto !important;
+  z-index: 1050 !important;
+}
+
+/* Sidebar profile menu uses React fixed coords (escapes overflow) — do not force absolute */
+.app-sidebar .profile-drop > .ti-dropdown-menu {
+  position: fixed !important;
+  inset: unset !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 1060 !important;
+}
+

@@ -1,0 +1,150 @@
+/**
+ * Dashboard content density only (project / analytics / crm body classes).
+ * Tightens excessive gaps without changing global polish outside dashboards.
+ */
+
+.project-dashboard .main-body-container,
+.analytics-dashboard .main-body-container,
+.crm-dashboard .main-body-container {
+  --dash-gap: 0.75rem;
+}
+
+/* Grids: stop cards stretching to match tallest column (causes empty bottoms) */
+.project-dashboard .main-content .grid,
+.analytics-dashboard .main-content .grid,
+.crm-dashboard .main-content .grid {
+  align-items: start;
+  column-gap: var(--dash-gap) !important;
+  row-gap: 0 !important;
+}
+
+.project-dashboard .main-content .grid.gap-x-4,
+.analytics-dashboard .main-content .grid.gap-x-4,
+.crm-dashboard .main-content .grid.gap-x-4,
+.project-dashboard .main-content .grid.gap-x-6,
+.analytics-dashboard .main-content .grid.gap-x-6 {
+  column-gap: var(--dash-gap) !important;
+}
+
+/* Card vertical rhythm — smaller gaps between rows */
+.project-dashboard .box,
+.analytics-dashboard .box,
+.crm-dashboard .box {
+  margin-bottom: var(--dash-gap) !important;
+}
+
+.project-dashboard .box > .box-header,
+.analytics-dashboard .box > .box-header,
+.crm-dashboard .box > .box-header {
+  padding: 0.65rem 0.9rem !important;
+  min-height: 0 !important;
+}
+
+.project-dashboard .box > .box-body,
+.analytics-dashboard .box > .box-body,
+.crm-dashboard .box > .box-body {
+  padding: 0.75rem 0.9rem !important;
+}
+
+.project-dashboard .box > .box-body.p-0\!,
+.project-dashboard .box > .box-body.p-0,
+.analytics-dashboard .box > .box-body.p-0\!,
+.analytics-dashboard .box > .box-body.p-0,
+.crm-dashboard .box > .box-body.p-0\!,
+.crm-dashboard .box > .box-body.p-0 {
+  padding: 0 !important;
+}
+
+.project-dashboard .box > .box-footer,
+.analytics-dashboard .box > .box-footer,
+.crm-dashboard .box > .box-footer {
+  padding: 0.55rem 0.9rem !important;
+}
+
+/* KPI cards */
+.project-dashboard .dashboard-main-card .box-body {
+  padding: 0.85rem 0.9rem !important;
+}
+
+/* Team Performance — template uses 1.42rem between rows (too airy) */
+.project-dashboard .team-performance-list > li {
+  margin-bottom: 0.55rem !important;
+  padding-block: 0.15rem;
+}
+
+.project-dashboard .team-performance-list > li:last-child {
+  margin-bottom: 0 !important;
+}
+
+.project-dashboard .team-performance-list .avatar-md {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+}
+
+/* Activity / transactions lists */
+.project-dashboard .projects-recent-activity-list > li {
+  margin-bottom: 0.55rem !important;
+  padding-block: 0.15rem;
+}
+
+.project-dashboard .projects-recent-activity-list > li:last-child {
+  margin-bottom: 0 !important;
+}
+
+.project-dashboard .projects-recent-transactions-list > li {
+  margin-bottom: 0.55rem !important;
+}
+
+.project-dashboard .projects-recent-transactions-list > li:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Deadlines table — compact cells, no phantom header gap */
+.project-dashboard .box .table.ti-custom-table > :not(caption) > * > * {
+  padding: 0.5rem 0.65rem !important;
+  vertical-align: middle;
+}
+
+.project-dashboard .box .table.ti-custom-table thead th {
+  padding-block: 0.45rem !important;
+}
+
+.project-dashboard .urgent-task-title:hover {
+  color: var(--color-primary);
+}
+
+/* Priority task swiper cards */
+.project-dashboard .swiper-task .p-6,
+.project-dashboard .box .p-6.border.border-defaultborder {
+  padding: 0.85rem 0.9rem !important;
+}
+
+/* Analytics legend items */
+.project-dashboard .task-overdue-list .list-group-item {
+  margin-bottom: 0.4rem !important;
+  padding-block: 0.4rem !important;
+}
+
+.project-dashboard .task-overdue-list .list-group-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Chart areas — keep readable, avoid huge empty chart boxes */
+.project-dashboard #projects-overview,
+.project-dashboard #task-overview,
+.project-dashboard #task-activity,
+.analytics-dashboard [id*='chart'],
+.analytics-dashboard #column-basic {
+  min-height: 12.5rem;
+}
+
+.project-dashboard .avatar-list-stacked .avatar {
+  box-shadow: 0 0 0 2px var(--color-customwhite, #fff);
+}
+
+/* Page title spacing on dashboards */
+.project-dashboard .page-header-breadcrumb,
+.analytics-dashboard .page-header-breadcrumb,
+.crm-dashboard .page-header-breadcrumb {
+  margin-block: 0.15rem 0.65rem !important;
+}

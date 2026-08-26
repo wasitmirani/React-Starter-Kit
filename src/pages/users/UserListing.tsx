@@ -6,6 +6,9 @@ import type {
   DataTableColumn,
   PaginatedRows,
 } from '@/components/common/DataTable'
+import { SortByDropdown } from '@/components/common/SortByDropdown/SortByDropdown'
+
+type SortOption = 'New' | 'Popular' | 'Relevant'
 
 type ApplicantStatus = 'New' | 'Pending' | 'Hired' | 'Rejected'
 
@@ -93,7 +96,7 @@ function formatAppliedOn(isoDate: string) {
   const day = date.getDate()
   const month = date.toLocaleString('en-US', { month: 'short' })
   const year = date.getFullYear()
-  return `${day},${month} ${year}`
+  return `${day}, ${month} ${year}`
 }
 
 function paginateRows(
@@ -182,11 +185,14 @@ const actions: DataTableAction<ApplicantRow>[] = [
   { key: 'delete', label: 'Delete', icon: 'ri-delete-bin-line', variant: 'delete' },
 ]
 
+const SORT_OPTIONS: SortOption[] = ['New', 'Popular', 'Relevant']
+
 export function UserListing() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<{ column: string; direction: 'asc' | 'desc' } | null>(null)
+  const [sortBy, setSortBy] = useState<SortOption>('New')
 
   const filteredApplicants = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -199,6 +205,15 @@ export function UserListing() {
           .includes(q),
       )
     }
+    if (sortBy === 'New') {
+      list = [...list].sort(
+        (a, b) => new Date(b.appliedOn).getTime() - new Date(a.appliedOn).getTime(),
+      )
+    } else if (sortBy === 'Popular') {
+      list = [...list].sort((a, b) => a.position.localeCompare(b.position))
+    } else {
+      list = [...list].sort((a, b) => a.name.localeCompare(b.name))
+    }
     if (!sort) return list
     const { column, direction } = sort
     const dir = direction === 'asc' ? 1 : -1
@@ -207,7 +222,7 @@ export function UserListing() {
       const bv = String(b[column as keyof ApplicantRow] ?? '')
       return av.localeCompare(bv) * dir
     })
-  }, [search, sort])
+  }, [search, sort, sortBy])
 
   const paginated = useMemo(
     () => paginateRows(filteredApplicants, page, PER_PAGE),
@@ -234,70 +249,48 @@ export function UserListing() {
   }, [])
 
   return (
-    
-    <div className="2xl:col-span-8 col-span-12">
-      <div className="box">
-        <div className="box-header justify-between">
-          <div className="box-title">User Listing</div>
-          <div className="flex flex-wrap gap-2">
-            <div>
-              <input
-                className="form-control form-control-sm"
-                type="text"
-                placeholder="Search Here"
-                aria-label="Search applicants"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value)
-                  setPage(1)
-                }}
-              />
-            </div>
-            <div className="ti-dropdown hs-dropdown inline-flex">
-              <a
-                href="javascript:void(0);"
-                className="ti-btn ti-btn-primary ti-btn-sm"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Sort By
-                <i className="ri-arrow-down-s-line align-middle ms-1! inline-block leading-none"></i>
-              </a>
-              <ul className="hs-dropdown-menu ti-dropdown-menu hidden" role="menu">
-                <li>
-                  <a className="ti-dropdown-item inline-flex" href="javascript:void(0);">
-                    New
-                  </a>
-                </li>
-                <li>
-                  <a className="ti-dropdown-item inline-flex" href="javascript:void(0);">
-                    Popular
-                  </a>
-                </li>
-                <li>
-                  <a className="ti-dropdown-item inline-flex" href="javascript:void(0);">
-                    Relevant
-                  </a>
-                </li>
-              </ul>
-            </div>
+    <div className="box">
+      <div className="box-header justify-between">
+        <div className="box-title">User Listing</div>
+        <div className="flex flex-wrap gap-2">
+          <div>
+            <input
+              className="form-control form-control-sm"
+              type="text"
+              placeholder="Search Here"
+              aria-label="Search applicants"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value)
+                setPage(1)
+              }}
+            />
           </div>
-        </div>
-        <div className="box-body p-0!">
-          <DataTable
-            columns={columns}
-            rows={paginated}
-            fetchData={handleFetch}
-            selectable
-            selectedIds={selectedIds}
-            onSelectionChange={setSelectedIds}
-            actions={actions}
-            onAction={handleAction}
-            actionsHeader="Action"
-            itemsLabel="applicants"
-            emptyMessage="No applicants found."
+          <SortByDropdown
+            buttonClassName="ti-btn-primary"
+            options={SORT_OPTIONS}
+            value={sortBy}
+            onSelect={(option) => {
+              setSortBy(option as SortOption)
+              setPage(1)
+            }}
           />
         </div>
+      </div>
+      <div className="box-body p-0!">
+        <DataTable
+          columns={columns}
+          rows={paginated}
+          fetchData={handleFetch}
+          selectable
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+          actions={actions}
+          onAction={handleAction}
+          actionsHeader="Action"
+          itemsLabel="applicants"
+          emptyMessage="No applicants found."
+        />
       </div>
     </div>
   )

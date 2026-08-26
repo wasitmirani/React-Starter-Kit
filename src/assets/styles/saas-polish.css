@@ -397,7 +397,7 @@ h1, h2, h3, h4, h5, h6,
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-textmuted) !important;
-  background-color: #f8fafc !important;
+  background-color: var(--color-light) !important;
   border-bottom: 1px solid var(--color-defaultborder) !important;
   white-space: nowrap;
   padding-block: 0.5rem !important;
@@ -424,7 +424,7 @@ h1, h2, h3, h4, h5, h6,
   gap: 0.5rem;
   padding: 0.5rem 0.75rem !important;
   border-top: 1px solid var(--color-defaultborder);
-  background-color: #fafbfc;
+  background-color: var(--color-light);
 }
 
 .saas-table-empty {
@@ -594,13 +594,13 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #64748b !important;
-  background: #f8fafc !important;
+  color: var(--color-textmuted) !important;
+  background: var(--color-light) !important;
   border-bottom: 1px solid var(--color-defaultborder) !important;
 }
 
 .table.saas-data-table tbody td {
-  border-bottom: 1px solid #eef2f7 !important;
+  border-bottom: 1px solid var(--color-defaultborder) !important;
 }
 
 .table.saas-data-table tbody tr:last-child td {
@@ -608,7 +608,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .table.saas-data-table tbody tr:hover td {
-  background-color: #f8fafc;
+  background-color: color-mix(in oklab, var(--color-primary) 6%, transparent);
 }
 
 .saas-col-select,
@@ -747,14 +747,14 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .ti-btn-outline-light {
-  background: #fff !important;
+  background: var(--color-customwhite) !important;
   border: 1px solid var(--color-defaultborder) !important;
   color: var(--color-defaulttextcolor) !important;
 }
 
 .ti-btn-outline-light:hover {
-  background: #f8fafc !important;
-  border-color: #cbd5e1 !important;
+  background: var(--color-light) !important;
+  border-color: var(--color-defaultborder) !important;
 }
 
 /* ─── Responsive ─── */

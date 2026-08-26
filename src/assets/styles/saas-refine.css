@@ -14,7 +14,7 @@
 .app-header .header-search-bar {
   border-radius: 0.5rem !important;
   border: 1px solid var(--color-defaultborder) !important;
-  background: color-mix(in oklab, #fff 90%, var(--color-light)) !important;
+  background: var(--color-formcontrolbg, var(--color-customwhite)) !important;
   transition:
     border-color 180ms var(--saas-ease, ease),
     box-shadow 180ms var(--saas-ease, ease) !important;
@@ -154,7 +154,7 @@
 
 .avatar.online::before,
 .avatar.online::after {
-  box-shadow: 0 0 0 2px #fff;
+  box-shadow: 0 0 0 2px var(--color-customwhite);
 }
 
 /* Checkboxes */
@@ -162,7 +162,7 @@
   width: 1rem;
   height: 1rem;
   border-radius: 0.3rem !important;
-  border-color: #cbd5e1 !important;
+  border-color: var(--color-defaultborder) !important;
   cursor: pointer;
   transition:
     background-color 140ms ease,
@@ -187,7 +187,7 @@
 }
 
 .ti-pagination .page-link:hover {
-  background: #f1f5f9 !important;
+  background: var(--color-light) !important;
   color: var(--color-defaulttextcolor) !important;
 }
 
@@ -205,12 +205,12 @@
 
 /* Listing box: seamless header → table */
 .saas-listing-box > .box-header {
-  border-bottom-color: #eef2f7 !important;
-  background: linear-gradient(180deg, #fff, #fcfcfd) !important;
+  border-bottom-color: var(--color-defaultborder) !important;
+  background: var(--color-customwhite) !important;
 }
 
 .saas-listing-box .saas-table-footer {
-  background: #fcfcfd !important;
+  background: var(--color-light) !important;
 }
 
 /* Soft divider under breadcrumb */
@@ -263,16 +263,187 @@ a:focus:not(:focus-visible) {
 
 /* Dark refinements */
 html.dark .app-header,
-.dark .app-header {
+.dark .app-header,
+[class='dark'] .app-header {
   background-color: color-mix(in oklab, var(--color-headerbg) 88%, transparent) !important;
 }
 
 html.dark .saas-listing-box > .box-header,
-.dark .saas-listing-box > .box-header {
-  background: linear-gradient(180deg, var(--color-customwhite), transparent) !important;
+.dark .saas-listing-box > .box-header,
+[class='dark'] .saas-listing-box > .box-header {
+  background: var(--color-customwhite) !important;
 }
 
 html.dark .page-header-breadcrumb,
-.dark .page-header-breadcrumb {
+.dark .page-header-breadcrumb,
+[class='dark'] .page-header-breadcrumb {
   border-bottom-color: var(--color-defaultborder);
 }
+
+html.dark .avatar-list-stacked .avatar,
+.dark .avatar-list-stacked .avatar,
+[class='dark'] .avatar-list-stacked .avatar {
+  box-shadow: 0 0 0 2px var(--color-customwhite);
+}
+
+/* Dark mode: keep SaaS overlays on theme tokens (no forced whites) */
+html.dark,
+.dark,
+[class='dark'] {
+  --saas-shadow-card: 0 1px 2px rgb(0 0 0 / 35%), 0 4px 12px rgb(0 0 0 / 25%);
+  --saas-shadow-lift: 0 8px 24px rgb(0 0 0 / 40%), 0 2px 6px rgb(0 0 0 / 30%);
+}
+
+html.dark body,
+.dark body,
+[class='dark'] body,
+html.dark body.project-dashboard,
+.dark body.project-dashboard,
+[class='dark'] body.project-dashboard {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 0% -20%, color-mix(in oklab, var(--color-primary) 12%, transparent), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, color-mix(in oklab, var(--color-info) 8%, transparent), transparent);
+}
+
+html.dark .box,
+.dark .box,
+[class='dark'] .box {
+  background-color: var(--color-customwhite) !important;
+  border-color: var(--color-defaultborder) !important;
+  box-shadow: var(--saas-shadow-card) !important;
+}
+
+html.dark .table.ti-custom-table thead th,
+.dark .table.ti-custom-table thead th,
+[class='dark'] .table.ti-custom-table thead th,
+html.dark .table.saas-data-table thead th,
+.dark .table.saas-data-table thead th,
+[class='dark'] .table.saas-data-table thead th {
+  background: var(--color-light) !important;
+  color: var(--color-textmuted) !important;
+}
+
+html.dark .saas-table-footer,
+.dark .saas-table-footer,
+[class='dark'] .saas-table-footer,
+html.dark .box-footer,
+.dark .box-footer,
+[class='dark'] .box-footer {
+  background-color: var(--color-light) !important;
+  border-color: var(--color-defaultborder) !important;
+}
+
+html.dark .swiper-task .border.border-defaultborder,
+.dark .swiper-task .border.border-defaultborder,
+[class='dark'] .swiper-task .border.border-defaultborder,
+html.dark .box .p-6.border.border-defaultborder,
+.dark .box .p-6.border.border-defaultborder,
+[class='dark'] .box .p-6.border.border-defaultborder {
+  background: var(--color-light) !important;
+  border-color: var(--color-defaultborder) !important;
+}
+
+html.dark .bg-light,
+.dark .bg-light,
+[class='dark'] .bg-light {
+  background-color: var(--color-light) !important;
+  color: var(--color-defaulttextcolor);
+}
+
+html.dark .badge.bg-light,
+.dark .badge.bg-light,
+[class='dark'] .badge.bg-light {
+  background-color: var(--color-light) !important;
+  color: var(--color-defaulttextcolor) !important;
+  border-color: var(--color-defaultborder) !important;
+}
+
+/* Transparent badges: keep readable tint + text in dark */
+html.dark .badge.bg-primary-transparent,
+.dark .badge.bg-primary-transparent,
+[class='dark'] .badge.bg-primary-transparent {
+  background-color: color-mix(in oklab, var(--color-primary) 22%, transparent) !important;
+  color: color-mix(in oklab, var(--color-primary) 75%, #fff) !important;
+}
+
+html.dark .badge.bg-success-transparent,
+.dark .badge.bg-success-transparent,
+[class='dark'] .badge.bg-success-transparent {
+  background-color: color-mix(in oklab, var(--color-success) 22%, transparent) !important;
+  color: color-mix(in oklab, var(--color-success) 70%, #fff) !important;
+}
+
+html.dark .badge.bg-warning-transparent,
+.dark .badge.bg-warning-transparent,
+[class='dark'] .badge.bg-warning-transparent {
+  background-color: color-mix(in oklab, var(--color-warning) 22%, transparent) !important;
+  color: color-mix(in oklab, var(--color-warning) 75%, #fff) !important;
+}
+
+html.dark .badge.bg-danger-transparent,
+.dark .badge.bg-danger-transparent,
+[class='dark'] .badge.bg-danger-transparent {
+  background-color: color-mix(in oklab, var(--color-danger) 22%, transparent) !important;
+  color: color-mix(in oklab, var(--color-danger) 70%, #fff) !important;
+}
+
+html.dark .badge.bg-secondary-transparent,
+.dark .badge.bg-secondary-transparent,
+[class='dark'] .badge.bg-secondary-transparent {
+  background-color: color-mix(in oklab, var(--color-secondary) 22%, transparent) !important;
+  color: color-mix(in oklab, var(--color-secondary) 70%, #fff) !important;
+}
+
+html.dark .ti-dropdown-menu,
+.dark .ti-dropdown-menu,
+[class='dark'] .ti-dropdown-menu,
+html.dark .hs-dropdown-menu,
+.dark .hs-dropdown-menu,
+[class='dark'] .hs-dropdown-menu {
+  background-color: var(--color-customwhite) !important;
+  border-color: var(--color-defaultborder) !important;
+  color: var(--color-defaulttextcolor) !important;
+}
+
+html.dark .app-header .header-search-bar,
+.dark .app-header .header-search-bar,
+[class='dark'] .app-header .header-search-bar {
+  background: var(--color-formcontrolbg, var(--color-light)) !important;
+  border-color: var(--color-defaultborder) !important;
+  color: var(--color-defaulttextcolor) !important;
+}
+
+html.dark .form-control,
+.dark .form-control,
+[class='dark'] .form-control,
+html.dark .form-select,
+.dark .form-select,
+[class='dark'] .form-select {
+  background-color: var(--color-formcontrolbg) !important;
+  border-color: var(--color-inputborder, var(--color-defaultborder)) !important;
+  color: var(--color-defaulttextcolor) !important;
+}
+
+html.dark .page-title,
+.dark .page-title,
+[class='dark'] .page-title {
+  color: var(--color-defaulttextcolor) !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+}
+
+html.dark .progress,
+.dark .progress,
+[class='dark'] .progress {
+  background-color: color-mix(in oklab, var(--color-primary) 14%, var(--color-light)) !important;
+}
+
+html.dark .ti-btn-light,
+.dark .ti-btn-light,
+[class='dark'] .ti-btn-light {
+  background-color: var(--color-light) !important;
+  border-color: var(--color-defaultborder) !important;
+  color: var(--color-defaulttextcolor) !important;
+}
+
