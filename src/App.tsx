@@ -5,7 +5,8 @@ import { router } from '@/lib/router.config'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { NotificationProvider } from '@/contexts/NotificationContext'
-import { ErrorBoundary } from '@/pages'
+import { ApiToastBridge } from '@/components/common/ApiToastBridge'
+import { ErrorBoundary } from '@/pages/error/ErrorBoundary'
 import { AppSplash } from '@/components/common/AppSplash'
 import './App.css'
 import './assets/styles/saas-polish.css'
@@ -20,6 +21,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <NotificationProvider>
+          <ApiToastBridge />
           <AuthProvider>
             <ErrorBoundary>
               <AppSplash minMs={780} ready />

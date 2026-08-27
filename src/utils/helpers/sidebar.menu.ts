@@ -1,4 +1,22 @@
 import { ROUTES } from '@/constants/routes.constants'
+import { PERMISSIONS, hasAnyPermission, type Permission, type Role } from '@/config/permissions'
+
+/** Map menu ids / route prefixes to required permissions (any-of). */
+const MENU_PERMISSIONS: Record<string, Permission[]> = {
+  dashboard: [PERMISSIONS.AGENTS_VIEW, PERMISSIONS.CALLS_VIEW, PERMISSIONS.CAMPAIGNS_VIEW],
+  analytics: [PERMISSIONS.CALLS_VIEW, PERMISSIONS.AGENTS_VIEW],
+  agents: [PERMISSIONS.AGENTS_VIEW],
+  calls: [PERMISSIONS.CALLS_VIEW],
+  campaigns: [PERMISSIONS.CAMPAIGNS_VIEW],
+  contacts: [PERMISSIONS.CONTACTS_VIEW],
+  knowledge: [PERMISSIONS.AGENTS_VIEW],
+  telephony: [PERMISSIONS.PHONE_NUMBERS_VIEW],
+  automation: [PERMISSIONS.CAMPAIGNS_VIEW],
+  integrations: [PERMISSIONS.AGENTS_UPDATE],
+  team: [PERMISSIONS.TEAM_VIEW],
+  billing: [PERMISSIONS.BILLING_VIEW],
+  settings: [PERMISSIONS.AGENTS_VIEW],
+}
 
 export type SidebarSubItem = {
   title: string
@@ -110,7 +128,7 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
     icon: 'ti ti-address-book',
     children: [
       { title: 'All Contacts', link: ROUTES.CONTACTS, icon: 'ti ti-users', end: true },
-      { title: 'Leads', link: ROUTES.CONTACTS_LEADS, icon: 'ti ti-user-star' },
+      { title: 'Lead Calling', link: ROUTES.CONTACTS_LEADS, icon: 'ti ti-phone-outgoing' },
       { title: 'Contact Lists', link: ROUTES.CONTACTS_LISTS, icon: 'ti ti-list-details' },
       { title: 'Tags', link: ROUTES.CONTACTS_TAGS, icon: 'ti ti-tags' },
       { title: 'Import', link: ROUTES.CONTACTS_IMPORT, icon: 'ti ti-file-import' },
@@ -141,7 +159,9 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
     icon: 'ti ti-phone-calling',
     children: [
       { title: 'Phone Numbers', link: ROUTES.PHONE_NUMBERS, icon: 'ti ti-dialpad' },
-      { title: 'Buy Numbers', link: ROUTES.PHONE_BUY, icon: 'ti ti-shopping-cart' },
+      { title: 'Add Numbers', link: ROUTES.PHONE_BUY, icon: 'ti ti-shopping-cart' },
+      { title: 'Providers (OSS)', link: ROUTES.PHONE_PROVIDERS, icon: 'ti ti-building-broadcast-tower' },
+      { title: 'WhatsApp Calling', link: ROUTES.PHONE_WHATSAPP, icon: 'ti ti-brand-whatsapp' },
       { title: 'SIP Connections', link: ROUTES.PHONE_SIP, icon: 'ti ti-network' },
       { title: 'Call Routing', link: ROUTES.PHONE_ROUTING, icon: 'ti ti-arrows-split' },
       { title: 'Business Hours', link: ROUTES.PHONE_HOURS, icon: 'ti ti-clock' },
@@ -225,6 +245,66 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
 
 export function getSidebarMenu(): SidebarMenuEntry[] {
   return SIDEBAR_MENU
+}
+
+function menuKeyFor(entry: SidebarSingleItem | SidebarMultiItem): string {
+  const id = entry.id
+  if (id === 'ai-agents' || id.startsWith('agent')) return 'agents'
+  if (id.startsWith('call')) return 'calls'
+  if (id.startsWith('campaign')) return 'campaigns'
+  if (id.startsWith('contact')) return 'contacts'
+  if (id === 'knowledge-base' || id.startsWith('knowledge')) return 'knowledge'
+  if (id === 'phone-system' || id.startsWith('phone') || id.startsWith('telephony')) {
+    return 'telephony'
+  }
+  if (id.startsWith('automation') || id === 'workflows' || id === 'automations') {
+    return 'automation'
+  }
+  if (id.startsWith('integration')) return 'integrations'
+  if (id.startsWith('team')) return 'team'
+  if (id.startsWith('billing')) return 'billing'
+  if (id.startsWith('setting')) return 'settings'
+  if (id.startsWith('analytic')) return 'analytics'
+  return id
+}
+
+function canSeeMenuEntry(
+  entry: SidebarSingleItem | SidebarMultiItem,
+  role: Role | null,
+): boolean {
+  if (!role) return true
+  const key = menuKeyFor(entry)
+  const required = MENU_PERMISSIONS[key]
+  if (!required?.length) return true
+  return hasAnyPermission(role, required)
+}
+
+/** Filter sidebar by RBAC role (keeps headings for visible groups). */
+export function filterSidebarByPermissions(
+  menu: SidebarMenuEntry[],
+  role: Role | null,
+): SidebarMenuEntry[] {
+  if (!role) return menu
+
+  const result: SidebarMenuEntry[] = []
+  let pendingHeading: SidebarHeading | null = null
+
+  for (const entry of menu) {
+    if (entry.type === 'heading') {
+      pendingHeading = entry
+      continue
+    }
+
+    if (!canSeeMenuEntry(entry, role)) continue
+
+    if (pendingHeading) {
+      result.push(pendingHeading)
+      pendingHeading = null
+    }
+    result.push(entry)
+  }
+
+  return result
 }
 
 export function isPathUnderMenu(pathname: string, item: SidebarMultiItem): boolean {

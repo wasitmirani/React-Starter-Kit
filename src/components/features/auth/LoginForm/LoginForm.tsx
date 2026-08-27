@@ -1,7 +1,10 @@
 import { useState, type FormEvent } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
 import { DEMO_CREDENTIALS } from '@/constants/auth.constants'
+import { ROUTES } from '@/constants/routes.constants'
+import { env } from '@/config/env.config'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/hooks/useToast'
 import type { LoginFormProps } from './LoginForm.types'
@@ -10,8 +13,14 @@ import { styles } from './LoginForm.styles'
 export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
   const { login, isLoading } = useAuth()
   const toast = useToast()
-  const [email, setEmail] = useState(DEMO_CREDENTIALS.email)
-  const [password, setPassword] = useState(DEMO_CREDENTIALS.password)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from =
+    (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ??
+    ROUTES.DASHBOARD
+
+  const [email, setEmail] = useState(env.useMockApi ? DEMO_CREDENTIALS.email : '')
+  const [password, setPassword] = useState(env.useMockApi ? DEMO_CREDENTIALS.password : '')
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
@@ -19,8 +28,13 @@ export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
       await login({ email, password })
       toast.success('Welcome back!')
       onSuccess?.()
-    } catch {
-      toast.error('Invalid email or password.')
+      navigate(from, { replace: true })
+    } catch (error) {
+      const message =
+        error && typeof error === 'object' && 'message' in error
+          ? String((error as { message?: string }).message)
+          : 'Invalid email or password.'
+      toast.error(message || 'Invalid email or password.')
     }
   }
 
@@ -36,6 +50,7 @@ export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="username"
           required
         />
       </Input>
@@ -49,6 +64,7 @@ export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
           required
         />
       </Input>

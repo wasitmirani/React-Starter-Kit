@@ -3,14 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
 import { useAuth } from '@/hooks/useAuth'
 import { useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
+import { useOrganizationStore } from '@/store/organization.store'
+import { usePermissions } from '@/hooks/usePermissions'
+import { PERMISSIONS } from '@/config/permissions'
 
 const HeaderMenu = () => {
   const navigate = useNavigate()
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   const { toggleSidebar } = useSidebarToggle()
-  const [countryOpen, setCountryOpen] = useState(false)
+  const { can } = usePermissions()
+  const organizations = useOrganizationStore((s) => s.organizations)
+  const currentOrganizationId = useOrganizationStore((s) => s.currentOrganizationId)
+  const setCurrentOrganization = useOrganizationStore((s) => s.setCurrentOrganization)
+  const currentOrg = organizations.find((o) => o.id === currentOrganizationId)
+  const [orgOpen, setOrgOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
-  const countryRef = useRef<HTMLLIElement>(null)
+  const orgRef = useRef<HTMLLIElement>(null)
   const profileRef = useRef<HTMLLIElement>(null)
 
   const onToggleClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -27,8 +35,8 @@ const HeaderMenu = () => {
   useEffect(() => {
     const onPointerDown = (event: globalThis.MouseEvent) => {
       const target = event.target as Node
-      if (countryRef.current && !countryRef.current.contains(target)) {
-        setCountryOpen(false)
+      if (orgRef.current && !orgRef.current.contains(target)) {
+        setOrgOpen(false)
       }
       if (profileRef.current && !profileRef.current.contains(target)) {
         setProfileOpen(false)
@@ -36,7 +44,7 @@ const HeaderMenu = () => {
     }
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setCountryOpen(false)
+        setOrgOpen(false)
         setProfileOpen(false)
       }
     }
@@ -169,123 +177,64 @@ const HeaderMenu = () => {
               </a>
             </li>
 
-            <li ref={countryRef} className="header-element country-selector ti-dropdown relative hidden! sm:block!">
+            <li ref={orgRef} className="header-element ti-dropdown relative hidden! sm:block!">
               <a
                 href="javascript:void(0);"
-                className="header-link ti-dropdown-toggle"
-                aria-expanded={countryOpen}
+                className="header-link ti-dropdown-toggle flex items-center gap-2"
+                aria-expanded={orgOpen}
                 onClick={(event) => {
                   event.preventDefault()
-                  setCountryOpen((open) => !open)
+                  setOrgOpen((open) => !open)
                   setProfileOpen(false)
                 }}
               >
-                <span className="avatar avatar-xs lh-1 avatar-rounded">
-                  <img src="/assets/images/flags/us_flag.jpg" alt="img" />
+                <i className="ri-building-line header-link-icon" />
+                <span className="hidden lg:inline fs-13 max-w-32 truncate">
+                  {currentOrg?.name ?? 'Organization'}
                 </span>
               </a>
               <ul
-                className={`main-header-dropdown ti-dropdown-menu dropdown-menu-end min-w-40 absolute end-0 top-full z-50${
-                  countryOpen ? '' : ' hidden'
+                className={`main-header-dropdown ti-dropdown-menu dropdown-menu-end min-w-48 absolute end-0 top-full z-50${
+                  orgOpen ? '' : ' hidden'
                 }`}
                 role="menu"
               >
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/us_flag.jpg" alt="img" />
-                    </span>
-                    English
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/spain_flag.jpg" alt="img" />
-                    </span>
-                    español
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/french_flag.jpg" alt="img" />
-                    </span>
-                    français
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/uae_flag.jpg" alt="img" />
-                    </span>
-                    عربي
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/germany_flag.jpg" alt="img" />
-                    </span>
-                    Deutsch
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/china_flag.jpg" alt="img" />
-                    </span>
-                    中国人
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/italy_flag.jpg" alt="img" />
-                    </span>
-                    Italiano
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="ti-dropdown-item flex items-center"
-                    href="javascript:void(0);"
-                    onClick={() => setCountryOpen(false)}
-                  >
-                    <span className="avatar avatar-rounded avatar-xs leading-none me-2">
-                      <img src="/assets/images/flags/russia_flag.jpg" alt="img" />
-                    </span>
-                    Русский
-                  </a>
-                </li>
+                {organizations.map((org) => (
+                  <li key={org.id}>
+                    <button
+                      type="button"
+                      className={`ti-dropdown-item flex items-center w-full text-start ${
+                        org.id === currentOrganizationId ? 'active' : ''
+                      }`}
+                      onClick={() => {
+                        setCurrentOrganization(org.id)
+                        setOrgOpen(false)
+                      }}
+                    >
+                      <span className="grow">
+                        {org.name}
+                        <span className="block fs-11 text-textmuted capitalize">{org.plan}</span>
+                      </span>
+                      {org.id === currentOrganizationId && (
+                        <i className="ri-check-line text-primary" />
+                      )}
+                    </button>
+                  </li>
+                ))}
+                {can(PERMISSIONS.BILLING_VIEW) && (
+                  <li>
+                    <button
+                      type="button"
+                      className="ti-dropdown-item w-full text-start"
+                      onClick={() => {
+                        setOrgOpen(false)
+                        navigate(ROUTES.BILLING)
+                      }}
+                    >
+                      Billing & plans
+                    </button>
+                  </li>
+                )}
               </ul>
             </li>
 
@@ -428,7 +377,7 @@ const HeaderMenu = () => {
                 onClick={(event) => {
                   event.preventDefault()
                   setProfileOpen((open) => !open)
-                  setCountryOpen(false)
+                  setOrgOpen(false)
                 }}
               >
                 <div className="flex items-center gap-2">
@@ -436,8 +385,10 @@ const HeaderMenu = () => {
                     <img src="/assets/images/faces/10.jpg" alt="" />
                   </div>
                   <div className="hidden sm:block">
-                    <span className="block font-semibold leading-none">Tom Phillip</span>
-                    <span className="opacity-70 text-xs">tomp32@gmail.com</span>
+                    <span className="block font-semibold leading-none">
+                      {user?.name ?? 'User'}
+                    </span>
+                    <span className="opacity-70 text-xs">{user?.email ?? ''}</span>
                   </div>
                 </div>
               </a>

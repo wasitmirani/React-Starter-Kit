@@ -10,7 +10,7 @@ export const DEMO_USER: AuthUser = {
   id: 'demo-1',
   name: 'Demo Admin',
   email: DEMO_CREDENTIALS.email,
-  role: 'admin',
+  role: 'owner',
 }
 
 export const DEMO_TOKENS: AuthTokens = {

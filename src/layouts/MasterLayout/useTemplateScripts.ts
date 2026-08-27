@@ -144,7 +144,11 @@ export function useTemplateScripts() {
             // Continue loading remaining scripts even if one fails
           }
         }
-        if (!cancelled) layoutLoadedRef.current = true
+        if (!cancelled) {
+          layoutLoadedRef.current = true
+          // Unlock the shell ASAP so routes (login/agents) are interactive.
+          setScriptsReady(true)
+        }
       }
 
       // Wait one frame so the new Outlet content is in the DOM before page scripts query it
@@ -176,7 +180,6 @@ export function useTemplateScripts() {
       } catch {
         // ignore storage access issues
       }
-      setScriptsReady(true)
     }
 
     void run()

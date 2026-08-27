@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { authService } from '@/services/auth.service'
 import type { AuthUser, LoginCredentials, RegisterPayload } from '@/types/auth.types'
 import { AuthContext } from './AuthContext'
@@ -8,8 +8,24 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<AuthUser | null>(() => authService.getStoredUser())
+  const [user, setUser] = useState<AuthUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isBootstrapped, setIsBootstrapped] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const restored = await authService.restoreSession()
+        if (!cancelled) setUser(restored)
+      } finally {
+        if (!cancelled) setIsBootstrapped(true)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const login = useCallback(async (credentials: LoginCredentials) => {
     setIsLoading(true)
@@ -44,13 +60,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const value = useMemo(
     () => ({
       user,
-      isAuthenticated: Boolean(user) || authService.isAuthenticated(),
-      isLoading,
+      isAuthenticated: Boolean(user),
+      isLoading: isLoading || !isBootstrapped,
+      isBootstrapped,
       login,
       register,
       logout,
     }),
-    [user, isLoading, login, register, logout],
+    [user, isLoading, isBootstrapped, login, register, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

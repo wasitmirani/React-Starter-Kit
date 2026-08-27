@@ -1,13 +1,20 @@
-import { Outlet, Navigate } from 'react-router-dom'
+import { Outlet, Navigate, NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes.constants'
-import { NavLink } from 'react-router-dom'
 
 export function AuthLayout() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isBootstrapped } = useAuth()
+  const location = useLocation()
+  const from =
+    (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ??
+    ROUTES.DASHBOARD
+
+  if (!isBootstrapped) {
+    return <div className="box box-body p-6">Loading…</div>
+  }
 
   if (isAuthenticated) {
-    return <Navigate to={ROUTES.DASHBOARD} replace />
+    return <Navigate to={from} replace />
   }
 
   return (
@@ -23,30 +30,32 @@ export function AuthLayout() {
         </div>
       </div>
       <div className="2xl:col-span-3 xl:col-span-3 col-lg-12  col-span-12 xl:block hidden px-0">
-            <div className="authentication-cover overflow-hidden">
-                <div className="authentication-cover-logo">
-                    <NavLink to="/">
-                    <img src="/assets/images/brand-logos/toggle-logo.png" alt="logo" className="desktop-dark" /> 
-                    </NavLink>
-                </div>
-                <div className="authentication-cover-background">
-                    <img src="/assets/images/media/backgrounds/9.png" alt="" />
-                </div>
-                <div className="authentication-cover-content">
-                    <div className="p-12">
-                        <div className="font-semibold fs-28 mb-2 lh-base">Welcome to Dashboard</div>
-                        <p className="mb-0! text-textmuted font-medium">Manage your website and content with ease using our powerful admin tools.</p>
-                    </div>
-                    <div>
-
-
-
-                      
-                        <img src="/assets/images/media/media-72.png" alt="" className="img-fluid" />
-                    </div>
-                </div>
+        <div className="authentication-cover overflow-hidden">
+          <div className="authentication-cover-logo">
+            <NavLink to="/">
+              <img
+                src="/assets/images/brand-logos/toggle-logo.png"
+                alt="logo"
+                className="desktop-dark"
+              />
+            </NavLink>
+          </div>
+          <div className="authentication-cover-background">
+            <img src="/assets/images/media/backgrounds/9.png" alt="" />
+          </div>
+          <div className="authentication-cover-content">
+            <div className="p-12">
+              <div className="font-semibold fs-28 mb-2 lh-base">Welcome to Dashboard</div>
+              <p className="mb-0! text-textmuted font-medium">
+                Manage your website and content with ease using our powerful admin tools.
+              </p>
             </div>
+            <div>
+              <img src="/assets/images/media/media-72.png" alt="" className="img-fluid" />
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   )
 }

@@ -1,0 +1,75 @@
+import { z } from 'zod'
+
+export const agentFormSchema = z.object({
+  name: z.string().min(2, 'Name is required'),
+  description: z.string().min(4, 'Description is required'),
+  status: z.enum(['draft', 'active', 'paused', 'archived']),
+  voiceProvider: z.string().min(1),
+  voice: z.string().min(1),
+  language: z.string().min(1),
+  speed: z.coerce.number().min(0.5).max(2),
+  pitch: z.coerce.number().min(0.5).max(2),
+  modelProvider: z.string().min(1),
+  model: z.string().min(1),
+  temperature: z.coerce.number().min(0).max(2),
+  maxTokens: z.coerce.number().min(64).max(8192),
+  systemInstructions: z.string().min(1),
+  greeting: z.string().min(1),
+  personality: z.string().min(1),
+  rules: z.string().min(1),
+  goals: z.string().min(1),
+  fallback: z.string().min(1),
+  knowledgeBaseId: z.string().optional(),
+  businessName: z.string().optional(),
+  industry: z.string().optional(),
+  businessDescription: z.string().optional(),
+  productsServices: z.string().optional(),
+  trainingContext: z.string().optional(),
+  trainingFaqs: z
+    .array(
+      z.object({
+        question: z.string(),
+        answer: z.string(),
+      }),
+    )
+    .optional(),
+  phoneNumberId: z.string().optional(),
+  callerId: z.string().optional(),
+  callTimeout: z.coerce.number().min(10).max(300),
+  retryCount: z.coerce.number().min(0).max(10),
+})
+
+export type AgentFormValues = z.infer<typeof agentFormSchema>
+
+export const defaultAgentFormValues: AgentFormValues = {
+  name: '',
+  description: '',
+  status: 'draft',
+  voiceProvider: 'Natural TTS',
+  voice: 'sarah',
+  language: 'en',
+  speed: 0.94,
+  pitch: 1.06,
+  modelProvider: 'Ollama',
+  model: 'llama3.1',
+  temperature: 0.4,
+  maxTokens: 1024,
+  systemInstructions:
+    'You are Sarah, a warm and professional human phone assistant. Speak naturally, use contractions, and keep replies short (1–3 sentences).',
+  greeting: "Hi there! I'm Sarah. How can I help you today?",
+  personality: 'Warm, friendly, professional — like a real human receptionist',
+  rules: 'Stay on topic. Be concise.',
+  goals: 'Resolve the caller request.',
+  fallback: 'I can have a teammate follow up.',
+  knowledgeBaseId: '',
+  businessName: '',
+  industry: '',
+  businessDescription: '',
+  productsServices: '',
+  trainingContext: '',
+  trainingFaqs: [],
+  phoneNumberId: '',
+  callerId: '',
+  callTimeout: 45,
+  retryCount: 2,
+}

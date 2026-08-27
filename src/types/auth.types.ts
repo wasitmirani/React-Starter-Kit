@@ -8,6 +8,7 @@ export interface RegisterPayload {
   email: string
   password: string
   confirmPassword: string
+  organizationName?: string
 }
 
 export interface AuthTokens {
@@ -15,9 +16,18 @@ export interface AuthTokens {
   refreshToken: string
 }
 
+export type AuthRole =
+  | 'owner'
+  | 'admin'
+  | 'manager'
+  | 'agent_manager'
+  | 'analyst'
+  | 'viewer'
+  | 'user'
+
 export interface AuthUser {
   id: string
   name: string
   email: string
-  role: 'admin' | 'user'
+  role: AuthRole
 }

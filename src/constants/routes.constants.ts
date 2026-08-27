@@ -3,6 +3,9 @@ export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   FORGOT_PASSWORD: '/forgot-password',
+  RESET_PASSWORD: '/reset-password',
+  VERIFY_EMAIL: '/verify-email',
+  ONBOARDING: '/onboarding',
 
   // Overview
   DASHBOARD: '/dashboard',
@@ -15,12 +18,15 @@ export const ROUTES = {
   // AI Agents
   AGENTS: '/agents',
   AGENT_CREATE: '/agents/create',
+  AGENT_DETAIL: '/agents/:id',
+  AGENT_EDIT: '/agents/:id/edit',
   AGENT_TEMPLATES: '/agents/templates',
   AGENT_VOICES: '/agents/voices',
   AGENT_PROMPTS: '/agents/prompts',
 
   // Calls
   CALLS: '/calls',
+  CALL_DETAIL: '/calls/:id',
   CALLS_LIVE: '/calls/live',
   CALLS_RECORDINGS: '/calls/recordings',
   CALLS_TRANSCRIPTS: '/calls/transcripts',
@@ -29,12 +35,14 @@ export const ROUTES = {
   // Campaigns
   CAMPAIGNS: '/campaigns',
   CAMPAIGN_CREATE: '/campaigns/create',
+  CAMPAIGN_DETAIL: '/campaigns/:id',
   CAMPAIGNS_ACTIVE: '/campaigns/active',
   CAMPAIGNS_SCHEDULED: '/campaigns/scheduled',
   CAMPAIGNS_REPORTS: '/campaigns/reports',
 
   // CRM / Contacts
   CONTACTS: '/contacts',
+  CONTACT_DETAIL: '/contacts/:id',
   CONTACTS_LEADS: '/contacts/leads',
   CONTACTS_LISTS: '/contacts/lists',
   CONTACTS_TAGS: '/contacts/tags',
@@ -43,6 +51,7 @@ export const ROUTES = {
 
   // Knowledge Base
   KNOWLEDGE: '/knowledge',
+  KNOWLEDGE_DETAIL: '/knowledge/:id',
   KNOWLEDGE_DOCUMENTS: '/knowledge/documents',
   KNOWLEDGE_FAQS: '/knowledge/faqs',
   KNOWLEDGE_WEBSITES: '/knowledge/websites',
@@ -51,6 +60,8 @@ export const ROUTES = {
   // Telephony
   PHONE_NUMBERS: '/telephony/numbers',
   PHONE_BUY: '/telephony/buy',
+  PHONE_PROVIDERS: '/telephony/providers',
+  PHONE_WHATSAPP: '/telephony/whatsapp',
   PHONE_SIP: '/telephony/sip',
   PHONE_ROUTING: '/telephony/routing',
   PHONE_HOURS: '/telephony/hours',
@@ -91,6 +102,9 @@ export const ROUTES = {
   SETTINGS_AUDIT_LOGS: '/dashboard/settings/audit-logs',
   SETTINGS_DEVELOPER: '/dashboard/settings/developer',
 
+  // Notifications
+  NOTIFICATIONS: '/notifications',
+
   // Legacy / existing
   PRODUCTS: '/products',
   PRODUCT_DETAIL: '/products/:id',
@@ -98,3 +112,27 @@ export const ROUTES = {
   USERS: '/users',
   NOT_FOUND: '*',
 } as const
+
+export function agentDetailPath(id: string) {
+  return `/agents/${id}`
+}
+
+export function agentEditPath(id: string) {
+  return `/agents/${id}/edit`
+}
+
+export function callDetailPath(id: string) {
+  return `/calls/${id}`
+}
+
+export function campaignDetailPath(id: string) {
+  return `/campaigns/${id}`
+}
+
+export function contactDetailPath(id: string) {
+  return `/contacts/${id}`
+}
+
+export function knowledgeDetailPath(id: string) {
+  return `/knowledge/${id}`
+}

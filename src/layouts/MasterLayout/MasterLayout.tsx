@@ -6,6 +6,7 @@ import { SideBar } from '@/layouts/MasterLayout/SideBar'
 import { useTemplateScripts } from '@/layouts/MasterLayout/useTemplateScripts'
 import { useSidebarDomSync, useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
 import { PageSkeleton, type PageSkeletonVariant } from '@/components/common/PageSkeleton'
+import { ErrorBoundary } from '@/pages/error/ErrorBoundary'
 import { ROUTES } from '@/constants/routes.constants'
 
 function skeletonVariant(pathname: string): PageSkeletonVariant {
@@ -72,11 +73,27 @@ export function MasterLayout() {
           <div className="container-fluid page-container main-body-container">
             {showBootSkeleton ? (
               <PageSkeleton variant={skeletonVariant(location.pathname)} />
-            ) : (
-              <div key={location.pathname} className="saas-page-enter">
+            ) : null}
+            {/* Always keep Outlet mounted so route content / navigation never stalls on scripts. */}
+            <div
+              key={location.pathname}
+              className="saas-page-enter"
+              hidden={showBootSkeleton}
+              aria-hidden={showBootSkeleton}
+            >
+              <ErrorBoundary
+                fallback={
+                  <div className="box box-body">
+                    <h2 className="text-lg font-medium mb-2">Something went wrong</h2>
+                    <p className="text-textmuted mb-0">
+                      This page failed to load. Refresh or use the sidebar to navigate elsewhere.
+                    </p>
+                  </div>
+                }
+              >
                 <Outlet />
-              </div>
-            )}
+              </ErrorBoundary>
+            </div>
           </div>
         </div>
       </div>

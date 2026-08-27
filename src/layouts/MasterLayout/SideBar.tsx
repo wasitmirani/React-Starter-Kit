@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
@@ -7,9 +7,11 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
 import {
   SIDEBAR_MENU,
+  filterSidebarByPermissions,
   isPathUnderMenu,
   type SidebarMultiItem,
 } from '@/utils/helpers/sidebar.menu'
+import { usePermissions } from '@/hooks/usePermissions'
 
 function menuLinkClass({ isActive }: { isActive: boolean }) {
   return isActive ? 'side-menu__item active' : 'side-menu__item'
@@ -84,13 +86,18 @@ export function SideBar() {
   const { logout } = useAuth()
   const { toggleSidebar } = useSidebarToggle()
   const { theme, toggleTheme } = useTheme()
+  const { role } = usePermissions()
   const isDark = theme === 'dark'
+  const menu = useMemo(
+    () => filterSidebarByPermissions(SIDEBAR_MENU, role),
+    [role],
+  )
 
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(
-      SIDEBAR_MENU.filter((entry): entry is SidebarMultiItem => entry.type === 'multi').map(
-        (item) => [item.id, isPathUnderMenu(location.pathname, item)],
-      ),
+      menu
+        .filter((entry): entry is SidebarMultiItem => entry.type === 'multi')
+        .map((item) => [item.id, isPathUnderMenu(location.pathname, item)]),
     ),
   )
   const [profileOpen, setProfileOpen] = useState(false)
@@ -104,14 +111,14 @@ export function SideBar() {
   useEffect(() => {
     setOpenMenus((prev) => {
       const next = { ...prev }
-      for (const entry of SIDEBAR_MENU) {
+      for (const entry of menu) {
         if (entry.type === 'multi' && isPathUnderMenu(location.pathname, entry)) {
           next[entry.id] = true
         }
       }
       return next
     })
-  }, [location.pathname])
+  }, [location.pathname, menu])
 
   useLayoutEffect(() => {
     if (!profileOpen) {
@@ -263,7 +270,7 @@ export function SideBar() {
             <i className="ti ti-chevron-left text-xl" aria-hidden="true" />
           </div>
           <ul className="main-menu">
-            {SIDEBAR_MENU.map((entry) => {
+            {menu.map((entry) => {
               if (entry.type === 'heading') {
                 return (
                   <li key={`heading-${entry.title}`} className="slide__category">
