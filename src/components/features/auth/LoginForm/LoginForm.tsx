@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
+import { DEMO_CREDENTIALS } from '@/constants/auth.constants'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/hooks/useToast'
 import type { LoginFormProps } from './LoginForm.types'
@@ -9,8 +10,8 @@ import { styles } from './LoginForm.styles'
 export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
   const { login, isLoading } = useAuth()
   const toast = useToast()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState(DEMO_CREDENTIALS.email)
+  const [password, setPassword] = useState(DEMO_CREDENTIALS.password)
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()

@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { createPortal } from 'react-dom'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes.constants'
+import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/contexts/ThemeContext'
 import { useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
 import {
@@ -79,6 +80,8 @@ function MultiMenuItem({
 
 export function SideBar() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { logout } = useAuth()
   const { toggleSidebar } = useSidebarToggle()
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
@@ -316,10 +319,17 @@ export function SideBar() {
                 </button>
               </li>
               <li className="slide">
-                <NavLink to={ROUTES.LOGIN} className={menuLinkClass}>
+                <button
+                  type="button"
+                  className="side-menu__item w-full text-start"
+                  onClick={async () => {
+                    await logout()
+                    navigate(ROUTES.LOGIN)
+                  }}
+                >
                   <i className="ti ti-logout side-menu__icon" aria-hidden="true" />
                   <span className="side-menu__label">Logout</span>
-                </NavLink>
+                </button>
               </li>
             </ul>
             <ul className="main-menu mb-0! border-t! border-menubordercolor py-2 block">

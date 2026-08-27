@@ -3,6 +3,7 @@ import { ROUTES } from '@/constants/routes.constants'
 import { MainLayout } from '@/layouts/MainLayout'
 import { AuthLayout } from '@/layouts/AuthLayout'
 import { MasterLayout } from '@/layouts/MasterLayout'
+import { RequireAuth } from '@/middleware'
 import {
   LoginPage,
   RegisterPage,
@@ -32,15 +33,20 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <MasterLayout />,
+        element: <RequireAuth />,
         children: [
-          { path: ROUTES.DASHBOARD.slice(1), element: <DashboardHome /> },
-          { path: ROUTES.ANALYTICS.slice(1), element: <AnalyticsPage /> },
-          { path: ROUTES.SETTINGS.slice(1), element: <SettingsPage /> },
-          { path: ROUTES.PRODUCTS.slice(1), element: <ProductListPage /> },
-          { path: 'products/:id', element: <ProductDetailPage /> },
-          { path: ROUTES.PRODUCT_CREATE.slice(1), element: <ProductCreatePage /> },
-          { path: ROUTES.USERS.slice(1), element: <Users /> },
+          {
+            element: <MasterLayout />,
+            children: [
+              { path: ROUTES.DASHBOARD.slice(1), element: <DashboardHome /> },
+              { path: ROUTES.ANALYTICS.slice(1), element: <AnalyticsPage /> },
+              { path: ROUTES.SETTINGS.slice(1), element: <SettingsPage /> },
+              { path: ROUTES.PRODUCTS.slice(1), element: <ProductListPage /> },
+              { path: 'products/:id', element: <ProductDetailPage /> },
+              { path: ROUTES.PRODUCT_CREATE.slice(1), element: <ProductCreatePage /> },
+              { path: ROUTES.USERS.slice(1), element: <Users /> },
+            ],
+          },
         ],
       },
       { path: '*', element: <NotFoundPage /> },

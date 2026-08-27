@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '@/constants/routes.constants'
+import { useAuth } from '@/hooks/useAuth'
 import { useSidebarToggle } from '@/layouts/MasterLayout/useSidebarToggle'
 
 const HeaderMenu = () => {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
   const { toggleSidebar } = useSidebarToggle()
   const [countryOpen, setCountryOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
@@ -11,6 +16,12 @@ const HeaderMenu = () => {
   const onToggleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
     toggleSidebar()
+  }
+
+  const handleLogout = async (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    await logout()
+    navigate(ROUTES.LOGIN)
   }
 
   useEffect(() => {
@@ -485,7 +496,7 @@ const HeaderMenu = () => {
                     </ul>
                   </li>
                   <li>
-                    <a className="ti-dropdown-item flex items-center" href="sign-in-cover.html">
+                    <a className="ti-dropdown-item flex items-center" href={ROUTES.LOGIN} onClick={handleLogout}>
                       <i className="ti ti-logout me-2 text-[18px]"></i>Log Out
                     </a>
                   </li>

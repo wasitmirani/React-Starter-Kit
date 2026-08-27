@@ -8,7 +8,7 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<AuthUser | null>(null)
+  const [user, setUser] = useState<AuthUser | null>(() => authService.getStoredUser())
   const [isLoading, setIsLoading] = useState(false)
 
   const login = useCallback(async (credentials: LoginCredentials) => {
