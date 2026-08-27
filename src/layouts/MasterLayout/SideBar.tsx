@@ -287,7 +287,7 @@ export function SideBar() {
 
               return (
                 <li key={entry.id} className="slide">
-                  <NavLink to={entry.link} className={menuLinkClass}>
+                  <NavLink to={entry.link} end={entry.end} className={menuLinkClass}>
                     <MenuIcon icon={entry.icon} />
                     <span className="side-menu__label">{entry.title}</span>
                   </NavLink>
