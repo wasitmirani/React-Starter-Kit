@@ -20,7 +20,7 @@ export const dataTableStyles = {
   sort: 'saas-sort',
   sortBtn: 'saas-sort-btn',
   footer: 'saas-table-footer',
-  summary: 'text-xs text-textmuted mb-0',
+  summary: 'saas-table-summary text-xs text-textmuted mb-0',
   pagination: 'ti-pagination mb-0!',
   pageItem: 'page-item',
   pageLink: 'page-link',

@@ -204,11 +204,14 @@ nav.pagination-style-5 .ti-pagination,
 }
 
 .saas-table-footer .summary,
+.saas-table-footer .saas-table-summary,
 .saas-table-footer p {
   margin: 0 !important;
   line-height: 1.25;
-  display: inline-flex;
-  align-items: center;
+  /* Keep normal flow — inline-flex collapses whitespace between text + <strong> */
+  display: block;
+  white-space: normal;
+  word-spacing: normal;
 }
 
 /* ═══════════════════════════════════════════
