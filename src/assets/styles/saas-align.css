@@ -1,0 +1,353 @@
+/**
+ * Alignment & spacing fixes — pagination, actions, tables, toolbars.
+ * Loaded last so it wins over template + earlier SaaS layers.
+ */
+
+/* ═══════════════════════════════════════════
+   Pagination — equal chips, shared baseline
+   ═══════════════════════════════════════════ */
+.ti-pagination,
+nav.pagination-style-5 .ti-pagination,
+.saas-table-footer .ti-pagination {
+  display: inline-flex !important;
+  flex-wrap: wrap;
+  align-items: center !important;
+  justify-content: flex-end;
+  gap: 0.25rem !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ti-pagination .page-item,
+.ti-pagination > li,
+.pagination-style-5 .ti-pagination .page-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  line-height: 1 !important;
+  vertical-align: middle;
+}
+
+.ti-pagination .page-link,
+.ti-pagination a.page-link,
+.ti-pagination button.page-link,
+.ti-pagination span.page-link,
+.pagination-style-5 .ti-pagination .page-item .page-link {
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  margin: 0 !important;
+  min-width: 2rem !important;
+  height: 2rem !important;
+  padding: 0 0.55rem !important;
+  border: 0 !important;
+  border-radius: 0.375rem !important;
+  background: transparent !important;
+  color: var(--color-textmuted, #64748b) !important;
+  font-family: inherit !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  cursor: pointer;
+  transform: none !important;
+  box-shadow: none !important;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease !important;
+}
+
+/* Kill template “joined” pagination offsets */
+.ti-pagination li:not(:first-child) .page-link,
+.ti-pagination li:first-child .page-link,
+.ti-pagination li:last-child .page-link {
+  margin-inline-start: 0 !important;
+  border-radius: 0.375rem !important;
+  border-width: 0 !important;
+}
+
+.ti-pagination .page-link:hover,
+.pagination-style-5 .ti-pagination .page-item:hover .page-link:not(.active) {
+  background: var(--color-light, #f1f5f9) !important;
+  color: var(--color-defaulttextcolor, #0f172a) !important;
+}
+
+.ti-pagination .page-link.active,
+.ti-pagination .page-item.active .page-link,
+.pagination-style-5 .ti-pagination .page-item .page-link.active {
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--color-primary) 28%, transparent) !important;
+}
+
+.ti-pagination .page-item.disabled .page-link,
+.ti-pagination .page-link:disabled {
+  opacity: 0.45 !important;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.pagination-style-5 .ti-pagination .page-item .page-link:not(.active) {
+  background: transparent !important;
+}
+
+/* ═══════════════════════════════════════════
+   Table actions — even gaps, centered icons
+   ═══════════════════════════════════════════ */
+.saas-table-actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: nowrap;
+  gap: 0.375rem !important;
+}
+
+.saas-col-actions,
+.table.saas-data-table td.saas-col-actions,
+.table.saas-data-table th.saas-col-actions {
+  vertical-align: middle !important;
+  text-align: end !important;
+  white-space: nowrap;
+}
+
+.saas-action-btn,
+.ti-btn.ti-btn-icon.ti-btn-sm {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  min-width: 1.75rem !important;
+  min-height: 1.75rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  border-radius: 0.375rem !important;
+  vertical-align: middle;
+}
+
+.saas-action-btn i,
+.ti-btn.ti-btn-icon i {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  line-height: 1 !important;
+}
+
+/* Soften hover lift so rows don’t jump */
+.saas-action-btn:hover {
+  transform: none !important;
+}
+
+/* ═══════════════════════════════════════════
+   Tables — consistent cell rhythm
+   ═══════════════════════════════════════════ */
+.table.saas-data-table > :not(caption) > * > * ,
+.table.ti-custom-table > :not(caption) > * > * {
+  vertical-align: middle !important;
+}
+
+.table.saas-data-table th,
+.table.saas-data-table td,
+.table.ti-custom-table th,
+.table.ti-custom-table td {
+  vertical-align: middle !important;
+  padding-block: 0.625rem !important;
+  padding-inline: 0.75rem !important;
+}
+
+.table.saas-data-table thead th,
+.table.ti-custom-table thead th {
+  padding-block: 0.55rem !important;
+}
+
+.saas-th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.25rem;
+}
+
+.saas-table-footer {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center !important;
+  justify-content: space-between;
+  gap: 0.75rem !important;
+  padding: 0.625rem 0.875rem !important;
+  min-height: 2.75rem;
+}
+
+.saas-table-footer .pagination-style-5 {
+  margin-inline-start: auto !important;
+  display: flex;
+  align-items: center;
+}
+
+.saas-table-footer .ti-pagination {
+  margin-inline-start: 0 !important;
+}
+
+.saas-table-footer .summary,
+.saas-table-footer p {
+  margin: 0 !important;
+  line-height: 1.25;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ═══════════════════════════════════════════
+   Toolbars / headers / badges
+   ═══════════════════════════════════════════ */
+.box .box-header {
+  display: flex;
+  align-items: center !important;
+  gap: 0.5rem;
+}
+
+.box .box-header.justify-between {
+  justify-content: space-between;
+}
+
+.saas-listing-toolbar,
+.box-header .flex,
+.box-title-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge {
+  vertical-align: middle;
+  line-height: 1.1 !important;
+}
+
+.avatar {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Avatar + text rows in tables */
+.table td .flex.items-center,
+.table td .flex {
+  align-items: center !important;
+}
+
+/* Button groups in cells / headers */
+.btn-list,
+.ti-list-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+  flex-wrap: wrap;
+}
+
+.btn-list .ti-btn,
+.ti-list-badge .ti-btn {
+  margin: 0 !important;
+}
+
+/* Form controls sit on same baseline as buttons */
+.saas-listing-toolbar .form-control,
+.box-header .form-control,
+.box-header .ti-form-input,
+.box-header .ti-btn {
+  vertical-align: middle;
+}
+
+.box-header .form-control,
+.saas-search {
+  height: 2rem;
+  min-height: 2rem;
+  padding-block: 0.25rem;
+  line-height: 1.25;
+}
+
+/* ═══════════════════════════════════════════
+   Grid gaps — restore even vertical rhythm
+   ═══════════════════════════════════════════ */
+.main-content.app-content .grid.gap-x-6 {
+  column-gap: 1rem !important;
+  row-gap: 0 !important;
+}
+
+.main-content.app-content .grid.gap-x-4 {
+  column-gap: 0.75rem !important;
+  row-gap: 0 !important;
+}
+
+/* Last box in a stack shouldn’t leave a dangling gap under footers */
+.main-content .grid > [class*='col'] > .box:last-child,
+.main-content .grid > .col > .box:last-child {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Dashboard nested KPI row — keep cards level */
+.dashboard-home > .grid,
+.dashboard-home .grid {
+  align-items: stretch;
+}
+
+.dashboard-main-card .box-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 5.5rem;
+}
+
+/* Box footers with pagination (dashboard widgets) */
+.box-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.box-footer > .flex {
+  width: 100%;
+  align-items: center !important;
+}
+
+.box-footer .pagination-style-5 {
+  display: flex;
+  align-items: center;
+}
+
+/* Breadcrumb + title row */
+.page-header-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.page-header-breadcrumb .page-title {
+  margin: 0 !important;
+}
+
+.page-header-breadcrumb .breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  margin: 0 !important;
+}

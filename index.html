@@ -53,6 +53,58 @@
     <link rel="stylesheet" href="/assets/libs/swiper/swiper-bundle.min.css">
 </head>
 <body class="project-dashboard">
+    <!-- Instant splash — paints before JS; React fades it out on boot -->
+    <style>
+      #loader.saas-splash {
+        position: fixed; inset: 0; z-index: 10000;
+        display: flex; align-items: center; justify-content: center;
+        background:
+          radial-gradient(ellipse 70% 50% at 50% -10%, rgba(37, 99, 235, 0.08), transparent),
+          #f8fafc;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        transition: opacity 380ms cubic-bezier(0.4, 0, 0.2, 1), visibility 380ms;
+      }
+      html.dark #loader.saas-splash { background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(37, 99, 235, 0.12), transparent), #0f1117; }
+      [loader=disable] #loader.saas-splash:not(.saas-splash--force) { display: none; }
+      #loader.saas-splash.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+      .saas-splash__inner { display: flex; flex-direction: column; align-items: center; gap: 1.35rem; }
+      .saas-splash__logo { height: 2rem; width: auto; display: block; }
+      .saas-splash__logo--dark { display: none; }
+      html.dark .saas-splash__logo--light { display: none; }
+      html.dark .saas-splash__logo--dark { display: block; }
+      .saas-splash__track {
+        width: 7.5rem; height: 3px; border-radius: 999px; overflow: hidden;
+        background: rgba(15, 23, 42, 0.08);
+      }
+      html.dark .saas-splash__track { background: rgba(255, 255, 255, 0.1); }
+      .saas-splash__bar {
+        width: 40%; height: 100%; border-radius: inherit;
+        background: linear-gradient(90deg, #2563eb, #22d3ee);
+        animation: saasSplashBar 1.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      .saas-splash__label {
+        margin: 0; font-size: 0.8125rem; font-weight: 500;
+        letter-spacing: 0.01em; color: #64748b;
+      }
+      html.dark .saas-splash__label { color: #94a3b8; }
+      @keyframes saasSplashBar {
+        0% { transform: translateX(-120%); }
+        100% { transform: translateX(320%); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .saas-splash__bar { animation: none; width: 100%; opacity: 0.7; }
+        #loader.saas-splash { transition: none; }
+      }
+    </style>
+    <div id="loader" class="saas-splash saas-splash--force" role="status" aria-live="polite" aria-label="Loading application">
+      <div class="saas-splash__inner">
+        <img src="/assets/images/brand-logos/desktop-logo.png" alt="Nilova" class="saas-splash__logo saas-splash__logo--light" width="120" height="32" />
+        <img src="/assets/images/brand-logos/desktop-dark.png" alt="Nilova" class="saas-splash__logo saas-splash__logo--dark" width="120" height="32" />
+        <div class="saas-splash__track" aria-hidden="true"><div class="saas-splash__bar"></div></div>
+        <p class="saas-splash__label">Loading workspace…</p>
+      </div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 

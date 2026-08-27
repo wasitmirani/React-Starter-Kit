@@ -21,7 +21,7 @@ export const dataTableStyles = {
   sortBtn: 'saas-sort-btn',
   footer: 'saas-table-footer',
   summary: 'text-xs text-textmuted mb-0',
-  pagination: 'ti-pagination mb-0! ms-auto',
+  pagination: 'ti-pagination mb-0!',
   pageItem: 'page-item',
   pageLink: 'page-link',
   pageLinkActive: 'page-link active',

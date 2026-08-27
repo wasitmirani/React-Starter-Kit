@@ -378,13 +378,12 @@ body {
 
 .saas-action-btn {
   transition:
-    transform 160ms var(--saas-ease),
     background-color 160ms var(--saas-ease),
     box-shadow 160ms var(--saas-ease) !important;
 }
 
 .saas-action-btn:hover {
-  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 1px 3px rgb(15 23 42 / 10%);
 }
 
 /* ─── Page header ─── */

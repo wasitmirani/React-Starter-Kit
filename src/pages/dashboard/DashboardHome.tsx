@@ -740,17 +740,17 @@ export function DashboardHome() {
                                     <div className="ms-auto">
                                         <nav aria-label="Page navigation" className="pagination-style-5">
                                             <ul className="ti-pagination mb-0!">
-                                                <li className="page-item disabled rtl:rotate-180">
-                                                    <a className="page-link" href="javascript:void(0);">
-                                                        <i className="ri-arrow-left-s-line align-middle leading-none"></i>
+                                                <li className="page-item disabled">
+                                                    <a className="page-link" href="javascript:void(0);" aria-label="Previous page">
+                                                        <i className="ri-arrow-left-s-line"></i>
                                                     </a>
                                                 </li>
                                                 <li className="page-item"><a className="page-link" href="javascript:void(0);">1</a></li>
-                                                <li className="page-item"><a className="page-link active" href="javascript:void(0);">2</a></li>
+                                                <li className="page-item active"><a className="page-link active" href="javascript:void(0);">2</a></li>
                                                 <li className="page-item"><a className="page-link" href="javascript:void(0);">3</a></li>
-                                                <li className="page-item rtl:rotate-180">
-                                                    <a className="page-link" href="javascript:void(0);">
-                                                        <i className="ri-arrow-right-s-line align-middle leading-none"></i>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="javascript:void(0);" aria-label="Next page">
+                                                        <i className="ri-arrow-right-s-line"></i>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -1199,22 +1199,22 @@ export function DashboardHome() {
                                     <div className="ms-auto"> 
                                         <nav aria-label="Page navigation" className="pagination-style-5">
                                             <ul className="ti-pagination mb-0!">
-                                                <li className="page-item disabled rtl:rotate-180">
-                                                    <a aria-label="anchor" className="page-link" href="javascript:void(0);">
-                                                        prev
+                                                <li className="page-item disabled">
+                                                    <a aria-label="Previous page" className="page-link" href="javascript:void(0);">
+                                                        Prev
                                                     </a>
                                                 </li>
                                                 <li className="page-item"><a className="page-link" href="javascript:void(0);">1</a></li>
-                                                <li className="page-item "><a className="page-link active" href="javascript:void(0);">2</a></li>
+                                                <li className="page-item active"><a className="page-link active" href="javascript:void(0);">2</a></li>
                                                 <li className="page-item">
-                                                    <a aria-label="anchor" className="page-link" href="javascript:void(0);">
-                                                        <i className="bi bi-three-dots"></i>
+                                                    <a aria-label="More pages" className="page-link" href="javascript:void(0);">
+                                                        …
                                                     </a>
                                                 </li>
                                                 <li className="page-item"><a className="page-link" href="javascript:void(0);">17</a></li>
                                                 <li className="page-item">
-                                                    <a aria-label="anchor" className="page-link" href="javascript:void(0);">
-                                                    next
+                                                    <a aria-label="Next page" className="page-link" href="javascript:void(0);">
+                                                    Next
                                                     </a>
                                                 </li>
                                             </ul>

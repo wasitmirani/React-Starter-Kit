@@ -171,11 +171,9 @@
   box-shadow: 0 0 0 3px rgba(var(--color-primary-main), 0.15) !important;
 }
 
-/* Pagination chips */
+/* Pagination chips — base look; saas-align.css owns sizing/alignment */
 .ti-pagination .page-link {
-  border: 1px solid transparent !important;
-  background: transparent;
-  color: var(--color-textmuted);
+  border: 0 !important;
 }
 
 .ti-pagination .page-link:hover {
@@ -185,9 +183,7 @@
 
 .ti-pagination .page-link.active {
   background: var(--color-primary) !important;
-  border-color: var(--color-primary) !important;
   color: #fff !important;
-  box-shadow: 0 4px 10px color-mix(in oklab, var(--color-primary) 22%, transparent);
 }
 
 /* Table selected row */

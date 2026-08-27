@@ -380,9 +380,9 @@ function DataTableInner<T>(
         </p>
 
         {rows.last_page > 1 ? (
-          <nav aria-label="Table pagination" className="pagination-style-5 ms-auto">
+          <nav aria-label="Table pagination" className="pagination-style-5">
             <ul className={s.pagination}>
-              <li className={`${s.pageItem}${rows.current_page === 1 ? ' disabled' : ''} rtl:rotate-180`}>
+              <li className={`${s.pageItem}${rows.current_page === 1 ? ' disabled' : ''}`}>
                 <button
                   type="button"
                   className={s.pageLink}
@@ -392,7 +392,7 @@ function DataTableInner<T>(
                     rows.current_page > 1 && fetchDataWithUrlUpdate(rows.current_page - 1)
                   }
                 >
-                  prev
+                  Prev
                 </button>
               </li>
 
@@ -400,11 +400,14 @@ function DataTableInner<T>(
                 page === '...' ? (
                   <li key={`ellipsis-${i}`} className={s.pageItem}>
                     <span className={s.pageEllipsis} aria-hidden>
-                      <i className="bi bi-three-dots" />
+                      …
                     </span>
                   </li>
                 ) : (
-                  <li key={page} className={s.pageItem}>
+                  <li
+                    key={page}
+                    className={`${s.pageItem}${page === rows.current_page ? ' active' : ''}`}
+                  >
                     <button
                       type="button"
                       className={page === rows.current_page ? s.pageLinkActive : s.pageLink}
@@ -418,7 +421,7 @@ function DataTableInner<T>(
               )}
 
               <li
-                className={`${s.pageItem}${rows.current_page === rows.last_page ? ' disabled' : ''} rtl:rotate-180`}
+                className={`${s.pageItem}${rows.current_page === rows.last_page ? ' disabled' : ''}`}
               >
                 <button
                   type="button"
@@ -430,7 +433,7 @@ function DataTableInner<T>(
                     fetchDataWithUrlUpdate(rows.current_page + 1)
                   }
                 >
-                  next
+                  Next
                 </button>
               </li>
             </ul>

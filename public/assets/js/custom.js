@@ -1,10 +1,15 @@
 (function () {
   "use strict";
 
-  /* page loader */
+  /* page loader — React AppSplash owns boot fade; don't interrupt it */
   function hideLoader() {
     const loader = document.getElementById("loader");
-    loader.classList.add("hidden!");
+    if (!loader) return;
+    if (loader.classList.contains("saas-splash--force") && !loader.classList.contains("is-done")) {
+      return;
+    }
+    loader.classList.add("hidden!", "is-done");
+    loader.setAttribute("aria-hidden", "true");
   }
   window.addEventListener("load", hideLoader);
   /* page loader */
