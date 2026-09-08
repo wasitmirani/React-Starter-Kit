@@ -13,8 +13,7 @@ export function Header() {
         {appConfig.name}
       </Link>
       <nav className="main-nav">
-        <Link to={ROUTES.DASHBOARD}>Dashboard</Link>
-        <Link to={ROUTES.PRODUCTS}>Products</Link>
+       
         <Link to={ROUTES.LOGIN}>Login</Link>
         <Button type="button" variant="ghost" size="sm" onClick={toggleTheme}>
           {theme === 'light' ? 'Dark' : 'Light'}

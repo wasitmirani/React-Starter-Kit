@@ -10,14 +10,8 @@ const links = [
 
 export function Sidebar() {
   return (
-    <aside className="sidebar">
-      <ul>
-        {links.map((link) => (
-          <li key={link.to}>
-            <NavLink to={link.to}>{link.label}</NavLink>
-          </li>
-        ))}
-      </ul>
-    </aside>
+    <>
+    Sidebar
+    </>
   )
 }
