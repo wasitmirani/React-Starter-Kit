@@ -7,13 +7,8 @@ import { ThemeProvider } from '@/contexts/ThemeContext'
 import { NotificationProvider } from '@/contexts/NotificationContext'
 import { ErrorBoundary } from '@/pages'
 import { AppSplash } from '@/components/common/AppSplash'
-import './App.css'
-import './assets/styles/saas-polish.css'
-import './assets/styles/saas-motion.css'
-import './assets/styles/saas-refine.css'
-import './assets/styles/saas-dashboard.css'
-import './assets/styles/saas-splash.css'
-import './assets/styles/saas-align.css'
+
+
 
 function App() {
   return (
