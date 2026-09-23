@@ -1,29 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="vertical" class="light" data-header-styles="light" data-width="fullwidth"
-  data-menu-styles="dark">
+<html lang="en" data-layout="modern" data-theme="material" data-bs-theme="light" data-sidebar-colors="dark" data-sidebar-image="none" data-sidebar="large" data-topbar-colors="light" data-nav-type="default" dir="ltr" data-colors="default" data-profile-sidebar>
 
 <head>
-  <!-- Meta Data -->
-  <meta charset="UTF-8">
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> {{title}} </title>
-  <meta name="Description" content="{{description}}">
-  <meta name="Author" content="{{author}}">
-  <meta name="keywords" content="{{keywords}}">
+<!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Dynamic Title -->
+    <title>%VITE_APP_TITLE%</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="%VITE_APP_TITLE%" />
+    <meta name="description" content="%VITE_APP_DESCRIPTION%" />
+    <meta name="keywords" content="%VITE_APP_KEYWORDS%" />
+    <meta name="author" content="%VITE_APP_AUTHOR%" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_APP_URL%" />
+    <meta property="og:title" content="%VITE_APP_TITLE%" />
+    <meta property="og:description" content="%VITE_APP_DESCRIPTION%" />
+    <meta property="og:image" content="%VITE_APP_OG_IMAGE%" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="%VITE_APP_URL%" />
+    <meta name="twitter:title" content="%VITE_APP_TITLE%" />
+    <meta name="twitter:description" content="%VITE_APP_DESCRIPTION%" />
+    <meta name="twitter:image" content="%VITE_APP_OG_IMAGE%" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- Virtual Select -->
+
+
+    <!-- Layout JS -->
+    <!-- Bootstrap CSS -->
+    <link href="/assets/css/bootstrap.rtl.css" rel="stylesheet" type="text/css" disabled>
+    <!-- Icons CSS -->
+    <!-- App CSS -->
+    <link href="/assets/css/app.rtl.css" rel="stylesheet" type="text/css" disabled>
+    <!-- Admin Bundle JS -->
+    <script type="module" crossorigin src="/assets/js/src/index.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/admin.bundle-DOCqQWIh.js">
+    <link rel="modulepreload" crossorigin href="/assets/main-BSp6wgyE.js">
+    <link rel="modulepreload" crossorigin href="/assets/apexcharts.esm-CF-OO0O0.js">
+
+
+  <link rel="stylesheet" crossorigin href="assets/css/virtual-select.css">
+  <link rel="stylesheet" crossorigin href="assets/css/admin.css">
 
 </head>
 
-<body>
+
+
+  <!-- <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script> -->
 
 
 
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+<body class="sidebar-hidden">
+ 
 
-
-
-
+<!-- load your vendor scripts for all pages  -->
+<!-- Virtual Select -->
+<script src="{{ asset('/assets/virtual-select.min-DQ103J38.js') }}"></script>
 
 </body>
 
