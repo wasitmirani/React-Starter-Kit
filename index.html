@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-layout="modern" data-theme="material" data-bs-theme="light" data-sidebar-colors="dark" data-sidebar-image="none" data-sidebar="large" data-topbar-colors="light" data-nav-type="boxed" dir="ltr" data-colors="default" data-profile-sidebar>
 <head>
-<!-- Basic Meta Tags -->
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -28,43 +28,32 @@
     <meta name="twitter:title" content="%VITE_APP_TITLE%" />
     <meta name="twitter:description" content="%VITE_APP_DESCRIPTION%" />
     <meta name="twitter:image" content="%VITE_APP_OG_IMAGE%" />
+
     <!-- favicon -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico">
-    <!-- Virtual Select -->
 
-
-    <!-- Layout JS -->
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS (RTL, enabled when dir=rtl) -->
     <link href="/assets/css/bootstrap.rtl.css" rel="stylesheet" type="text/css" disabled>
-    <!-- Icons CSS -->
-    <!-- App CSS -->
+    <!-- App CSS (RTL, enabled when dir=rtl) -->
     <link href="/assets/css/app.rtl.css" rel="stylesheet" type="text/css" disabled>
-    <!-- Admin Bundle JS -->
-    <script type="module" crossorigin src="/assets/js/src/index.js"></script>
+
+    <!-- Prefetch Alloce bundles (loaded after React mounts layout) -->
     <link rel="modulepreload" crossorigin href="/assets/admin.bundle-DOCqQWIh.js">
     <link rel="modulepreload" crossorigin href="/assets/main-BSp6wgyE.js">
     <link rel="modulepreload" crossorigin href="/assets/apexcharts.esm-CF-OO0O0.js">
 
-
-  <link rel="stylesheet" crossorigin href="/assets/css/virtual-select.css">
-  <link rel="stylesheet" crossorigin href="/assets/css/admin.css">
-
+    <link rel="stylesheet" crossorigin href="/assets/css/virtual-select.css">
+    <link rel="stylesheet" crossorigin href="/assets/css/admin.css">
 </head>
 
-
-
-
-
-
 <body class="sidebar-hidden">
- 
-
   <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script> 
-<!-- load your vendor scripts for all pages  -->
-<!-- Virtual Select -->
-<script src="/assets/virtual-select.min-DQ103J38.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
 
+  <!-- Vendor scripts used across pages -->
+  <script src="/assets/virtual-select.min-DQ103J38.js"></script>
+  <script src="/assets/libs/dayjs/dayjs.min.js"></script>
+  <script src="/assets/libs/dayjs/plugin/quarterOfYear.js"></script>
 </body>
 
 </html>

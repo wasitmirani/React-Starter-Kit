@@ -1,38 +1,53 @@
-import Switcher from "./Switcher";
-import HeaderMenu from "./HeaderMenu";
-import SideBar from "./SideBar";
-import { Outlet } from "react-router-dom";
+import { useEffect } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
+import Switcher from './Switcher'
+import HeaderMenu from './HeaderMenu'
+import SideBar from './SideBar'
+import { loadAlloceScripts, refreshAlloceIcons } from '@/utils/alloce/loadAlloceScripts'
 
 const MasterLayout = () => {
+  const location = useLocation()
 
-    return (
-        <>
+  // Defer Alloce main.js until after the final mount so #toggleSidebar /
+  // #darkModeButton / #settingsModal exist. rAF is cancelled on StrictMode cleanup.
+  useEffect(() => {
+    let cancelled = false
+    const frame = requestAnimationFrame(() => {
+      if (!cancelled) void loadAlloceScripts()
+    })
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(frame)
+    }
+  }, [])
 
-            <div className="body-effect-img"></div>
-            <div className="body-top-line"></div>
-            <div className="body-bottom-line"></div>
-            {/* Header */}
-            <HeaderMenu/>
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      void refreshAlloceIcons()
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [location.pathname])
 
-            {/* Switcher */}
-            <Switcher />
+  return (
+    <>
+      <div className="body-effect-img"></div>
+      <div className="body-top-line"></div>
+      <div className="body-bottom-line"></div>
 
-            {/* SideBar */}
-            <SideBar />
+      <HeaderMenu />
+      <Switcher />
+      <SideBar />
 
-      
-
-            <div id="sidebar-backdrop" className="sidebar-backdrop"></div>
-            <div className="min-vh-100 position-relative">
-                <div className="page-wrapper">
-                    <div className="container-fluid">
-
-                    <Outlet />
-                    </div>
-                </div>
-            </div>
-
-        </>
-    )
+      <div id="sidebar-backdrop" className="sidebar-backdrop"></div>
+      <div className="min-vh-100 position-relative">
+        <div className="page-wrapper">
+          <div className="container-fluid">
+            <Outlet />
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
-export default MasterLayout;
+
+export default MasterLayout
