@@ -2,10 +2,9 @@ const Switcher = () => {
   return (
    <>
      <div className="overflow-hidden nav-pattern">
-         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1500" height="210" preserveAspectRatio="none" viewBox="0 0 1500 210">
-             <g clip-path="url(&quot;#SvgjsClipPath1035&quot;)" fill="none">
+         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsXmljs="http://svgjs.dev/svgjs" width="1500" height="210" preserveAspectRatio="none" viewBox="0 0 1500 210">
+             <g clipPath="url(&quot;#SvgjsClipPath1035&quot;)" fill="none">
                  <circle r="35" cx="14.67" cy="34.92" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="158.25" cy="138.25" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
                  <circle r="35" cx="261.54" cy="267.32" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
                  <circle r="35" cx="443.19" cy="405.59" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
                  <circle r="35" cx="531.32" cy="593.65" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
@@ -47,7 +46,7 @@ const Switcher = () => {
      
      {/* <!-- Apps Tools Modal --> */}
      
-     <div className="modal fade" id="toolAppsModal" tabindex="-1" aria-labelledby="toolAppsModalLabel" aria-hidden="true">
+     <div className="modal fade" id="toolAppsModal" tabIndex={-1} aria-labelledby="toolAppsModalLabel" aria-hidden="true">
          <div className="modal-dialog modal-xl modal-dialog-centered">
              <div className="modal-content border-0 shadow-lg">
                  <div className="modal-header d-flex align-items-center">
@@ -288,7 +287,7 @@ const Switcher = () => {
      </div>
      
      {/* <!-- Modal --> */}
-     <div className="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+     <div className="modal fade" id="settingsModal" tabIndex={-1} aria-labelledby="settingsModalLabel" aria-hidden="true">
          <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
              <div className="modal-content">
                  <div className="modal-header">
@@ -308,7 +307,7 @@ const Switcher = () => {
                              </ul>
      
                              <div className="tab-content" id="pills-tabContent">
-                                 <div className="tab-pane fade show active" id="pills-layout" role="tabpanel" aria-labelledby="pills-layout-tab" tabindex="0">
+                                 <div className="tab-pane fade show active" id="pills-layout" role="tabpanel" aria-labelledby="pills-layout-tab" tabIndex={0}>
                                      <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-5">
                                          <div>
                                              <div className="flex-column gap-0 form-check check-primary">
@@ -480,7 +479,7 @@ const Switcher = () => {
                                          </div>
                                      </div>
                                  </div>
-                                 <div className="tab-pane fade" id="pills-theme" role="tabpanel" aria-labelledby="pills-theme-tab" tabindex="0">
+                                 <div className="tab-pane fade" id="pills-theme" role="tabpanel" aria-labelledby="pills-theme-tab" tabIndex={0}>
                                      <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-5">
                                          <div>
                                              <div className="flex-column gap-0 form-check check-primary">
