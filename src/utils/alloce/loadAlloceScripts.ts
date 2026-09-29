@@ -1,7 +1,7 @@
 /**
  * Alloce template scripts bind listeners at module evaluation time and inside
- * DOMContentLoaded. In a React SPA those nodes mount later, so we defer loading
- * until after layout mount and replay DOMContentLoaded when needed.
+ * DOMContentLoaded (on document and/or window). In a React SPA those nodes
+ * mount later, so we defer loading and replay ready events when needed.
  *
  * Public assets cannot be `import()`-ed through Vite — load them as `<script type="module">`.
  */
@@ -9,30 +9,39 @@
 const ADMIN_BUNDLE = '/assets/admin.bundle-DOCqQWIh.js'
 const MAIN_BUNDLE = '/assets/main-BSp6wgyE.js'
 
-let scriptsPromise: Promise<void> | null = null
+let layoutPromise: Promise<void> | null = null
+const pagePromises = new Map<string, Promise<void>>()
 
-function loadModuleScript(src: string): Promise<void> {
-  const existing = document.querySelector<HTMLScriptElement>(
-    `script[data-alloce-src="${src}"]`,
-  )
-  if (existing) {
-    return existing.dataset.loaded === 'true'
-      ? Promise.resolve()
-      : new Promise((resolve, reject) => {
-          existing.addEventListener('load', () => resolve(), { once: true })
-          existing.addEventListener(
-            'error',
-            () => reject(new Error(`Failed to load ${src}`)),
-            { once: true },
-          )
-        })
+type LoadOptions = {
+  /** Bypass dedupe so SPA remounts can re-run page chart init. */
+  unique?: boolean
+}
+
+function loadModuleScript(src: string, options: LoadOptions = {}): Promise<void> {
+  const key = options.unique ? src : src.split('?')[0]
+  if (!options.unique) {
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[data-alloce-src="${key}"]`,
+    )
+    if (existing) {
+      return existing.dataset.loaded === 'true'
+        ? Promise.resolve()
+        : new Promise((resolve, reject) => {
+            existing.addEventListener('load', () => resolve(), { once: true })
+            existing.addEventListener(
+              'error',
+              () => reject(new Error(`Failed to load ${src}`)),
+              { once: true },
+            )
+          })
+    }
   }
 
   return new Promise((resolve, reject) => {
     const script = document.createElement('script')
     script.type = 'module'
     script.src = src
-    script.dataset.alloceSrc = src
+    script.dataset.alloceSrc = key
     script.onload = () => {
       script.dataset.loaded = 'true'
       resolve()
@@ -42,22 +51,24 @@ function loadModuleScript(src: string): Promise<void> {
   })
 }
 
-function patchDomContentLoaded<T>(run: () => Promise<T>): Promise<T> {
-  if (document.readyState === 'loading') {
-    return run()
-  }
+type Listener = EventListenerOrEventListenerObject
 
-  const original = Document.prototype.addEventListener
-  Document.prototype.addEventListener = function (
+function patchReadyListener(
+  proto: typeof Document.prototype | typeof Window.prototype,
+  runReplay: boolean,
+) {
+  const original = proto.addEventListener
+  proto.addEventListener = function (
+    this: Document | Window,
     type: string,
-    listener: EventListenerOrEventListenerObject,
+    listener: Listener,
     options?: boolean | AddEventListenerOptions,
   ) {
-    if (type === 'DOMContentLoaded') {
+    if (runReplay && type === 'DOMContentLoaded') {
       queueMicrotask(() => {
         const event = new Event('DOMContentLoaded')
         if (typeof listener === 'function') {
-          listener.call(document, event)
+          listener.call(this, event)
         } else {
           listener.handleEvent(event)
         }
@@ -66,9 +77,20 @@ function patchDomContentLoaded<T>(run: () => Promise<T>): Promise<T> {
     }
     original.call(this, type, listener, options)
   }
+  return () => {
+    proto.addEventListener = original
+  }
+}
+
+/** Replay DOMContentLoaded for both document and window listeners (Alloce uses both). */
+function patchDomContentLoaded<T>(run: () => Promise<T>): Promise<T> {
+  const needsReplay = document.readyState !== 'loading'
+  const restoreDocument = patchReadyListener(Document.prototype, needsReplay)
+  const restoreWindow = patchReadyListener(Window.prototype, needsReplay)
 
   return run().finally(() => {
-    Document.prototype.addEventListener = original
+    restoreDocument()
+    restoreWindow()
   })
 }
 
@@ -87,18 +109,47 @@ export function refreshAlloceIcons() {
 }
 
 export function loadAlloceScripts(): Promise<void> {
-  if (!scriptsPromise) {
-    scriptsPromise = patchDomContentLoaded(() => loadModuleScript(MAIN_BUNDLE))
+  if (!layoutPromise) {
+    layoutPromise = patchDomContentLoaded(() => loadModuleScript(MAIN_BUNDLE))
       .then(() => {
         requestAnimationFrame(() => refreshAlloceIcons())
       })
       .catch((error) => {
         console.error('[Alloce] Failed to load template scripts', error)
-        scriptsPromise = null
+        layoutPromise = null
       })
   } else {
-    void scriptsPromise.then(() => refreshAlloceIcons())
+    void layoutPromise.then(() => refreshAlloceIcons())
   }
 
-  return scriptsPromise
+  return layoutPromise
+}
+
+/**
+ * Load a page-specific Alloce script (e.g. dashboard-hrm.js) after chart
+ * containers exist. Uses a cache-busted URL so SPA remounts re-init charts.
+ */
+export async function loadAllocePageScript(src: string): Promise<void> {
+  await loadAlloceScripts()
+
+  const existing = pagePromises.get(src)
+  if (existing) {
+    // Module already evaluated once — force a fresh evaluate for new DOM nodes.
+    pagePromises.delete(src)
+  }
+
+  const busted = `${src}${src.includes('?') ? '&' : '?'}t=${Date.now()}`
+  const promise = patchDomContentLoaded(() =>
+    loadModuleScript(busted, { unique: true }),
+  )
+    .then(() => {
+      requestAnimationFrame(() => refreshAlloceIcons())
+    })
+    .catch((error) => {
+      console.error(`[Alloce] Failed to load page script ${src}`, error)
+      pagePromises.delete(src)
+    })
+
+  pagePromises.set(src, promise)
+  return promise
 }
