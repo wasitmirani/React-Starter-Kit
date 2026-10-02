@@ -30,9 +30,7 @@ const MasterLayout = () => {
 
   return (
     <>
-      <div className="body-effect-img"></div>
-      <div className="body-top-line"></div>
-      <div className="body-bottom-line"></div>
+   
 
       <HeaderMenu />
       <Switcher />

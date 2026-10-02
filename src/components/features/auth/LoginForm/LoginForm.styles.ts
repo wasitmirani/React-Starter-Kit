@@ -1,3 +1,3 @@
 export const styles = {
-  root: 'saas-auth-form',
+  root: '',
 } as const
