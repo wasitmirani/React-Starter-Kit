@@ -4,146 +4,138 @@ import { UserListing } from './UserListing'
 export function Users() {
   return (
     <>
-      <BreadCrumb
-        activePage="Users"
-        breadcrumbs={[{ label: 'Dashboards', href: '/dashboard' }]}
-      />
+      <BreadCrumb activePage="Users" breadcrumbs={[{ label: 'Dashboards', href: '/dashboard' }]}/>
 
-      <div className="sm:grid grid-cols-12 gap-x-4 gap-y-0">
-        <div className="xl:col-span-12 col-span-12">
-          <div className="sm:grid grid-cols-12 gap-x-4 gap-y-0">
-            <div className="xl:col-span-3 lg:col-span-6 col-span-12">
-              <div className="box dashboard-main-card primary">
-                <div className="box-body">
-                  <div className="flex items-start gap-4">
-                    <div className="grow">
-                      <div className="mb-1 text-textmuted fs-12">New Users</div>
-                      <div className="flex items-center gap-2 mb-1!">
-                        <div className="font-semibold fs-22 mb-0!">
-                          <span className="count-up" data-count="42">
-                            42
-                          </span>
-                        </div>
-                        <span className="badge bg-primary-transparent">12,345</span>
-                      </div>
-                      <p className="text-textmuted fs-12 mb-0! leading-none">
-                        <span className="text-success me-1 font-medium">
-                          <i className="ri-arrow-up-s-line me-1 align-middle"></i>3.25%
-                        </span>
-                        <span>this month</span>
-                      </p>
-                    </div>
-                    <div className="avatar avatar-md bg-primary-transparent svg-primary">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                        <rect width="256" height="256" fill="none" />
-                        <path d="M216,40H40A16,16,0,0,0,24,56V208a8,8,0,0,0,11.58,7.15L64,200.94l28.42,14.21a8,8,0,0,0,7.16,0L128,200.94l28.42,14.21a8,8,0,0,0,7.16,0L192,200.94l28.42,14.21A8,8,0,0,0,232,208V56A16,16,0,0,0,216,40ZM176,144H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Zm0-32H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Z" />
-                      </svg>
-                    </div>
-                  </div>
+
+      <div  className="row gx-5">
+        <div  className="col-lg-12">
+            <div  className="d-flex align-items-center flex-wrap gap-4 mb-5">
+                <div>
+                    <h6 className="fs-16 mb-0">Users List</h6>
+                    <p  className="text-muted">Manage and track users in one place.</p>
                 </div>
-              </div>
-            </div>
-            <div className="xl:col-span-3 lg:col-span-6 col-span-12">
-              <div className="box dashboard-main-card secondary">
-                <div className="box-body">
-                  <div className="flex items-start gap-4">
-                    <div className="grow">
-                      <div className="mb-1 text-textmuted fs-12">Completed Users</div>
-                      <div className="flex items-center gap-2 mb-1!">
-                        <div className="font-semibold fs-22 mb-0!">
-                          <span className="count-up" data-count="320">
-                            320
-                          </span>
-                        </div>
-                        <span className="badge bg-secondary-transparent">4,176</span>
-                      </div>
-                      <p className="text-textmuted fs-12 mb-0! leading-none">
-                        <span className="text-danger me-1 font-medium">
-                          <i className="ri-arrow-down-s-line me-1 align-middle"></i>1.16%
-                        </span>
-                        <span>this month</span>
-                      </p>
-                    </div>
-                    <div className="avatar avatar-md bg-secondary-transparent svg-secondary">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                        <rect width="256" height="256" fill="none" />
-                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" />
-                      </svg>
-                    </div>
-                  </div>
+                <div  className="d-flex align-items-center gap-3 ms-auto flex-wrap">
+                    <button type="button"  className="btn btn-dashed-primary avatar"><i  className="mgc_download_2_line me-2"></i>Export Users</button>
+                    <a href="apps-invoice-create.html"  className="btn btn-primary avatar" id="addInvoiceButton"><i  className="mgc_add_line me-1 fs-sm"></i> Add User</a>
                 </div>
-              </div>
             </div>
-            <div className="xl:col-span-3 lg:col-span-6 col-span-12">
-              <div className="box dashboard-main-card success">
-                <div className="box-body">
-                  <div className="flex items-start gap-4">
-                    <div className="grow">
-                      <div className="mb-1 text-textmuted fs-12">Pending Users</div>
-                      <div className="flex items-center gap-2 mb-1!">
-                        <div className="font-semibold fs-22 mb-0!">
-                          <span className="count-up" data-count="81">
-                            81
-                          </span>
+            </div>
+
+        <div  className="card">
+                <div  className="card-header d-flex flex-wrap gap-3 justify-content-between align-items-center">
+                    <div  className="flex-shrink-0">
+                        <div  className="position-relative">
+                            <input type="text"  className="form-control bg-light-subtle border-0 pe-9" placeholder="Search by User..."/>
+                            <i  className="mgc_search_ai_line position-absolute top-50 end-0 me-3 translate-middle-y text-muted"></i>
                         </div>
-                        <span className="badge bg-success-transparent">7,064</span>
-                      </div>
-                      <p className="text-textmuted fs-12 mb-0! leading-none">
-                        <span className="text-success me-1 font-medium">
-                          <i className="ri-arrow-up-s-line me-1 align-middle"></i>0.25%
-                        </span>
-                        <span>this month</span>
-                      </p>
                     </div>
-                    <div className="avatar avatar-md bg-success-transparent svg-success">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                        <rect width="256" height="256" fill="none" />
-                        <path d="M100,116.43a8,8,0,0,0,4-6.93v-72A8,8,0,0,0,93.34,30,104.06,104.06,0,0,0,25.73,147a8,8,0,0,0,4.52,5.81,7.86,7.86,0,0,0,3.35.74,8,8,0,0,0,4-1.07ZM88,49.62v55.26L40.12,132.51C40,131,40,129.48,40,128A88.12,88.12,0,0,1,88,49.62ZM232,128A104,104,0,0,1,38.32,180.7a8,8,0,0,1,2.87-11L120,123.83V32a8,8,0,0,1,8-8,104.05,104.05,0,0,1,89.74,51.48c.11.16.21.32.31.49s.2.37.29.55A103.34,103.34,0,0,1,232,128Z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="xl:col-span-3 lg:col-span-6 col-span-12">
-              <div className="box dashboard-main-card warning">
-                <div className="box-body">
-                  <div className="flex items-start gap-4">
-                    <div className="grow">
-                      <div className="mb-1 text-textmuted fs-12">In Progress Users</div>
-                      <div className="flex items-center gap-2 mb-1!">
-                        <div className="font-semibold fs-22 mb-0!">
-                          <span className="count-up" data-count="33">
-                            33
-                          </span>
-                          K
+                    <div  className="d-flex flex-wrap align-items-center gap-3">
+                        <div  className="d-flex flex-wrap align-items-center gap-2">
+                            <span  className="text-muted">Amount :</span>
+                            <input type="number"  className="form-control w-28" placeholder="$0.00"/>
+                            <span  className="text-muted">-</span>
+                            <input type="number"  className="form-control w-28" placeholder="$0.00"/>
                         </div>
-                        <span className="badge bg-warning-transparent">1,105</span>
-                      </div>
-                      <p className="text-textmuted fs-12 mb-0! leading-none">
-                        <span className="text-success me-1 font-medium">
-                          <i className="ri-arrow-up-s-line me-1 align-middle"></i>0.46%
-                        </span>
-                        <span>this month</span>
-                      </p>
+                        <div  className="position-relative w-48">
+                            <input type="text"  className="form-control pe-10" data-datepicker="" data-date-format="dd-MM-yyyy" placeholder="Created date"/>
+                            <i data-lucide="calendar"  className="size-4 text-muted position-absolute top-50 end-0 me-4 translate-middle-y"></i>
+                        </div>
+                        <div  className="position-relative w-48">
+                            <input type="text"  className="form-control pe-10" data-datepicker="" data-date-format="dd-MM-yyyy" placeholder="Due date"/>
+                            <i data-lucide="calendar"  className="size-4 text-muted position-absolute top-50 end-0 me-4 translate-middle-y"></i>
+                        </div>
+                        <div id="statusFilter"  className="w-40"></div>
                     </div>
-                    <div className="avatar avatar-md bg-warning-transparent svg-warning">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                        <rect width="256" height="256" fill="none" />
-                        <path d="M200,75.64V40a16,16,0,0,0-16-16H72A16,16,0,0,0,56,40V76a16.07,16.07,0,0,0,6.4,12.8L114.67,128,62.4,167.2A16.07,16.07,0,0,0,56,180v36a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V180.36a16.09,16.09,0,0,0-6.35-12.77L141.27,128l52.38-39.59A16.09,16.09,0,0,0,200,75.64ZM184,40V64H72V40Zm0,176H72V180l56-42,56,42.35Z" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
-              </div>
+                <div  className="card-body">
+                    <div  className="table-card table-responsive custom-scroll">
+                        <table  className="table align-middle mb-0 text-nowrap">
+                            <thead  className="bg-body-custom">
+                                <tr>
+                                    <th  className="w-10">
+                                        <div  className="form-check check-primary">
+                                            <input  className="form-check-input" type="checkbox" id="allCheck"/>
+                                        </div>
+                                    </th>
+                                    <th>Invoice ID</th>
+                                    <th>Customer</th>
+                                    <th>Created By</th>
+                                    <th>Invoice Date</th>
+                                    <th>Due Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div  className="form-check check-primary">
+                                            <input  className="form-check-input" type="checkbox"/>
+                                        </div>
+                                    </td>
+                                    <td><a href="apps-invoice-overview.html"  className="link link-custom-primary">#INV-10251</a></td>
+                                    <td>
+                                        <div  className="d-flex align-items-center gap-2">
+                                            <img src="assets/images/user-1.webp"  className="size-9 rounded-circle" alt="User 1"/>
+                                            <div>
+                                                <h6  className="mb-0 fs-15">Robert Fox</h6>
+                                                <p  className="text-muted fs-15">robert.fox@gmail.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div  className="d-flex align-items-center gap-2">
+                                            <img src="assets/images/user-2.webp"  className="size-9 rounded-circle" alt="User 2"/>
+                                            <div>
+                                                <h6  className="mb-0 fs-15">Robert Fox</h6>
+                                                <p  className="text-muted fs-15">Sales Executive</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>05 Feb, 2026 <span  className="text-muted fs-sm ms-1">10:00 AM</span></td>
+                                    <td>12 Feb, 2026 <span  className="text-muted fs-sm ms-1">10:00 AM</span></td>
+                                    <td>$1,250.00</td>
+                                    <td>
+                                        <span  className="badge bg-success-subtle text-success border border-success-subtle rounded-1">
+                                            Paid
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div  className="d-flex gap-2">
+                                            <button type="button"  className="btn btn-outline-light btn-icon size-7-5" aria-label="Preview">
+                                                <i  className="mgc_eye_line"></i>
+                                            </button>
+                                            <button type="button"  className="btn btn-outline-light btn-icon size-7-5" aria-label="Edit">
+                                                <i  className="mgc_pencil_2_ai_line"></i>
+                                            </button>
+                                            <button type="button"  className="btn btn-outline-light btn-icon size-7-5" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-label="Delete">
+                                                <i  className="mgc_delete_2_line"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                    <div  className="row align-items-center g-3 mt-2">
+                        <div  className="col-md-6">
+                            <p  className="text-muted text-center text-md-start mb-0">Showing <b  className="me-1">1-10</b> of <b  className="ms-1">38</b> Results</p>
+                        </div>
+                        <div  className="col-md-6">
+                          {/* <Pagination /> */}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
         </div>
-      </div>
-
-      <div className="mt-3">
-        <UserListing />
-      </div>
+        {/* <UserListing /> */}
+    
     </>
   )
 }

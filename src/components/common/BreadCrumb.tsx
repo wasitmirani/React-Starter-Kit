@@ -8,15 +8,10 @@ const BreadCrumb = ({
   breadcrumbs: { label: string; href: string }[]
 }) => {
   return (
-    <div className="flex items-center justify-between page-header-breadcrumb flex-wrap gap-2">
-      <div>
-        <h1 className="page-title mb-0!">{activePage}</h1>
-      </div>
-      <ol className="breadcrumb mb-0!">
-        <li className="breadcrumb-item">
-          <Link to="/">Home</Link>
-        </li>
-        {breadcrumbs.map((breadcrumb) => (
+    <div className="gap-2 page-heading mb-4 flex-column flex-md-row">
+      <h6 className="flex-grow-1 mb-0">{activePage}</h6>
+      <ul className="breadcrumb flex-shrink-0 mb-0">
+        {breadcrumbs.map((breadcrumb, idx) => (
           <li className="breadcrumb-item" key={breadcrumb.label}>
             <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
           </li>
@@ -24,7 +19,7 @@ const BreadCrumb = ({
         <li className="breadcrumb-item active" aria-current="page">
           {activePage}
         </li>
-      </ol>
+      </ul>
     </div>
   )
 }
