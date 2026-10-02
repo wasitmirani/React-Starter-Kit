@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import Switcher from './Switcher'
-import HeaderMenu from './HeaderMenu'
-import SideBar from './SideBar'
+import Switcher from './partials/Switcher'
+import HeaderMenu from './partials/HeaderMenu'
+import SideBar from './partials/SideBar'
 import { loadAlloceScripts, refreshAlloceIcons } from '@/utils/alloce/loadAlloceScripts'
 
 const MasterLayout = () => {

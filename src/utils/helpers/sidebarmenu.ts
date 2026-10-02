@@ -35,7 +35,7 @@ export default class SidebarMenu {
             "type": "heading",
         }
     }
-    getMenuList(): any[] {
+    getSidebarItems(): any[] {
         return [
             this.setHeadingMenu('Analytics'),
             this.setMultiMenu('Dashboards', 'bx bx-home', 'dashboard-view',

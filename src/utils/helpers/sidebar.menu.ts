@@ -3,8 +3,8 @@ import { ROUTES } from '@/constants/routes.constants'
 export type SidebarSubItem = {
   title: string
   link: string
-  /** Tabler Icons class, e.g. `ti ti-chart-bar`. */
-  icon: string
+  /** MingCute icon class, e.g. `mgc_chart_bar_line`. */
+  icon?: string
   /** Match NavLink `end` for exact active state (e.g. dashboard root). */
   end?: boolean
 }
@@ -19,7 +19,7 @@ export type SidebarSingleItem = {
   id: string
   title: string
   link: string
-  /** Tabler Icons class, e.g. `ti ti-package`. */
+  /** MingCute icon class, e.g. `mgc_package_line`. */
   icon: string
 }
 
@@ -27,7 +27,7 @@ export type SidebarMultiItem = {
   type: 'multi'
   id: string
   title: string
-  /** Tabler Icons class, e.g. `ti ti-layout-dashboard`. */
+  /** MingCute icon class, e.g. `mgc_dashboard_line`. */
   icon: string
   children: SidebarSubItem[]
 }
@@ -41,10 +41,10 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
     type: 'multi',
     id: 'dashboards',
     title: 'Dashboards',
-    icon: 'ti ti-layout-dashboard',
+    icon: 'mgc_dashboard_line',
     children: [
-      { title:'CRM', link: ROUTES.DASHBOARD, icon: 'ti ti-building-community', end: true },
-      { title: 'Analytics', link: ROUTES.ANALYTICS, icon: 'ti ti-chart-bar' },
+      { title: 'CRM', link: ROUTES.DASHBOARD, end: true },
+      { title: 'Analytics', link: ROUTES.ANALYTICS },
     ],
   },
   { type: 'heading', title: 'Web Apps' },
@@ -53,21 +53,21 @@ export const SIDEBAR_MENU: SidebarMenuEntry[] = [
     id: 'users',
     title: 'Users',
     link: ROUTES.USERS,
-    icon: 'ti ti-users',
+    icon: 'mgc_group_line',
   },
   {
     type: 'single',
     id: 'products',
     title: 'Products',
     link: ROUTES.PRODUCTS,
-    icon: 'ti ti-package',
+    icon: 'mgc_package_line',
   },
   {
     type: 'single',
     id: 'settings',
     title: 'Settings',
     link: ROUTES.SETTINGS,
-    icon: 'ti ti-settings',
+    icon: 'mgc_settings_3_line',
   },
 ]
 
