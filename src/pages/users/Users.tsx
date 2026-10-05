@@ -24,7 +24,17 @@ export function Users() {
 
         <div  className="card">
                 <div  className="card-header d-flex flex-wrap gap-3 justify-content-between align-items-center">
-                    <SearchBox placeholder="Search by User..." apiUrl="/api/users" onChange={() => {}} onSearch={() => {}} onClear={() => {}} onEnter={() => {}} onEscape={() => {}} />
+                    <SearchBox
+                      placeholder="Search by User..."
+                      apiUrl="/users"
+                      onFilterData={(data) => {
+                        // TODO: set filtered users from search response
+                        console.log(data)
+                      }}
+                      onReload={() => {
+                        // TODO: refetch full users list when search is cleared
+                      }}
+                    />
                     <div  className="d-flex flex-wrap align-items-center gap-3">
                         <div  className="d-flex flex-wrap align-items-center gap-2">
                             <span  className="text-muted">Amount :</span>

@@ -1,10 +1,16 @@
-import axios from "axios";
-
+import { apiClient } from '@/api/http-client'
 
 export const searchService = {
-
-    async search(url: string, query: string) {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/${url}?${query}`);
-        return response.data;
+  async search(url: string, query: string, signal?: AbortSignal) {
+    try {
+      const response = await apiClient .get(url, {
+      params: { query },
+      signal,
+      })
+      return response?.data ?? []
+    } catch (error) {
+      console.error(error)
+      return []
     }
+  },
 }
