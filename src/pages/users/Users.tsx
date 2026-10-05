@@ -1,5 +1,6 @@
 import BreadCrumb from '@/components/common/BreadCrumb'
 import { UserListing } from './UserListing'
+import { SearchBox } from '@/components/common/SearchBox'
 
 export function Users() {
   return (
@@ -23,12 +24,7 @@ export function Users() {
 
         <div  className="card">
                 <div  className="card-header d-flex flex-wrap gap-3 justify-content-between align-items-center">
-                    <div  className="flex-shrink-0">
-                        <div  className="position-relative">
-                            <input type="text"  className="form-control bg-light-subtle border-0 pe-9" placeholder="Search by User..."/>
-                            <i  className="mgc_search_ai_line position-absolute top-50 end-0 me-3 translate-middle-y text-muted"></i>
-                        </div>
-                    </div>
+                    <SearchBox placeholder="Search by User..." apiUrl="/api/users" onChange={() => {}} onSearch={() => {}} onClear={() => {}} onEnter={() => {}} onEscape={() => {}} />
                     <div  className="d-flex flex-wrap align-items-center gap-3">
                         <div  className="d-flex flex-wrap align-items-center gap-2">
                             <span  className="text-muted">Amount :</span>
