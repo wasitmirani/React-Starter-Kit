@@ -36,21 +36,16 @@ export function Users() {
                       }}
                     />
                     <div  className="d-flex flex-wrap align-items-center gap-3">
-                        <div  className="d-flex flex-wrap align-items-center gap-2">
-                            <span  className="text-muted">Amount :</span>
-                            <input type="number"  className="form-control w-28" placeholder="$0.00"/>
-                            <span  className="text-muted">-</span>
-                            <input type="number"  className="form-control w-28" placeholder="$0.00"/>
-                        </div>
-                        <div  className="position-relative w-48">
-                            <input type="text"  className="form-control pe-10" data-datepicker="" data-date-format="dd-MM-yyyy" placeholder="Created date"/>
-                            <i data-lucide="calendar"  className="size-4 text-muted position-absolute top-50 end-0 me-4 translate-middle-y"></i>
-                        </div>
+                        
+                      
                         <div  className="position-relative w-48">
                             <input type="text"  className="form-control pe-10" data-datepicker="" data-date-format="dd-MM-yyyy" placeholder="Due date"/>
                             <i data-lucide="calendar"  className="size-4 text-muted position-absolute top-50 end-0 me-4 translate-middle-y"></i>
                         </div>
-                        <div id="statusFilter"  className="w-40"></div>
+                        <div id="statusFilter"  className="w-40">
+                        <i className="ri-filter-line"></i>
+
+                        </div>
                     </div>
                 </div>
                 <div  className="card-body">
