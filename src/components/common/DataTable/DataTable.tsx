@@ -255,7 +255,7 @@ function DataTableInner<T>(
                 data-column={column.key}
               >
                 <div className={s.thInner}>
-                  <span>{column.header}</span>
+                  <span>{column.label ?? column.header}</span>
                   {column.sortable ? (
                     <span className={s.sort}>
                       <button

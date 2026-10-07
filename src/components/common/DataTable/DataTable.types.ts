@@ -17,7 +17,7 @@ export interface PaginatedRows<T> {
 /** Column definition — `key` is the field name and React key. */
 export interface DataTableColumn<T> {
   key: keyof T & string
-  header: ReactNode
+  label?: string
   /** Custom cell. Defaults to `row[key]`. */
   render?: (row: T, index: number) => ReactNode
   align?: DataTableAlign
