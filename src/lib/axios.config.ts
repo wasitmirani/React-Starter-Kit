@@ -1,1 +1,1 @@
-export { httpClient } from '@/api/http-client'
+export { apiClient } from '@/api/http-client'
