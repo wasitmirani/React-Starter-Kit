@@ -36,10 +36,12 @@ export function UserListing() {
                       onFilterData={(data) => {
                         // TODO: set filtered users from search response
                         console.log(data)
+                        
                       }}
                       onReload={() => {
                         // TODO: refetch full users list when search is cleared
-                      }}
+                      }}    
+                      
                     />
                     <div  className="d-flex flex-wrap align-items-center gap-3">
                         
