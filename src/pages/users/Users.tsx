@@ -1,6 +1,5 @@
 import BreadCrumb from '@/components/common/BreadCrumb'
 import { UserListing } from './UserListing'
-import { SearchBox } from '@/components/common/SearchBox'
 import type { User } from '@/types/user.types';
 import { useEffect, useState } from 'react';
 

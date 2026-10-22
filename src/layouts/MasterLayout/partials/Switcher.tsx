@@ -2,7 +2,7 @@ const Switcher = () => {
   return (
    <>
      <div className="overflow-hidden nav-pattern">
-         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsXmljs="http://svgjs.dev/svgjs" width="1500" height="210" preserveAspectRatio="none" viewBox="0 0 1500 210">
+         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="1500" height="210" preserveAspectRatio="none" viewBox="0 0 1500 210">
              <g clipPath="url(&quot;#SvgjsClipPath1035&quot;)" fill="none">
                  <circle r="35" cx="14.67" cy="34.92" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
                  <circle r="35" cx="261.54" cy="267.32" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>

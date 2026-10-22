@@ -1,0 +1,483 @@
+/**
+ * WhatsApp CRM SaaS theme — layout polish for existing screens/components.
+ * Class names match those already referenced in *.styles.ts / pages.
+ */
+
+html {
+  font-family: var(--wa-font-sans);
+  letter-spacing: var(--wa-tracking);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--wa-canvas);
+  color: var(--wa-ink);
+  font-family: var(--wa-font-sans);
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--wa-font-sans);
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--wa-ink);
+}
+
+/* ── Cards / panels ── */
+.card,
+.box,
+.custom-card {
+  border: 1px solid var(--wa-border) !important;
+  border-radius: var(--wa-radius-lg) !important;
+  box-shadow: var(--wa-shadow-sm);
+  background: var(--wa-surface);
+  transition: box-shadow var(--wa-duration) var(--wa-ease),
+    transform var(--wa-duration) var(--wa-ease);
+}
+
+.card:hover,
+.box:hover,
+.saas-card-hover:hover {
+  box-shadow: var(--wa-shadow-md);
+}
+
+.card-header,
+.box-header {
+  background: transparent;
+  border-bottom: 1px solid var(--wa-border);
+  padding: var(--wa-space-4) var(--wa-space-5);
+}
+
+.card-body,
+.box-body {
+  padding: var(--wa-space-5);
+}
+
+.hrm-widget-card {
+  overflow: hidden;
+  border-radius: var(--wa-radius-lg) !important;
+}
+
+.hrm-widget-card .bg-primary,
+.hrm-widget-card .bg-gradient-t-primary {
+  background-color: var(--wa-primary) !important;
+}
+
+.hrm-widget-card .bg-secondary,
+.hrm-widget-card .bg-gradient-t-secondary {
+  background-color: var(--wa-primary-dark) !important;
+}
+
+/* ── Buttons ── */
+.btn-primary,
+.ti-btn-primary {
+  --dx-btn-bg: var(--wa-primary);
+  --dx-btn-border-color: var(--wa-primary);
+  --dx-btn-hover-bg: var(--wa-primary-hover);
+  --dx-btn-hover-border-color: var(--wa-primary-hover);
+  --dx-btn-active-bg: var(--wa-primary-active);
+  --dx-btn-active-border-color: var(--wa-primary-active);
+  --dx-btn-color: #053b1f;
+  background-color: var(--wa-primary) !important;
+  border-color: var(--wa-primary) !important;
+  color: #053b1f !important;
+  font-weight: 600;
+  border-radius: var(--wa-radius-sm);
+  box-shadow: none;
+  transition: background-color var(--wa-duration-fast) var(--wa-ease),
+    border-color var(--wa-duration-fast) var(--wa-ease),
+    box-shadow var(--wa-duration-fast) var(--wa-ease);
+}
+
+.btn-primary:hover,
+.ti-btn-primary:hover {
+  background-color: var(--wa-primary-hover) !important;
+  border-color: var(--wa-primary-hover) !important;
+  box-shadow: var(--wa-shadow-focus);
+}
+
+.btn-outline-primary {
+  color: var(--wa-primary-dark) !important;
+  border-color: rgba(var(--wa-primary-rgb), 0.45) !important;
+  border-radius: var(--wa-radius-sm);
+  font-weight: 500;
+}
+
+.btn-outline-primary:hover {
+  background: var(--wa-primary-soft) !important;
+  color: var(--wa-primary-darker) !important;
+  border-color: var(--wa-primary) !important;
+}
+
+.btn-secondary,
+.ti-btn-secondary {
+  background-color: var(--wa-surface-raised) !important;
+  border-color: var(--wa-border-strong) !important;
+  color: var(--wa-ink) !important;
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, var(--wa-primary-darker), var(--wa-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.link-custom-primary,
+a.link {
+  color: var(--wa-primary-dark);
+}
+
+a.link:hover,
+.link-custom-primary:hover {
+  color: var(--wa-primary-active);
+}
+
+/* ── Forms ── */
+.form-control,
+.form-select,
+.saas-field input,
+.saas-field textarea,
+.saas-field select {
+  border-radius: var(--wa-radius-sm) !important;
+  border-color: var(--wa-border-strong) !important;
+  background-color: var(--wa-surface);
+  color: var(--wa-ink);
+  transition: border-color var(--wa-duration-fast) var(--wa-ease),
+    box-shadow var(--wa-duration-fast) var(--wa-ease);
+}
+
+.form-control:focus,
+.form-select:focus,
+.saas-field input:focus,
+.saas-field textarea:focus,
+.saas-field select:focus {
+  border-color: var(--wa-primary) !important;
+  box-shadow: var(--wa-shadow-focus) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--wa-primary) !important;
+  border-color: var(--wa-primary) !important;
+}
+
+.form-check.check-primary .form-check-input:checked {
+  background-color: var(--wa-primary) !important;
+  border-color: var(--wa-primary) !important;
+}
+
+/* ── Tables ── */
+.saas-table-wrap,
+.table-card {
+  border-radius: var(--wa-radius-md);
+}
+
+.saas-data-table thead th,
+.table thead th,
+.bg-body-custom {
+  background: #f7f8fa !important;
+  color: var(--wa-ink-muted) !important;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--wa-border) !important;
+  white-space: nowrap;
+}
+
+[data-bs-theme="dark"] .saas-data-table thead th,
+[data-bs-theme="dark"] .table thead th,
+[data-bs-theme="dark"] .bg-body-custom {
+  background: var(--wa-surface-raised) !important;
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-color: var(--wa-border);
+}
+
+.table tbody tr {
+  transition: background-color var(--wa-duration-fast) var(--wa-ease);
+}
+
+.table tbody tr:hover {
+  background-color: var(--wa-primary-soft);
+}
+
+.saas-th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.saas-sort-btn {
+  border: 0;
+  background: transparent;
+  color: var(--wa-ink-muted);
+  padding: 0;
+  line-height: 1;
+}
+
+.saas-table-actions,
+.saas-table-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.saas-action-btn {
+  border-radius: var(--wa-radius-sm) !important;
+}
+
+.saas-table-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--wa-ink-muted);
+}
+
+.saas-table-empty-title {
+  font-weight: 600;
+  color: var(--wa-ink);
+}
+
+.saas-table-summary {
+  color: var(--wa-ink-muted);
+}
+
+.badge.bg-success-subtle,
+.badge.bg-primary-subtle {
+  border-radius: 0.375rem;
+  font-weight: 500;
+}
+
+.bg-success-subtle {
+  background-color: var(--wa-primary-soft) !important;
+}
+
+.text-success {
+  color: var(--wa-primary-dark) !important;
+}
+
+.border-success-subtle {
+  border-color: rgba(var(--wa-primary-rgb), 0.28) !important;
+}
+
+/* Sidebar visuals live in saas-sidebar.css */
+
+.page-wrapper {
+  background: transparent;
+}
+
+.page-heading h6,
+.page-heading h1,
+.page-heading h5 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.breadcrumb-item a {
+  color: var(--wa-ink-muted);
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: var(--wa-ink);
+  font-weight: 500;
+}
+
+/* ── Auth ── */
+.saas-auth-page,
+.auth-wrapper.auth-modern {
+  font-family: var(--wa-font-sans);
+}
+
+.saas-auth-form .form-control {
+  min-height: 2.75rem;
+}
+
+.auth-modern .btn-primary {
+  min-height: 2.75rem;
+  font-weight: 600;
+}
+
+/* Soft brand wash behind auth panel on large screens */
+.auth-wrapper.auth-modern {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(37, 211, 102, 0.12), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(18, 140, 126, 0.1), transparent 50%),
+    var(--wa-canvas);
+}
+
+/* ── Loader / skeleton / splash ── */
+.saas-loader {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--wa-ink-muted);
+}
+
+.saas-loader--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  justify-content: center;
+  background: rgba(240, 242, 245, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.saas-loader__spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2.5px solid var(--wa-border-strong);
+  border-top-color: var(--wa-primary);
+  border-radius: 50%;
+  animation: saasSpin 0.7s linear infinite;
+}
+
+.saas-loader--sm .saas-loader__spinner { width: 1.25rem; height: 1.25rem; }
+.saas-loader--lg .saas-loader__spinner { width: 2.75rem; height: 2.75rem; }
+
+.saas-loader__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+@keyframes saasSpin {
+  to { transform: rotate(360deg); }
+}
+
+.saas-skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--wa-border) 0%,
+    #f7f8fa 45%,
+    var(--wa-border) 100%
+  );
+  background-size: 200% 100%;
+  animation: saasShimmer 1.2s ease-in-out infinite;
+  border-radius: var(--wa-radius-sm);
+}
+
+.saas-skeleton--text { height: 0.85rem; width: 100%; }
+.saas-skeleton--circular { border-radius: 50%; aspect-ratio: 1; }
+.saas-skeleton--rectangular { height: 6rem; width: 100%; }
+.saas-skeleton--rounded { border-radius: var(--wa-radius-md); height: 3rem; }
+
+.saas-skeleton-card {
+  min-height: 7rem;
+}
+
+.saas-page-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@keyframes saasShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Error / empty ── */
+.saas-error-page {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ── Badges / pills ── */
+.saas-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  background: var(--wa-primary-soft);
+  color: var(--wa-primary-darker);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.35rem;
+  flex-shrink: 0;
+}
+
+.status-dot.success,
+.status-dot.primary { background: var(--wa-primary); }
+.status-dot.warning { background: var(--wa-warning); }
+.status-dot.danger { background: var(--wa-danger); }
+.status-dot.info { background: var(--wa-info); }
+.status-dot.secondary { background: var(--wa-secondary); }
+
+/* ── Motion: page enter ── */
+@keyframes saasFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-wrapper > .container-fluid {
+  animation: saasFadeUp 0.32s var(--wa-ease) both;
+}
+
+.saas-stagger > * {
+  animation: saasFadeUp 0.36s var(--wa-ease) both;
+}
+
+.saas-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.saas-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.saas-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.saas-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.saas-stagger > *:nth-child(5) { animation-delay: 160ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-wrapper > .container-fluid,
+  .saas-stagger > *,
+  .saas-skeleton,
+  .saas-loader__spinner,
+  .card,
+  .box {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Progress bar uses brand green */
+.route-progress__bar {
+  background: var(--wa-primary) !important;
+  box-shadow: 0 0 10px rgba(var(--wa-primary-rgb), 0.45) !important;
+}
+
+.progress-bar {
+  background-color: var(--wa-primary) !important;
+}
+
+/* Pagination */
+.page-link {
+  color: var(--wa-ink);
+  border-radius: var(--wa-radius-sm) !important;
+}
+
+.page-item.active .page-link,
+.page-link.active {
+  background-color: var(--wa-primary) !important;
+  border-color: var(--wa-primary) !important;
+  color: #053b1f !important;
+  font-weight: 600;
+}

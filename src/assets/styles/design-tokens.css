@@ -1,0 +1,172 @@
+/**
+ * WhatsApp CRM — visual design tokens (styling only)
+ * Modern SaaS surfaces with WhatsApp Business green as brand primary.
+ * Overrides Alloce --dx-* so existing Bootstrap utility classes pick up the theme.
+ */
+
+:root,
+[data-bs-theme="light"] {
+  /* Brand */
+  --wa-primary: #25d366;
+  --wa-primary-hover: #1ebe57;
+  --wa-primary-active: #18a34b;
+  --wa-primary-rgb: 37, 211, 102;
+  --wa-primary-dark: #128c7e;
+  --wa-primary-darker: #075e54;
+  --wa-primary-soft: rgba(37, 211, 102, 0.12);
+  --wa-primary-muted: rgba(37, 211, 102, 0.18);
+
+  /* Neutrals / surfaces */
+  --wa-ink: #111b21;
+  --wa-ink-muted: #667781;
+  --wa-canvas: #f0f2f5;
+  --wa-surface: #ffffff;
+  --wa-surface-raised: #ffffff;
+  --wa-border: #e9edef;
+  --wa-border-strong: #d1d7db;
+  --wa-mint: #e7fce3;
+  --wa-bubble-out: #d9fdd3;
+
+  /* Semantic */
+  --wa-success: #25d366;
+  --wa-success-rgb: 37, 211, 102;
+  --wa-info: #53bdeb;
+  --wa-info-rgb: 83, 189, 235;
+  --wa-warning: #eab308;
+  --wa-warning-rgb: 234, 179, 8;
+  --wa-danger: #ea4335;
+  --wa-danger-rgb: 234, 67, 53;
+  --wa-secondary: #54656f;
+  --wa-secondary-rgb: 84, 101, 111;
+
+  /* Typography — modern SaaS */
+  --wa-font-sans: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --wa-font-size: 0.9375rem;
+  --wa-line-height: 1.5;
+  --wa-tracking: -0.011em;
+
+  /* Spacing (4px base) */
+  --wa-space-1: 0.25rem;
+  --wa-space-2: 0.5rem;
+  --wa-space-3: 0.75rem;
+  --wa-space-4: 1rem;
+  --wa-space-5: 1.25rem;
+  --wa-space-6: 1.5rem;
+  --wa-space-8: 2rem;
+
+  /* Radius — soft SaaS, not pill-everything */
+  --wa-radius-sm: 0.5rem;
+  --wa-radius-md: 0.75rem;
+  --wa-radius-lg: 1rem;
+  --wa-radius-xl: 1.25rem;
+
+  /* Elevation */
+  --wa-shadow-xs: 0 1px 2px rgba(17, 27, 33, 0.04);
+  --wa-shadow-sm: 0 1px 3px rgba(17, 27, 33, 0.06), 0 4px 12px rgba(17, 27, 33, 0.04);
+  --wa-shadow-md: 0 4px 16px rgba(17, 27, 33, 0.08);
+  --wa-shadow-focus: 0 0 0 3px rgba(37, 211, 102, 0.28);
+
+  /* Motion */
+  --wa-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --wa-duration-fast: 140ms;
+  --wa-duration: 220ms;
+
+  /* ── Map onto Alloce / Bootstrap tokens ── */
+  --dx-primary: var(--wa-primary);
+  --dx-primary-rgb: var(--wa-primary-rgb);
+  --dx-secondary: var(--wa-secondary);
+  --dx-secondary-rgb: var(--wa-secondary-rgb);
+  --dx-success: var(--wa-success);
+  --dx-success-rgb: var(--wa-success-rgb);
+  --dx-info: var(--wa-info);
+  --dx-info-rgb: var(--wa-info-rgb);
+  --dx-warning: var(--wa-warning);
+  --dx-warning-rgb: var(--wa-warning-rgb);
+  --dx-danger: var(--wa-danger);
+  --dx-danger-rgb: var(--wa-danger-rgb);
+  --dx-green: var(--wa-primary);
+  --dx-teal: var(--wa-primary-dark);
+  --dx-indigo: var(--wa-primary-darker);
+  --dx-purple: #3b4a54;
+
+  --dx-primary-text-emphasis: var(--wa-primary-dark);
+  --dx-secondary-text-emphasis: #3b4a54;
+  --dx-success-text-emphasis: var(--wa-primary-active);
+  --dx-primary-bg-subtle: var(--wa-primary-soft);
+  --dx-secondary-bg-subtle: rgba(84, 101, 111, 0.1);
+  --dx-success-bg-subtle: var(--wa-primary-soft);
+  --dx-primary-border-subtle: rgba(var(--wa-primary-rgb), 0.35);
+
+  --dx-body-bg: var(--wa-canvas);
+  --dx-body-bg-rgb: 240, 242, 245;
+  --dx-body-color: var(--wa-ink);
+  --dx-body-color-rgb: 17, 27, 33;
+  --dx-secondary-color: var(--wa-ink-muted);
+  --dx-secondary-color-rgb: 102, 119, 129;
+  --dx-secondary-bg: var(--wa-surface);
+  --dx-border-color: var(--wa-border);
+  --dx-border-color-translucent: var(--wa-border);
+  --dx-light: #f7f8fa;
+  --dx-light-rgb: 247, 248, 250;
+
+  --dx-font-family-base: var(--wa-font-sans);
+  --dx-font-family-heading: var(--wa-font-sans);
+  --dx-font-sans-serif: var(--wa-font-sans);
+  --dx-body-font-family: var(--wa-font-sans);
+  --dx-body-font-size: var(--wa-font-size);
+  --dx-body-line-height: var(--wa-line-height);
+
+  --dx-border-radius: var(--wa-radius-sm);
+  --dx-border-radius-sm: 0.375rem;
+  --dx-border-radius-lg: var(--wa-radius-md);
+  --dx-border-radius-xl: var(--wa-radius-lg);
+  --dx-box-shadow: var(--wa-shadow-sm);
+  --dx-box-shadow-sm: var(--wa-shadow-xs);
+  --dx-box-shadow-lg: var(--wa-shadow-md);
+  --dx-focus-ring-color: rgba(var(--wa-primary-rgb), 0.35);
+  --dx-form-valid-color: var(--wa-success);
+  --dx-form-valid-border-color: var(--wa-success);
+}
+
+[data-bs-theme="dark"] {
+  --wa-ink: #e9edef;
+  --wa-ink-muted: #8696a0;
+  --wa-canvas: #0b141a;
+  --wa-surface: #111b21;
+  --wa-surface-raised: #1f2c34;
+  --wa-border: #2a3942;
+  --wa-border-strong: #3b4a54;
+  --wa-mint: rgba(37, 211, 102, 0.12);
+  --wa-bubble-out: #005c4b;
+
+  --dx-primary: var(--wa-primary);
+  --dx-primary-rgb: var(--wa-primary-rgb);
+  --dx-secondary: #8696a0;
+  --dx-secondary-rgb: 134, 150, 160;
+  --dx-body-bg: var(--wa-canvas);
+  --dx-body-bg-rgb: 11, 20, 26;
+  --dx-body-color: var(--wa-ink);
+  --dx-body-color-rgb: 233, 237, 239;
+  --dx-secondary-color: var(--wa-ink-muted);
+  --dx-secondary-bg: var(--wa-surface);
+  --dx-border-color: var(--wa-border);
+  --dx-primary-text-emphasis: #6ee7a0;
+  --dx-primary-bg-subtle: rgba(37, 211, 102, 0.16);
+  --dx-font-family-base: var(--wa-font-sans);
+  --dx-font-family-heading: var(--wa-font-sans);
+}
+
+/* Keep switcher color presets on-brand (still green-family) */
+:root[data-colors="default"],
+:root[data-colors="teal"],
+:root[data-colors="olive"] {
+  --dx-primary: var(--wa-primary);
+  --dx-primary-rgb: var(--wa-primary-rgb);
+}
+
+:root[data-colors="indigo"],
+:root[data-colors="purple"],
+:root[data-colors="orchid"] {
+  --dx-primary: var(--wa-primary-dark);
+  --dx-primary-rgb: 18, 140, 126;
+}

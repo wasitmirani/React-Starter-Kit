@@ -1,7 +1,6 @@
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes.constants'
-import { NavLink } from 'react-router-dom'
 
 export function AuthLayout() {
   const { isAuthenticated } = useAuth()

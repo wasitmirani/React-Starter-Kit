@@ -1,16 +1,5 @@
-import { useEffect, useState } from 'react'
-import { DataTable } from '@/components/common/DataTable'
-import type {
-  DataTableAction,  
-  DataTableColumn,
-} from '@/components/common/DataTable'
+import type { DataTableColumn } from '@/components/common/DataTable'
 import { SearchBox } from '@/components/common/SearchBox'
-
-const actions: DataTableAction<any>[] = [
-  { key: 'view', label: 'View', icon: 'ri-eye-line', variant: 'view' },
-  { key: 'edit', label: 'Edit', icon: 'ri-edit-line', variant: 'edit' },
-  { key: 'delete', label: 'Delete', icon: 'ri-delete-bin-line', variant: 'delete' },
-]
 
 const TableHeader: DataTableColumn<any>[] = [
   { key: 'id', label: 'ID', sortable: true },
@@ -28,7 +17,7 @@ export function UserListing() {
 
     <>
     
-    <div  className="card">
+    <div  className="card custom-card saas-card-hover">
                 <div  className="card-header d-flex flex-wrap gap-3 justify-content-between align-items-center">
                     <SearchBox
                       placeholder="Search by User..."

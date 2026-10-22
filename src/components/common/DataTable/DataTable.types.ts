@@ -18,6 +18,8 @@ export interface PaginatedRows<T> {
 export interface DataTableColumn<T> {
   key: keyof T & string
   label?: string
+  /** Alias for `label` (legacy). */
+  header?: string
   /** Custom cell. Defaults to `row[key]`. */
   render?: (row: T, index: number) => ReactNode
   align?: DataTableAlign

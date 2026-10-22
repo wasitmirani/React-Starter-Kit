@@ -1,3 +1,8 @@
+@import "./design-tokens.css";
+@import "./saas-theme.css";
+@import "./saas-sidebar.css";
+@import "./saas-sidebar-active.css";
+
 /* Route change progress — fixed top bar (NProgress / YouTube style) */
 .route-progress {
   position: fixed;
@@ -11,8 +16,8 @@
 .route-progress__bar {
   height: 100%;
   width: 0;
-  background: var(--dx-primary, #647ee8);
-  box-shadow: 0 0 10px rgba(var(--dx-primary-rgb, 100, 126, 232), 0.45);
+  background: var(--wa-primary, var(--dx-primary, #25d366));
+  box-shadow: 0 0 10px rgba(var(--wa-primary-rgb, 37, 211, 102), 0.45);
   border-radius: 0 1px 1px 0;
   transition: width 0.2s ease;
 }
