@@ -16,6 +16,7 @@ export const API_ENDPOINTS = {
   PRODUCTS: {
     BASE: '/products',
   },
+  
 } as const
 
 export const HTTP_STATUS = {
