@@ -1,4 +1,7 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useCan } from '@/hooks/useCan'
+import { BrandMark } from '@/components/common/BrandMark'
+import { ROUTES } from '@/constants/routes.constants'
 import {
   getSidebarMenu,
   isPathUnderMenu,
@@ -16,6 +19,7 @@ function SingleMenuItem({ item }: { item: SidebarSingleItem }) {
     <li className="nav-item">
       <NavLink
         to={item.link}
+        end={item.end}
         className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
       >
         <span className="icons">
@@ -84,51 +88,20 @@ function renderMenuEntry(entry: SidebarMenuEntry, pathname: string) {
 
 export function SideBar() {
   const { pathname } = useLocation()
-  const menuItems = getSidebarMenu()
+  const can = useCan()
+  const menuItems = getSidebarMenu(can)
 
   return (
     <div id="main-sidebar" className="main-sidebar">
       <div className="sidebar-wrapper">
-        <a href="#!" className="navbar-brand">
+        <Link to={ROUTES.DASHBOARD} className="navbar-brand">
           <div className="logo-lg">
-            <img
-              src="/assets/images/main-logo.webp"
-              loading="lazy"
-              aria-label="logo"
-              alt="Main Logo"
-              height="26"
-              className="mx-auto logo-dark"
-            />
-            <img
-              src="/assets/images/logo-white.webp"
-              loading="lazy"
-              aria-label="logo"
-              alt="Logo White"
-              height="26"
-              className="mx-auto logo-light"
-            />
+            <BrandMark />
           </div>
           <div className="logo-sm">
-            <img
-              src="/assets/images/logo-sm-dark.webp"
-              loading="lazy"
-              aria-label="logo"
-              alt="Logo Sm Dark"
-              height="26"
-              className="mx-auto logo-dark"
-            />
-            <img
-              src="/assets/images/logo-sm-dark.webp"
-              loading="lazy"
-              aria-label="logo"
-              alt="Logo Sm White"
-              height="26"
-              className="mx-auto logo-light"
-            />
+            <BrandMark compact />
           </div>
-        </a>
-
-      
+        </Link>
 
         <div className="navbar-menu px-5" id="navbar-menu-list" data-simplebar>
           <ul className="list-unstyled p-0 navbar-nav-menu">

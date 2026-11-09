@@ -1,26 +1,29 @@
+/** Success envelope returned by every API endpoint. */
 export interface ApiResponse<T> {
-  data: T
-  message?: string
-  success: boolean
-}
-
-export interface ApiError {
-  message: string
+  success: true
   statusCode: number
-  errors?: Record<string, string[]>
+  message: string
+  data: T
+  timestamp: string
 }
 
-export interface PaginatedResponse<T> {
-  data: T[]
-  total: number
-  page: number
-  pageSize: number
-  totalPages: number
+/** Error envelope returned by every API endpoint. */
+export interface ApiErrorBody {
+  success: false
+  statusCode: number
+  code: string
+  message: string | string[]
+  details?: Array<{ field?: string; errors?: string[] } | string>
+  requestId: string | null
 }
 
-export interface PaginationParams {
-  page?: number
-  pageSize?: number
-  sortBy?: string
-  sortOrder?: 'asc' | 'desc'
+/** Keyset pagination (newest first). Pass `nextCursor` as `cursor` for the next page. */
+export interface CursorPage<T> {
+  items: T[]
+  nextCursor: string | null
+}
+
+export interface CursorParams {
+  cursor?: string
+  limit?: number
 }

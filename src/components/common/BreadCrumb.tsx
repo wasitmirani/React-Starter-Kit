@@ -11,7 +11,7 @@ const BreadCrumb = ({
     <div className="gap-2 page-heading mb-4 flex-column flex-md-row">
       <h6 className="flex-grow-1 mb-0">{activePage}</h6>
       <ul className="breadcrumb flex-shrink-0 mb-0">
-        {breadcrumbs.map((breadcrumb, idx) => (
+        {breadcrumbs.map((breadcrumb) => (
           <li className="breadcrumb-item" key={breadcrumb.label}>
             <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
           </li>

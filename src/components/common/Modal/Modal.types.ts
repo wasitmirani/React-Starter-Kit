@@ -1,5 +1,11 @@
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
+export interface ModalProps {
+  open: boolean
+  title: ReactNode
+  onClose: () => void
   children?: ReactNode
+  /** Footer content, usually action buttons. */
+  footer?: ReactNode
+  size?: 'sm' | 'md' | 'lg'
 }

@@ -1,6 +1,10 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, type ReactNode } from 'react'
+import { useRolePreview } from '@/store/rolePreview.store'
+import { useQueryClient } from '@tanstack/react-query'
+import { onSessionEnded } from '@/api/interceptors'
 import { authService } from '@/services/auth.service'
-import type { AuthUser, LoginCredentials, RegisterPayload } from '@/types/auth.types'
+import { selectCurrentMembership, useAuthStore } from '@/store/auth.store'
+import type { LoginCredentials, RegisterPayload } from '@/types/auth.types'
 import { AuthContext } from './AuthContext'
 
 interface AuthProviderProps {
@@ -8,49 +12,78 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<AuthUser | null>(() => authService.getStoredUser())
-  const [isLoading, setIsLoading] = useState(false)
+  const queryClient = useQueryClient()
+  const { status, user, memberships, setProfile, setCurrentTenant, clear } = useAuthStore()
+  const currentMembership = useAuthStore(selectCurrentMembership)
 
-  const login = useCallback(async (credentials: LoginCredentials) => {
-    setIsLoading(true)
-    try {
-      const nextUser = await authService.login(credentials)
-      setUser(nextUser)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+  const signOutLocally = useCallback(() => {
+    clear()
+    queryClient.clear()
+  }, [clear, queryClient])
 
-  const register = useCallback(async (payload: RegisterPayload) => {
-    setIsLoading(true)
-    try {
-      const nextUser = await authService.register(payload)
-      setUser(nextUser)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+  // Restore the session from stored tokens on first load.
+  useEffect(() => {
+    onSessionEnded(signOutLocally)
+    if (!authService.hasStoredSession()) return
+    authService
+      .loadProfile()
+      .then(setProfile)
+      .catch(signOutLocally)
+  }, [setProfile, signOutLocally])
+
+  const login = useCallback(
+    async (credentials: LoginCredentials) => setProfile(await authService.login(credentials)),
+    [setProfile],
+  )
+
+  const register = useCallback(
+    async (payload: RegisterPayload) => setProfile(await authService.register(payload)),
+    [setProfile],
+  )
 
   const logout = useCallback(async () => {
-    setIsLoading(true)
     try {
       await authService.logout()
-      setUser(null)
     } finally {
-      setIsLoading(false)
+      signOutLocally()
     }
-  }, [])
+  }, [signOutLocally])
+
+  const refreshProfile = useCallback(async () => {
+    setProfile(await authService.loadProfile())
+  }, [setProfile])
+
+  const switchTenant = useCallback(
+    (tenantId: string) => {
+      setCurrentTenant(tenantId)
+      // Cached data belongs to the previous workspace.
+      queryClient.clear()
+    },
+    [setCurrentTenant, queryClient],
+  )
+
+  // "Preview as role" narrows what the UI allows; it never adds permissions.
+  const preview = useRolePreview((x) => x.role)
+  const can = useCallback(
+    (permission: string) => Boolean(currentMembership?.permissions.includes(permission)) && (!preview || preview.permissions.includes(permission)),
+    [currentMembership, preview],
+  )
 
   const value = useMemo(
     () => ({
+      status,
       user,
-      isAuthenticated: Boolean(user) || authService.isAuthenticated(),
-      isLoading,
+      memberships,
+      currentMembership,
+      isAuthenticated: status === 'authenticated',
       login,
       register,
       logout,
+      refreshProfile,
+      switchTenant,
+      can,
     }),
-    [user, isLoading, login, register, logout],
+    [status, user, memberships, currentMembership, login, register, logout, refreshProfile, switchTenant, can],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

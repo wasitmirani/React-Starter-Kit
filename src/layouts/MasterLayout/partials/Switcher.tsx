@@ -1,40 +1,43 @@
+import { createPortal } from 'react-dom'
+import { alloceModalRoot } from '@/utils/alloce/loadAlloceScripts'
+
 const Switcher = () => {
   return (
    <>
      <div className="overflow-hidden nav-pattern">
-         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsXmljs="http://svgjs.dev/svgjs" width="1500" height="210" preserveAspectRatio="none" viewBox="0 0 1500 210">
+         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="1500" height="210" preserveAspectRatio="none" viewBox="0 0 1500 210">
              <g clipPath="url(&quot;#SvgjsClipPath1035&quot;)" fill="none">
-                 <circle r="35" cx="14.67" cy="34.92" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="261.54" cy="267.32" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="443.19" cy="405.59" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="531.32" cy="593.65" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="724.85" cy="700.09" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="872.11" cy="857.17" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="968.97" cy="964.22" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="1137.73" cy="1122.02" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="35" cx="1228.94" cy="1254.14" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="36.285" cx="1206.86" cy="147.33" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="22.21" cx="837.31" cy="167.41" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="54.315" cx="813.12" cy="147.4" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="63.72" cx="896.08" cy="95.33" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="19.885" cx="178.72" cy="126.94" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="39.555" cx="221.51" cy="129.08" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="56.675" cx="763.71" cy="20.39" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="67.425" cx="1440.2" cy="134.63" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="45.81" cx="294.17" cy="18.44" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="39.82" cx="1223.19" cy="103.01" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="61.335" cx="165.9" cy="100.29" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="62.25" cx="579.23" cy="130.38" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="21.145" cx="1095.32" cy="171.8" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="25.665" cx="988.98" cy="75.19" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="48.56" cx="314.19" cy="38.22" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="65.905" cx="1352.26" cy="108.43" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="51.035" cx="388.64" cy="207.04" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="24.93" cx="998.64" cy="140.59" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="21.58" cx="417.5" cy="200.39" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="26.45" cx="1106.53" cy="88.61" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="44.19" cx="883.58" cy="105.13" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
-                 <circle r="39.67" cx="488.63" cy="100.52" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"></circle>
+                 <circle r="35" cx="14.67" cy="34.92" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="261.54" cy="267.32" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="443.19" cy="405.59" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="531.32" cy="593.65" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="724.85" cy="700.09" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="872.11" cy="857.17" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="968.97" cy="964.22" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="1137.73" cy="1122.02" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="35" cx="1228.94" cy="1254.14" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="36.285" cx="1206.86" cy="147.33" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="22.21" cx="837.31" cy="167.41" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="54.315" cx="813.12" cy="147.4" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="63.72" cx="896.08" cy="95.33" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="19.885" cx="178.72" cy="126.94" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="39.555" cx="221.51" cy="129.08" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="56.675" cx="763.71" cy="20.39" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="67.425" cx="1440.2" cy="134.63" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="45.81" cx="294.17" cy="18.44" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="39.82" cx="1223.19" cy="103.01" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="61.335" cx="165.9" cy="100.29" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="62.25" cx="579.23" cy="130.38" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="21.145" cx="1095.32" cy="171.8" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="25.665" cx="988.98" cy="75.19" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="48.56" cx="314.19" cy="38.22" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="65.905" cx="1352.26" cy="108.43" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="51.035" cx="388.64" cy="207.04" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="24.93" cx="998.64" cy="140.59" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="21.58" cx="417.5" cy="200.39" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="26.45" cx="1106.53" cy="88.61" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="44.19" cx="883.58" cy="105.13" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
+                 <circle r="39.67" cx="488.63" cy="100.52" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="2"></circle>
              </g>
              <defs>
                  <clipPath id="SvgjsClipPath1035">
@@ -46,6 +49,9 @@ const Switcher = () => {
      
      {/* <!-- Apps Tools Modal --> */}
      
+     {/* Rendered into #modal-root: the Alloce script moves every .modal there on load, and React must own that position or unmounting the layout throws. */}
+     {createPortal(
+     <>
      <div className="modal fade" id="toolAppsModal" tabIndex={-1} aria-labelledby="toolAppsModalLabel" aria-hidden="true">
          <div className="modal-dialog modal-xl modal-dialog-centered">
              <div className="modal-content border-0 shadow-lg">
@@ -1050,6 +1056,9 @@ const Switcher = () => {
              </div>
          </div>
      </div>
+     </>,
+     alloceModalRoot(),
+     )}
    </>
   );
 }

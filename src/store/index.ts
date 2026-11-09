@@ -1,3 +1,2 @@
-export { useAuthStore } from './auth.store'
-export { useUserStore } from './user.store'
+export { useAuthStore, selectCurrentMembership } from './auth.store'
 export { useUiStore } from './ui.store'

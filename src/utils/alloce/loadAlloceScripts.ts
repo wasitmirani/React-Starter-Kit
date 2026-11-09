@@ -153,3 +153,17 @@ export async function loadAllocePageScript(src: string): Promise<void> {
   pagePromises.set(src, promise)
   return promise
 }
+
+/**
+ * The container the Alloce script moves `.modal` elements into (it creates it when
+ * missing). Portal kit modals here so React and the script agree on their parent.
+ */
+export function alloceModalRoot(): HTMLElement {
+  let el = document.getElementById('modal-root')
+  if (!el) {
+    el = document.createElement('div')
+    el.id = 'modal-root'
+    document.body.appendChild(el)
+  }
+  return el
+}

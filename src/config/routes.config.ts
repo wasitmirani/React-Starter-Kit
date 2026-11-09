@@ -4,26 +4,25 @@ export const publicRoutes = [
   ROUTES.LOGIN,
   ROUTES.REGISTER,
   ROUTES.FORGOT_PASSWORD,
-] as const
-
-export const protectedRoutes = [
-  ROUTES.DASHBOARD,
-  ROUTES.ANALYTICS,
-  ROUTES.SETTINGS,
-  ROUTES.PRODUCTS,
-  ROUTES.PRODUCT_CREATE,
-  ROUTES.USERS,
+  ROUTES.RESET_PASSWORD,
+  ROUTES.VERIFY_EMAIL,
+  ROUTES.ACCEPT_INVITATION,
 ] as const
 
 export const routeTitles: Record<string, string> = {
   [ROUTES.HOME]: 'Home',
-  [ROUTES.LOGIN]: 'Login',
-  [ROUTES.REGISTER]: 'Register',
-  [ROUTES.FORGOT_PASSWORD]: 'Forgot Password',
+  [ROUTES.LOGIN]: 'Sign in',
+  [ROUTES.REGISTER]: 'Create account',
+  [ROUTES.FORGOT_PASSWORD]: 'Forgot password',
+  [ROUTES.RESET_PASSWORD]: 'Reset password',
+  [ROUTES.VERIFY_EMAIL]: 'Verify email',
+  [ROUTES.ACCEPT_INVITATION]: 'Accept invitation',
   [ROUTES.DASHBOARD]: 'Dashboard',
   [ROUTES.ANALYTICS]: 'Analytics',
-  [ROUTES.SETTINGS]: 'Settings',
-  [ROUTES.PRODUCTS]: 'Products',
-  [ROUTES.PRODUCT_CREATE]: 'Create Product',
-  [ROUTES.USERS]: 'Users',
+  [ROUTES.SETTINGS_WORKSPACE]: 'Workspace settings',
+  [ROUTES.SETTINGS_TEAM]: 'Team',
+  [ROUTES.SETTINGS_ROLES]: 'Roles & permissions',
+  [ROUTES.SETTINGS_API_KEYS]: 'API keys',
+  [ROUTES.SETTINGS_AUDIT_LOG]: 'Audit log',
+  [ROUTES.SETTINGS_PROFILE]: 'My profile',
 }

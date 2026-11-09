@@ -12,9 +12,4 @@ export const MESSAGES = {
     SAVE_FAILED: 'Something went wrong. Please try again.',
     DELETE_CONFIRM: 'Are you sure you want to delete this item?',
   },
-  PRODUCTS: {
-    CREATE_SUCCESS: 'Product created successfully.',
-    UPDATE_SUCCESS: 'Product updated successfully.',
-    DELETE_SUCCESS: 'Product deleted successfully.',
-  },
 } as const

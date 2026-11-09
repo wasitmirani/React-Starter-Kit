@@ -1,25 +1,10 @@
-import type { AuthTokens, AuthUser, LoginCredentials } from '@/types/auth.types'
+/** Workspace the user last worked in; restored on reload. */
+export const CURRENT_TENANT_STORAGE_KEY = 'current_tenant_id'
 
-/** Local demo login — used when the API backend is unavailable. */
-export const DEMO_CREDENTIALS: LoginCredentials = {
-  email: 'admin@demo.com',
-  password: 'admin123',
-}
-
-export const DEMO_USER: AuthUser = {
-  id: 'demo-1',
-  name: 'Demo Admin',
-  email: DEMO_CREDENTIALS.email,
-  role: 'admin',
-}
-
-export const DEMO_TOKENS: AuthTokens = {
-  accessToken: 'demo-access-token',
-  refreshToken: 'demo-refresh-token',
-}
-
-export const AUTH_USER_STORAGE_KEY = 'auth_user'
-
-export function isDemoToken(token: string | null): boolean {
-  return Boolean(token?.startsWith('demo-'))
-}
+/** Error codes returned by the API that mean "sign in again". */
+export const SESSION_ENDED_CODES = [
+  'SESSION_ENDED',
+  'INVALID_REFRESH_TOKEN',
+  'REFRESH_TOKEN_REUSED',
+  'ACCOUNT_DISABLED',
+] as const

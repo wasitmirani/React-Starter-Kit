@@ -1,67 +1,52 @@
 import { authApi } from '@/api/endpoints/auth.api'
-import {
-  AUTH_USER_STORAGE_KEY,
-  DEMO_CREDENTIALS,
-  DEMO_TOKENS,
-  DEMO_USER,
-  isDemoToken,
-} from '@/constants/auth.constants'
-import type { AuthUser, LoginCredentials, RegisterPayload } from '@/types/auth.types'
+import { OFFLINE_TOKEN, offlineDemo } from '@/api/mock/offline-demo'
+import { env } from '@/config/env.config'
+import type { AuthResult, LoginCredentials, Profile, RegisterPayload } from '@/types/auth.types'
 import { storageService } from './storage.service'
 
-function persistSession(user: AuthUser, accessToken: string, refreshToken: string) {
-  storageService.setTokens(accessToken, refreshToken)
-  storageService.setItem(AUTH_USER_STORAGE_KEY, user)
-}
-
-function clearSession() {
-  storageService.clearAuth()
-  storageService.removeItem(AUTH_USER_STORAGE_KEY)
+function persistTokens(result: AuthResult): Profile {
+  storageService.setTokens(result.accessToken, result.refreshToken)
+  return { user: result.user, memberships: result.memberships }
 }
 
 export const authService = {
-  async login(credentials: LoginCredentials) {
-    if (
-      credentials.email === DEMO_CREDENTIALS.email &&
-      credentials.password === DEMO_CREDENTIALS.password
-    ) {
-      persistSession(DEMO_USER, DEMO_TOKENS.accessToken, DEMO_TOKENS.refreshToken)
-      return DEMO_USER
-    }
-
-    const { data } = await authApi.login(credentials)
-    const { user, tokens } = data.data
-    persistSession(user, tokens.accessToken, tokens.refreshToken)
-    return user
-  },
-
-  async register(payload: RegisterPayload) {
-    const { data } = await authApi.register(payload)
-    const { user, tokens } = data.data
-    persistSession(user, tokens.accessToken, tokens.refreshToken)
-    return user
-  },
-
-  async logout() {
-    const token = storageService.getAccessToken()
+  async login(credentials: LoginCredentials): Promise<Profile> {
     try {
-      if (token && !isDemoToken(token)) {
-        await authApi.logout()
+      const { data } = await authApi.login(credentials)
+      return persistTokens(data.data)
+    } catch (err) {
+      // The demo account always works: if the backend or its database is unavailable
+      // (or the demo user was never seeded), continue with a local offline session.
+      const demo = env.demoAccount
+      if (demo && credentials.email.trim().toLowerCase() === demo.email.toLowerCase() && credentials.password === demo.password) {
+        storageService.setTokens(OFFLINE_TOKEN, OFFLINE_TOKEN)
+        return offlineDemo.start(demo.email)
       }
-    } finally {
-      clearSession()
+      throw err
     }
   },
 
-  async forgotPassword(email: string) {
-    await authApi.forgotPassword(email)
+  isOfflineDemo: () => offlineDemo.isActive(),
+
+  async register(payload: RegisterPayload): Promise<Profile> {
+    const { data } = await authApi.register(payload)
+    return persistTokens(data.data)
   },
 
-  getStoredUser(): AuthUser | null {
-    return storageService.getItem<AuthUser>(AUTH_USER_STORAGE_KEY)
+  async loadProfile(): Promise<Profile> {
+    const { data } = await authApi.me()
+    return data.data
   },
 
-  isAuthenticated(): boolean {
+  async logout(): Promise<void> {
+    try {
+      if (storageService.getAccessToken()) await authApi.logout()
+    } finally {
+      storageService.clearAuth()
+    }
+  },
+
+  hasStoredSession(): boolean {
     return Boolean(storageService.getAccessToken())
   },
 }
