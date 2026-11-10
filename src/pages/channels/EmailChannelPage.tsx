@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useToast } from '@/hooks/useToast'
 import { domainsApi, sendersApi } from '@/api/endpoints/channels.api'
 import { ConfirmDialog } from '@/components/common/ConfirmDialog'
 import { FormField } from '@/components/common/FormField'
@@ -82,7 +84,19 @@ function SenderModal({ open, onClose, sender }: { open: boolean; onClose: () => 
 }
 
 export function EmailChannelPage() {
-  const [tab, setTab] = useState<Tab>('domains')
+  const [params, setParams] = useSearchParams()
+  const toast = useToast()
+  const [tab, setTab] = useState<Tab>(params.has('connected') || params.has('oauth_error') ? 'accounts' : 'domains')
+  // Back from Google / Microsoft sign-in: report the result once and clean the URL.
+  useEffect(() => {
+    const connected = params.get('connected')
+    const error = params.get('oauth_error')
+    if (!connected && !error) return
+    if (connected) toast.success(`${connected === 'gmail' ? 'Gmail' : 'Outlook'} account ${params.get('account') ?? ''} is connected`)
+    else toast.error(`Could not connect: ${error}`)
+    setParams({}, { replace: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const domains = useAll('domains', domainsApi.list)
   const senders = useAll('senders', sendersApi.list)
   const [adding, setAdding] = useState(false)

@@ -35,6 +35,7 @@ const ACTIVITY_ICON: Record<Activity['type'], [string, string]> = {
   deal_updated: ['ri-briefcase-line', 'orange'],
   tag_added: ['ri-price-tag-3-line', 'secondary'],
   unsubscribed: ['ri-forbid-line', 'danger'],
+  event: ['ri-code-s-slash-line', 'info'],
 }
 
 type Tab = 'activity' | 'conversations' | 'deals' | 'tasks'

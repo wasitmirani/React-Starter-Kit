@@ -364,7 +364,8 @@ html:root[data-theme] .modal-backdrop.show, html:root[data-theme] .offcanvas-bac
 html:root[data-theme] .offcanvas { border-left: 1px solid var(--dx-border-color) !important; box-shadow: var(--bc-shadow-pop); }
 
 /* ---------- Tabs ---------- */
-html:root[data-theme] .nav-tabs { border-bottom: 1px solid var(--dx-border-color); gap: 0.25rem; }
+html:root[data-theme] .nav-tabs { border-bottom: 1px solid var(--dx-border-color); gap: 0.25rem; overflow-y: hidden; scrollbar-width: none; }
+html:root[data-theme] .nav-tabs::-webkit-scrollbar { display: none; }
 html:root[data-theme] .nav-tabs .nav-link {
   border: 0;
   border-bottom: 2px solid transparent;

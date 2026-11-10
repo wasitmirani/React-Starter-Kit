@@ -30,6 +30,7 @@ export const PRODUCT_PERMISSIONS: Permission[] = [
   { key: 'automations.read', category: 'automations', description: 'View automations and their runs' },
   { key: 'automations.manage', category: 'automations', description: 'Create and edit automation drafts' },
   { key: 'automations.publish', category: 'automations', description: 'Publish, pause and resume automations' },
+  { key: 'events.write', category: 'automations', description: 'Track custom events through the Events API' },
   { key: 'templates.manage', category: 'content', description: 'Create, edit and submit templates and the brand kit' },
   { key: 'messages.read', category: 'content', description: 'View message logs and delivery events' },
   { key: 'channels.manage', category: 'channels', description: 'Connect channels, numbers, domains and senders' },
@@ -79,6 +80,6 @@ export const ROLE_PRESETS: { key: string; name: string; description: string; ico
   },
   { key: 'sales_rep', name: 'Sales rep', description: 'Deals and contacts, replies to leads', icon: 'ri-briefcase-4-line', permissions: ['contacts.read', 'contacts.manage', 'deals.read', 'deals.manage', 'inbox.read', 'inbox.reply', 'campaigns.read', 'tenant.read', 'members.read'] },
   { key: 'support_agent', name: 'Support agent', description: 'Works the inbox and looks up contacts', icon: 'ri-customer-service-2-line', permissions: ['inbox.read', 'inbox.reply', 'inbox.assign', 'contacts.read', 'messages.read', 'voice.read', 'tenant.read', 'members.read'] },
-  { key: 'developer', name: 'Developer', description: 'API keys, webhooks, integrations and channels', icon: 'ri-code-box-line', permissions: [...new Set([...keys('api_keys', 'webhooks', 'integrations', 'channels'), 'messages.read', 'automations.read', 'tenant.read', 'members.read', 'audit.read'])] },
+  { key: 'developer', name: 'Developer', description: 'API keys, webhooks, integrations and channels', icon: 'ri-code-box-line', permissions: [...new Set([...keys('api_keys', 'webhooks', 'integrations', 'channels'), 'messages.read', 'automations.read', 'events.write', 'tenant.read', 'members.read', 'audit.read'])] },
   { key: 'viewer', name: 'Viewer', description: 'Read-only access to everything', icon: 'ri-eye-line', permissions: READ_ALL },
 ]

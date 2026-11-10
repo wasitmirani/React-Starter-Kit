@@ -5,8 +5,35 @@ import type { ChannelAccount, SenderDomain } from '@/types/channel.types'
 
 const call = callFor('channels')
 
+export interface ConnectAccountInput {
+  channel: ChannelAccount['channel']
+  name: string
+  provider: string
+  identifier: string
+  /** Sent once, verified with the provider and stored encrypted; never returned. */
+  credentials: Record<string, string>
+}
+
 export const channelAccountsApi = {
   ...createResourceApi('/channel-accounts', db.channelAccounts),
+  /** Adds an account. The server checks the credentials with the provider first. */
+  connect: ({ credentials, ...input }: ConnectAccountInput) =>
+    call<ChannelAccount>(
+      async () => {
+        await latency(500, 900)
+        // The demo never keeps credentials.
+        return db.channelAccounts.create({ ...input, status: 'connected', statusDetail: null, throughput: null, quality: null, isDefault: db.channelAccounts.rows().every((a) => a.channel !== input.channel) })
+      },
+      () => http.post('/channel-accounts', { ...input, credentials }),
+    ),
+  /** Gmail / Outlook: the sign-in URL to open; the provider redirects back to the Email page. */
+  startOAuth: (provider: 'gmail' | 'outlook', name: string) =>
+    call<{ url: string }>(
+      async () => {
+        throw new Error('Signing in with Google or Microsoft needs the live backend.')
+      },
+      () => http.post(`/channel-accounts/oauth/${provider}/start`, { name }),
+    ),
   /** Re-runs the provider health check (token validity, number status). */
   check: (id: string) =>
     call<ChannelAccount>(

@@ -30,20 +30,21 @@ export function ConnectChannelModal({ channel, open, onClose }: { channel: Chann
   const connect = useAction(
     'channel-accounts',
     () =>
-      channelAccountsApi.create({
+      channelAccountsApi.connect({
         channel,
         name: name.trim(),
         provider,
         identifier: values[spec!.identifier] || provider,
-        status: 'pending',
-        statusDetail: 'Verifying credentials with the provider…',
-        throughput: null,
-        quality: null,
-        isDefault: false,
+        credentials: Object.fromEntries(Object.entries(values).map(([k, v]) => [k, v.trim()]).filter(([, v]) => v)),
       }),
-    { success: 'Account added. We are verifying the credentials.', onSuccess: onClose },
+    { success: (a) => `${a.name} is connected`, onSuccess: onClose },
   )
-  const missing = spec?.fields.filter((f) => !f.hint?.startsWith('Optional')).some((f) => !values[f.key]?.trim()) ?? true
+  // Gmail / Outlook: leave for the provider's sign-in page; it redirects back to the Email page.
+  const signIn = useAction('channel-accounts', () => channelAccountsApi.startOAuth(spec!.oauth!, name.trim()), {
+    onSuccess: ({ url }) => window.location.assign(url),
+  })
+  const missing = spec?.fields.filter((f) => !f.optional).some((f) => !values[f.key]?.trim()) ?? true
+  const busy = connect.isPending || signIn.isPending
 
   return (
     <Modal
@@ -53,15 +54,23 @@ export function ConnectChannelModal({ channel, open, onClose }: { channel: Chann
       footer={
         <>
           <button type="button" className="btn btn-light" onClick={onClose}>Cancel</button>
-          <button type="button" className="btn btn-primary" disabled={missing || !name.trim() || connect.isPending} onClick={() => connect.mutate(undefined)}>{connect.isPending ? 'Connecting…' : 'Connect'}</button>
+          {spec?.oauth ? (
+            <button type="button" className="btn btn-primary" disabled={!name.trim() || busy} onClick={() => signIn.mutate(undefined)}>
+              <i className={spec.oauth === 'gmail' ? 'ri-google-fill' : 'ri-microsoft-fill'} />
+              {signIn.isPending ? 'Opening…' : `Continue with ${spec.oauth === 'gmail' ? 'Google' : 'Microsoft'}`}
+            </button>
+          ) : (
+            <button type="button" className="btn btn-primary" disabled={missing || !name.trim() || busy} onClick={() => connect.mutate(undefined)}>{connect.isPending ? 'Checking credentials…' : 'Connect'}</button>
+          )}
         </>
       }
     >
       {specs.length > 1 && (
-        <div className="btn-group w-100 mb-4" role="group" aria-label="Provider">
-          {specs.map((s) => <button key={s.provider} type="button" className={`btn ${provider === s.provider ? 'btn-primary' : 'btn-light'}`} onClick={() => setProvider(s.provider)}>{s.provider}</button>)}
+        <div className="segmented segmented-block mb-2" role="group" aria-label="Provider">
+          {specs.map((s) => <button key={s.provider} type="button" className={provider === s.provider ? 'active' : ''} aria-pressed={provider === s.provider} onClick={() => setProvider(s.provider)}>{s.provider}</button>)}
         </div>
       )}
+      {spec?.note && <p className="text-muted fs-sm mb-4">{spec.note}</p>}
       <FormField id="acc-name" label="Display name" className="mb-3">
         <input id="acc-name" className="form-control" value={name} onChange={(e) => setName(e.target.value)} />
       </FormField>
@@ -70,7 +79,12 @@ export function ConnectChannelModal({ channel, open, onClose }: { channel: Chann
           <input id={`acc-${f.key}`} type={f.secret ? 'password' : 'text'} autoComplete="off" className="form-control" placeholder={f.placeholder} value={values[f.key] ?? ''} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} />
         </FormField>
       ))}
-      <p className="text-muted fs-sm mb-0"><i className="ri-lock-line me-1" />Credentials are encrypted in the secret store and never displayed again.</p>
+      <p className="text-muted fs-sm mb-0">
+        <i className="ri-lock-line me-1" />
+        {spec?.oauth
+          ? 'You sign in on the provider’s page. We store only an encrypted access grant, never your password, and you can revoke it from your account at any time.'
+          : 'We check the credentials with the provider before saving. They are stored encrypted and never shown again.'}
+      </p>
     </Modal>
   )
 }
@@ -80,7 +94,7 @@ export function ChannelAccountsPanel({ channel, title = 'Connected accounts' }: 
   const accounts = useAll('channel-accounts', channelAccountsApi.list, { channel })
   const [connecting, setConnecting] = useState(false)
   const [removing, setRemoving] = useState<ChannelAccount | null>(null)
-  const check = useAction('channel-accounts', channelAccountsApi.check, { success: 'Connection checked' })
+  const check = useAction('channel-accounts', channelAccountsApi.check, { success: (a) => (a.status === 'connected' ? `${a.name} is working` : `${a.name}: ${a.statusDetail ?? 'connection problem'}`) })
   const update = useAction('channel-accounts', ({ id, patch }: { id: string; patch: Partial<ChannelAccount> }) => channelAccountsApi.update(id, patch), { success: 'Account updated' })
   const remove = useAction('channel-accounts', channelAccountsApi.remove, { success: 'Account disconnected', onSuccess: () => setRemoving(null) })
   const rows = accounts.data?.data ?? []

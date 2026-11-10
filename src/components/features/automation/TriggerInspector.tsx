@@ -48,9 +48,9 @@ function eventSnippets(event: string, properties: string): Snippet[] {
   const url = eventsUrl()
   const body = `{"event":"${event || 'cart.abandoned'}","contact":{"email":"olivia@example.com"},"properties":${properties}}`
   return [
-    { key: 'curl', label: 'cURL', code: `curl -X POST '${url}' \\\n  -H "Authorization: Bearer $BIRDCRM_API_KEY" \\\n  -H 'Content-Type: application/json' \\\n  -d '${body}'` },
-    { key: 'node', label: 'Node.js', code: `await fetch('${url}', {\n  method: 'POST',\n  headers: {\n    Authorization: \`Bearer \${process.env.BIRDCRM_API_KEY}\`,\n    'Content-Type': 'application/json',\n  },\n  body: JSON.stringify(${body}),\n})` },
-    { key: 'python', label: 'Python', code: `import os, requests\n\nrequests.post(\n    "${url}",\n    headers={"Authorization": f"Bearer {os.environ['BIRDCRM_API_KEY']}"},\n    json=${body.replace(/true/g, 'True').replace(/false/g, 'False').replace(/null/g, 'None')},\n)` },
+    { key: 'curl', label: 'cURL', code: `curl -X POST '${url}' \\\n  -H "X-Api-Key: $BIRDCRM_API_KEY" \\\n  -H 'Content-Type: application/json' \\\n  -d '${body}'` },
+    { key: 'node', label: 'Node.js', code: `await fetch('${url}', {\n  method: 'POST',\n  headers: {\n    'X-Api-Key': process.env.BIRDCRM_API_KEY,\n    'Content-Type': 'application/json',\n  },\n  body: JSON.stringify(${body}),\n})` },
+    { key: 'python', label: 'Python', code: `import os, requests\n\nrequests.post(\n    "${url}",\n    headers={"X-Api-Key": os.environ['BIRDCRM_API_KEY']},\n    json=${body.replace(/true/g, 'True').replace(/false/g, 'False').replace(/null/g, 'None')},\n)` },
   ]
 }
 

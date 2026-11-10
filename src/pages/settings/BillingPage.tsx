@@ -42,11 +42,13 @@ export function BillingPage() {
                   <StatusBadge status={sub.status} />
                 </div>
                 <p className="text-muted">{current?.priceMonthly != null ? `${formatCurrency(current.priceMonthly)} / month, billed ${sub.cycle}` : 'Custom pricing'} · renews {formatDate(sub.renewsAt)}</p>
-                <dl className="mb-0">
-                  <dt className="text-muted fw-normal fs-sm">Seats</dt><dd>{sub.seats}</dd>
-                  <dt className="text-muted fw-normal fs-sm">Prepaid credits</dt><dd className="fw-medium">{formatCurrency(sub.creditBalance)}</dd>
-                  <dt className="text-muted fw-normal fs-sm">Payment method</dt>
-                  <dd className="mb-0">{sub.paymentMethod ? <><i className="ri-bank-card-line me-1" />{sub.paymentMethod.brand} •••• {sub.paymentMethod.last4} · exp {sub.paymentMethod.expires}</> : 'None'}</dd>
+                <dl className="kv-list mt-3 pt-3 border-top">
+                  <div><dt>Seats</dt><dd className="tabular-nums">{sub.seats}</dd></div>
+                  <div><dt>Prepaid credits</dt><dd className="tabular-nums">{formatCurrency(sub.creditBalance)}</dd></div>
+                  <div>
+                    <dt>Payment method</dt>
+                    <dd>{sub.paymentMethod ? <><i className="ri-bank-card-line me-1" />{sub.paymentMethod.brand} •••• {sub.paymentMethod.last4} · exp {sub.paymentMethod.expires}</> : <span className="text-muted fw-normal">None</span>}</dd>
+                  </div>
                 </dl>
               </Panel>
             </div>

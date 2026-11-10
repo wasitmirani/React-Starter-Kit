@@ -28,6 +28,9 @@ export interface ChannelAccount extends Entity {
   /** WhatsApp quality rating, SMS sender reputation… */
   quality: 'high' | 'medium' | 'low' | null
   isDefault: boolean
+  /** Credentials are stored (encrypted) on the server. */
+  credentialsSet?: boolean
+  lastCheckedAt?: string | null
 }
 
 export type DnsRecordStatus = 'verified' | 'pending' | 'failed'

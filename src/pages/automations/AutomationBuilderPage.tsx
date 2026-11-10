@@ -648,8 +648,30 @@ function Builder({ workflow: w }: { workflow: Workflow }) {
   )
 }
 
+/**
+ * The builder is a full-width workspace: collapse the app sidebar to its icon rail
+ * while it is open (desktop only) and restore the previous size on leave.
+ * The stored preference is not touched, and the sidebar toggle still works.
+ */
+function useFocusedWorkspace() {
+  useEffect(() => {
+    const html = document.documentElement
+    if (window.innerWidth < 1200) return
+    const previous = html.getAttribute('data-sidebar')
+    if (previous && previous !== 'large') return
+    html.setAttribute('data-sidebar', 'small')
+    return () => {
+      if (html.getAttribute('data-sidebar') === 'small') {
+        if (previous) html.setAttribute('data-sidebar', previous)
+        else html.removeAttribute('data-sidebar')
+      }
+    }
+  }, [])
+}
+
 export function AutomationBuilderPage() {
   const { id } = useParams<{ id: string }>()
+  useFocusedWorkspace()
   const workflow = useOne('workflows', workflowsApi.get, id)
   if (workflow.isError) return <QueryError message={errorMessage(workflow.error)} onRetry={() => workflow.refetch()} />
   if (!workflow.data) return <SkeletonLines lines={10} />

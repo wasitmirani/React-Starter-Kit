@@ -92,6 +92,8 @@ export type ActivityType =
   | 'tag_added'
   | 'unsubscribed'
   | 'created'
+  /** A custom event tracked through the Events API. */
+  | 'event'
 
 export interface Activity extends Entity {
   contactId: string
