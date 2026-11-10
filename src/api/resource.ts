@@ -1,5 +1,6 @@
 import { apiClient } from '@/api/http-client'
 import type { MockCollection } from '@/api/mock/collection'
+import { offlineDemo } from '@/api/mock/offline-demo'
 import { env } from '@/config/env.config'
 import type { ApiResponse } from '@/types/api.types'
 import type { Entity, EntityInput, ListQuery, Page } from '@/types/common.types'
@@ -15,9 +16,20 @@ export const http = {
   },
 }
 
-/** Runs the mock implementation while the backend module is not built yet. */
-export function call<T>(mock: () => Promise<T>, real: () => Promise<T>): Promise<T> {
-  return env.useMocks ? mock() : real()
+/** Product modules, one per `src/api/endpoints/*.api.ts` file. */
+export type ApiModule = 'crm' | 'inbox' | 'messaging' | 'automation' | 'channels' | 'platform'
+
+/**
+ * Whether a module calls the real backend. The offline demo (no backend reachable)
+ * always uses the in-browser mock; otherwise `VITE_USE_MOCKS` decides (env.config.ts).
+ */
+export function isLive(module: ApiModule): boolean {
+  return !offlineDemo.isActive() && !env.mockedModules.has(module)
+}
+
+/** `call(mock, real)` bound to one module: runs the mock until that module is live. */
+export function callFor(module: ApiModule) {
+  return <T>(mock: () => Promise<T>, real: () => Promise<T>): Promise<T> => (isLive(module) ? real() : mock())
 }
 
 /** Query-string form of a list query: `?page=2&per_page=20&search=…&sort=name&order=asc&status=active`. */
@@ -43,6 +55,23 @@ export interface ResourceApi<T extends Entity, In = EntityInput<T>> {
 interface ResourceOptions<T> {
   /** Adds derived fields (counts, joins) to mock rows; the real API returns them computed. */
   decorate?: (row: T) => T
+  /** Defaults to the module that owns the path. */
+  module?: ApiModule
+}
+
+const MODULE_PATHS: [ApiModule, string[]][] = [
+  ['crm', ['/contacts', '/lists', '/segments', '/contact-attributes', '/companies', '/pipelines', '/deals', '/tasks']],
+  ['inbox', ['/conversations', '/canned-replies']],
+  ['messaging', ['/campaigns', '/templates', '/messages', '/brand-kit']],
+  ['automation', ['/workflows', '/workflow-runs']],
+  ['channels', ['/channel-accounts', '/sender-domains', '/email-senders', '/phone-numbers', '/calls', '/ivr-menus', '/livechat-widgets']],
+  ['platform', ['/forms', '/webhook-endpoints', '/webhook-deliveries', '/billing', '/integrations', '/notifications', '/analytics']],
+]
+
+function moduleOf(path: string): ApiModule {
+  const found = MODULE_PATHS.find(([, prefixes]) => prefixes.some((p) => path === p || path.startsWith(`${p}/`)))
+  if (!found) throw new Error(`No API module owns ${path}; add it to MODULE_PATHS`)
+  return found[0]
 }
 
 /**
@@ -52,8 +81,9 @@ interface ResourceOptions<T> {
 export function createResourceApi<T extends Entity>(
   path: string,
   mock: MockCollection<T>,
-  { decorate = (row) => row }: ResourceOptions<T> = {},
+  { decorate = (row) => row, module = moduleOf(path) }: ResourceOptions<T> = {},
 ): ResourceApi<T> {
+  const call = callFor(module)
   return {
     list: (q) =>
       call(

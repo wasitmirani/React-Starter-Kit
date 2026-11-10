@@ -1,7 +1,7 @@
 import { latency } from '@/api/mock/collection'
 import { db } from '@/api/mock/db'
 import { createFaker } from '@/api/mock/faker'
-import { call, createResourceApi, http } from '@/api/resource'
+import { callFor, createResourceApi, http } from '@/api/resource'
 import { useAuthStore } from '@/store/auth.store'
 import { PLANS } from '@/constants/billing.constants'
 import type { Channel } from '@/types/channel.types'
@@ -15,6 +15,8 @@ import type {
   WebhookDelivery,
   WebhookEndpoint,
 } from '@/types/platform.types'
+
+const call = callFor('platform')
 
 export const formsApi = createResourceApi('/forms', db.forms)
 

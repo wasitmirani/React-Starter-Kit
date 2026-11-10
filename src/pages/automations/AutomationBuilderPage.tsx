@@ -22,7 +22,9 @@ import { useHistory } from '@/hooks/useHistory'
 import { useToast } from '@/hooks/useToast'
 import type { RunLogStatus, StepType, Workflow, WorkflowExecution, WorkflowStep } from '@/types/automation.types'
 import {
+  channelsOf,
   cloneStep,
+  countSteps,
   createStep,
   defaultSettings,
   normalizeSteps,
@@ -410,66 +412,77 @@ function Builder({ workflow: w }: { workflow: Workflow }) {
   return (
     <div className="wf-shell">
       <header className="wf-toolbar">
-        <Link to={ROUTES.AUTOMATIONS} className="btn btn-light btn-icon" aria-label="Back to automations"><i className="ri-arrow-left-line" /></Link>
-        <div className="min-w-0 flex-1 d-flex align-items-center gap-2">
-          <input className="wf-name" value={draft.name} onChange={(e) => edit({ name: e.target.value })} aria-label="Automation name" size={Math.max(12, draft.name.length)} />
-          <StatusBadge status={w.status === 'active' ? 'live' : w.status} label={w.status === 'active' ? `Live · v${w.version}` : w.status === 'paused' ? `Paused · v${w.version}` : 'Draft · not published'} />
-          <span className="text-muted fs-sm text-nowrap d-none d-xl-inline wf-save-state">
-            {save.isPending ? 'Saving…' : dirty ? 'Unsaved changes' : unpublished && w.version ? 'Draft differs from live' : 'All changes saved'}
-          </span>
-        </div>
-        <div className="btn-group btn-group-sm" role="group" aria-label="View">
-          <button type="button" className={`btn ${view === 'builder' ? 'btn-primary' : 'btn-light'}`} onClick={() => setView('builder')}><i className="ri-git-branch-line me-1" />Builder</button>
-          <button type="button" className={`btn ${view === 'runs' ? 'btn-primary' : 'btn-light'}`} onClick={() => setView('runs')}>
-            <i className="ri-pulse-line me-1" />Runs{s && s.running + s.waiting > 0 && <span className="badge rounded-pill bg-info ms-1">{s.running + s.waiting}</span>}
-          </button>
-          <button type="button" className={`btn ${view === 'versions' ? 'btn-primary' : 'btn-light'}`} onClick={() => setView('versions')}><i className="ri-git-commit-line me-1" />Versions</button>
-        </div>
-        {view === 'builder' && (
-          <div className="btn-group btn-group-sm" role="group" aria-label="History">
-            <button type="button" className="btn btn-light" disabled={!history.canUndo} onClick={history.undo} title="Undo (Ctrl+Z)" aria-label="Undo"><i className="ri-arrow-go-back-line" /></button>
-            <button type="button" className="btn btn-light" disabled={!history.canRedo} onClick={history.redo} title="Redo (Ctrl+Y)" aria-label="Redo"><i className="ri-arrow-go-forward-line" /></button>
+        <div className="wf-toolbar-row wf-toolbar-main">
+          <Link to={ROUTES.AUTOMATIONS} className="btn btn-light btn-icon" aria-label="Back to automations"><i className="ri-arrow-left-line" /></Link>
+          <div className="min-w-0 flex-1 d-flex align-items-center gap-2">
+            <input className="wf-name" value={draft.name} onChange={(e) => edit({ name: e.target.value })} aria-label="Automation name" size={Math.max(12, draft.name.length)} />
+            <StatusBadge status={w.status === 'active' ? 'live' : w.status} label={w.status === 'active' ? `Live · v${w.version}` : w.status === 'paused' ? `Paused · v${w.version}` : 'Draft · not published'} />
+            <span className="text-muted fs-sm text-nowrap d-none d-xl-inline wf-save-state">
+              <span className={`wf-save-dot${save.isPending ? ' saving' : dirty ? ' dirty' : ''}`} />
+              {save.isPending ? 'Saving…' : dirty ? 'Unsaved changes' : unpublished && w.version ? 'Draft differs from live' : 'All changes saved'}
+            </span>
           </div>
-        )}
-        {issues.length > 0 && (
-          <Dropdown
-            label={<><i className="ri-error-warning-line me-1" />{issues.length} to fix</>}
-            buttonClassName="btn btn-sm btn-warning-subtle wf-issues-btn"
-            items={issues.map((issue, i) => ({ key: String(i), label: issue.message, icon: 'ri-arrow-right-line', onSelect: () => focusTarget(issue.target) }))}
-          />
-        )}
-        {view === 'builder' && (
-          <button type="button" className="btn btn-sm btn-light btn-icon" onClick={() => setFinding(true)} title="Find a step (Ctrl+F)" aria-label="Find a step"><i className="ri-search-line" /></button>
-        )}
-        <Dropdown
-          label={<i className="ri-more-2-fill" />}
-          ariaLabel="More actions"
-          buttonClassName="btn btn-sm btn-light btn-icon"
-          items={[
-            { key: 'autosave', label: autoSave ? 'Auto-save draft: on' : 'Auto-save draft: off', icon: autoSave ? 'ri-toggle-fill' : 'ri-toggle-line', onSelect: () => setAutoSave((a) => { localStorage.setItem(AUTOSAVE_KEY, String(!a)); return !a }) },
-            { key: 'paste', label: 'Paste step', icon: 'ri-clipboard-line', onSelect: pasteStep },
-            'divider',
-            { key: 'export', label: 'Export as JSON', icon: 'ri-download-2-line', onSelect: exportJson },
-            { key: 'import', label: 'Import JSON into draft…', icon: 'ri-upload-2-line', onSelect: () => importInput.current?.click() },
-            { key: 'dup', label: 'Duplicate workflow', icon: 'ri-file-copy-2-line', onSelect: () => duplicateWorkflow.mutate(undefined) },
-            'divider',
-            { key: 'keys', label: 'Keyboard shortcuts', icon: 'ri-keyboard-line', onSelect: () => setShowShortcuts(true) },
-          ]}
-        />
-        <input ref={importInput} type="file" accept="application/json,.json" className="d-none" onChange={(e) => { void importJson(e.target.files?.[0]); e.target.value = '' }} />
-        <button type="button" className="btn btn-sm btn-light" onClick={() => setTesting(true)} title="Run the draft for one contact"><i className="ri-flask-line me-1" />Test</button>
-        <Guard permission="automations.manage">
-  <button type="button" className="btn btn-sm btn-light" disabled={!dirty || save.isPending} onClick={() => save.mutate(draft)} title="Save draft (Ctrl+S)">Save draft</button>
-</Guard>
-        {w.status === 'active' && <Guard permission="automations.publish"><button type="button" className="btn btn-sm btn-light text-warning" disabled={pause.isPending} onClick={() => pause.mutate(undefined)}><i className="ri-pause-line me-1" />Pause</button></Guard>}
-        {w.status === 'paused' && !unpublished && <Guard permission="automations.publish"><button type="button" className="btn btn-sm btn-success" disabled={resume.isPending} onClick={() => resume.mutate(undefined)}><i className="ri-play-line me-1" />Resume</button></Guard>}
-        {(unpublished || w.status === 'draft') && (
-          <Guard permission="automations.publish">
-            <button type="button" className="btn btn-sm btn-primary" disabled={publish.isPending} onClick={openPublish}>
-              <i className="ri-rocket-2-line me-1" />Publish{w.version ? ` v${w.version + 1}` : ''}
+          <div className="wf-toolbar-actions">
+            <button type="button" className="btn btn-sm btn-light" onClick={() => setTesting(true)} title="Run the draft for one contact"><i className="ri-flask-line me-1" />Test</button>
+            <Guard permission="automations.manage">
+              <button type="button" className="btn btn-sm btn-light" disabled={!dirty || save.isPending} onClick={() => save.mutate(draft)} title="Save draft (Ctrl+S)"><i className="ri-save-3-line me-1" />Save</button>
+            </Guard>
+            {w.status === 'active' && <Guard permission="automations.publish"><button type="button" className="btn btn-sm btn-light text-warning" disabled={pause.isPending} onClick={() => pause.mutate(undefined)}><i className="ri-pause-line me-1" />Pause</button></Guard>}
+            {w.status === 'paused' && !unpublished && <Guard permission="automations.publish"><button type="button" className="btn btn-sm btn-success" disabled={resume.isPending} onClick={() => resume.mutate(undefined)}><i className="ri-play-line me-1" />Resume</button></Guard>}
+            {(unpublished || w.status === 'draft') && (
+              <Guard permission="automations.publish">
+                <button type="button" className="btn btn-sm btn-primary" disabled={publish.isPending} onClick={openPublish}>
+                  <i className="ri-rocket-2-line me-1" />Publish{w.version ? ` v${w.version + 1}` : ''}
+                </button>
+              </Guard>
+            )}
+          </div>
+        </div>
+
+        <div className="wf-toolbar-row wf-toolbar-sub">
+          <div className="wf-view-tabs" role="tablist" aria-label="View">
+            <button type="button" role="tab" aria-selected={view === 'builder'} className={`btn${view === 'builder' ? ' active' : ''}`} onClick={() => setView('builder')}><i className="ri-git-branch-line me-1" />Builder</button>
+            <button type="button" role="tab" aria-selected={view === 'runs'} className={`btn${view === 'runs' ? ' active' : ''}`} onClick={() => setView('runs')}>
+              <i className="ri-pulse-line me-1" />Runs{s && s.running + s.waiting > 0 && <span className="badge rounded-pill bg-info ms-1">{s.running + s.waiting}</span>}
             </button>
-          </Guard>
-        )}
+            <button type="button" role="tab" aria-selected={view === 'versions'} className={`btn${view === 'versions' ? ' active' : ''}`} onClick={() => setView('versions')}><i className="ri-git-commit-line me-1" />Versions</button>
+          </div>
+          {view === 'builder' && (
+            <div className="btn-group btn-group-sm" role="group" aria-label="History">
+              <button type="button" className="btn btn-light btn-icon" disabled={!history.canUndo} onClick={history.undo} title="Undo (Ctrl+Z)" aria-label="Undo"><i className="ri-arrow-go-back-line" /></button>
+              <button type="button" className="btn btn-light btn-icon" disabled={!history.canRedo} onClick={history.redo} title="Redo (Ctrl+Y)" aria-label="Redo"><i className="ri-arrow-go-forward-line" /></button>
+            </div>
+          )}
+          <span className="text-muted fs-xs d-none d-xxl-inline ms-1">{countSteps(draft.steps)} steps{channelsOf(draft.steps).length ? ` · ${channelsOf(draft.steps).length} channels` : ''}</span>
+          <div className="wf-toolbar-actions">
+            {issues.length > 0 && (
+              <Dropdown
+                label={<><i className="ri-error-warning-line me-1" />{issues.length} to fix</>}
+                buttonClassName="btn btn-sm btn-warning-subtle wf-issues-btn"
+                items={issues.map((issue, i) => ({ key: String(i), label: issue.message, icon: 'ri-arrow-right-line', onSelect: () => focusTarget(issue.target) }))}
+              />
+            )}
+            {view === 'builder' && (
+              <button type="button" className="btn btn-sm btn-light btn-icon" onClick={() => setFinding(true)} title="Find a step (Ctrl+F)" aria-label="Find a step"><i className="ri-search-line" /></button>
+            )}
+            <Dropdown
+              label={<i className="ri-more-2-fill" />}
+              ariaLabel="More actions"
+              buttonClassName="btn btn-sm btn-light btn-icon"
+              items={[
+                { key: 'autosave', label: autoSave ? 'Auto-save draft: on' : 'Auto-save draft: off', icon: autoSave ? 'ri-toggle-fill' : 'ri-toggle-line', onSelect: () => setAutoSave((a) => { localStorage.setItem(AUTOSAVE_KEY, String(!a)); return !a }) },
+                { key: 'paste', label: 'Paste step', icon: 'ri-clipboard-line', onSelect: pasteStep },
+                'divider',
+                { key: 'export', label: 'Export as JSON', icon: 'ri-download-2-line', onSelect: exportJson },
+                { key: 'import', label: 'Import JSON into draft…', icon: 'ri-upload-2-line', onSelect: () => importInput.current?.click() },
+                { key: 'dup', label: 'Duplicate workflow', icon: 'ri-file-copy-2-line', onSelect: () => duplicateWorkflow.mutate(undefined) },
+                'divider',
+                { key: 'keys', label: 'Keyboard shortcuts', icon: 'ri-keyboard-line', onSelect: () => setShowShortcuts(true) },
+              ]}
+            />
+          </div>
+          <input ref={importInput} type="file" accept="application/json,.json" className="d-none" onChange={(e) => { void importJson(e.target.files?.[0]); e.target.value = '' }} />
+        </div>
       </header>
 
       {view === 'builder' && w.status === 'paused' && <div className="wf-banner warn"><i className="ri-pause-circle-line" /> Paused: nobody new enters and waiting contacts hold their place. Resume to continue.</div>}

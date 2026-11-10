@@ -8,6 +8,7 @@ import "./assets/styles/template-editor.css"
 import "./assets/styles/components.css"
 import "./assets/styles/inbox.css"
 import "./assets/styles/theme.css"
+import "./assets/styles/saas.css"
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

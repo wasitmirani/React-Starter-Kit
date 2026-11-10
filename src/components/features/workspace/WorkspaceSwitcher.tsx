@@ -20,10 +20,10 @@ export function WorkspaceSwitcher() {
           aria-expanded="false"
         >
           <i className="mgc_building_2_line" />
-          <span className="text-truncate" style={{ maxWidth: 180 }}>
+          <span className="text-truncate d-none d-sm-inline" style={{ maxWidth: 180 }}>
             {currentMembership?.tenant.name ?? 'No workspace'}
           </span>
-          <i className="mgc_down_line fs-sm" />
+          <i className="mgc_down_line fs-sm d-none d-sm-inline" />
         </button>
         <div className="dropdown-menu dropdown-menu-end p-2" style={{ minWidth: 260 }}>
           <span className="dropdown-header">Workspaces</span>

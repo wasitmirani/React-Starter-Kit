@@ -1,8 +1,10 @@
 import { AppError } from '@/api/errors'
 import { latency, nowIso } from '@/api/mock/collection'
 import { db } from '@/api/mock/db'
-import { call, createResourceApi, http } from '@/api/resource'
+import { callFor, createResourceApi, http } from '@/api/resource'
 import type { Conversation, ConversationMessage } from '@/types/inbox.types'
+
+const call = callFor('inbox')
 
 export interface ReplyInput {
   body: string

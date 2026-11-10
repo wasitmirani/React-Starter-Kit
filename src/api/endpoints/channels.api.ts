@@ -1,7 +1,9 @@
 import { latency } from '@/api/mock/collection'
 import { db } from '@/api/mock/db'
-import { call, createResourceApi, http } from '@/api/resource'
+import { callFor, createResourceApi, http } from '@/api/resource'
 import type { ChannelAccount, SenderDomain } from '@/types/channel.types'
+
+const call = callFor('channels')
 
 export const channelAccountsApi = {
   ...createResourceApi('/channel-accounts', db.channelAccounts),

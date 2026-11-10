@@ -3,9 +3,11 @@ import { latency, stripMeta } from '@/api/mock/collection'
 import { db } from '@/api/mock/db'
 import { seedTemplates } from '@/api/mock/seed'
 import { matchesSegment } from '@/api/mock/segment-engine'
-import { call, createResourceApi, http } from '@/api/resource'
+import { callFor, createResourceApi, http } from '@/api/resource'
 import type { Channel } from '@/types/channel.types'
 import type { BrandKit, Campaign, CampaignAudience, CampaignStatus, Template } from '@/types/messaging.types'
+
+const call = callFor('messaging')
 
 /** Contacts reachable on the channel: consent given and not blocklisted. */
 function audienceFor(audience: CampaignAudience, channel: Channel) {

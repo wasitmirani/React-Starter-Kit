@@ -1,5 +1,6 @@
 /* ───────── Inbox (modern) ───────── */
 .inbox-shell.modern { border-radius: 1rem; box-shadow: 0 10px 30px -20px rgba(15, 23, 42, 0.35); }
+.inbox-shell.modern .inbox-pane { min-width: 0; }
 .inbox-shell.modern .inbox-folders { padding: 0.875rem; background: var(--dx-tertiary-bg); }
 .inbox-folders-head { display: flex; align-items: center; gap: 0.625rem; padding: 0.25rem 0.375rem 0.875rem; }
 .inbox-folders-head strong { font-size: 0.9375rem; }
@@ -103,15 +104,24 @@
 @media (prefers-reduced-motion: reduce) { .msg-row { animation: none; } }
 
 /* Narrower screens: give the thread room; the contact panel becomes an overlay. */
-.inbox-shell.modern .ctx-toggle, .inbox-shell.modern .ctx-close { display: none; }
+.inbox-shell.modern .ctx-toggle, .inbox-shell.modern .ctx-close { display: none !important; }
 .composer-hints { white-space: nowrap; }
-@media (max-width: 1599.98px) {
+@media (max-width: 1799.98px) {
   .inbox-shell.modern { grid-template-columns: 210px 320px minmax(0, 1fr); position: relative; }
   .inbox-shell.modern .inbox-context { position: absolute; top: 0; right: 0; bottom: 0; width: 300px; z-index: 5; background: var(--dx-secondary-bg); border-left: 1px solid var(--dx-border-color); box-shadow: -12px 0 30px -18px rgba(15, 23, 42, 0.4); transform: translateX(105%); transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); border-radius: 0 1rem 1rem 0; }
   .inbox-shell.modern.ctx-open .inbox-context { transform: none; }
-  .inbox-shell.modern .ctx-toggle { display: inline-flex; }
-  .inbox-shell.modern .ctx-close { display: inline-flex; position: absolute; top: 0.625rem; right: 0.625rem; z-index: 2; }
+  .inbox-shell.modern .ctx-toggle { display: inline-flex !important; }
+  .inbox-shell.modern .ctx-close { display: inline-flex !important; position: absolute; top: 0.625rem; right: 0.625rem; z-index: 2; }
   .composer-hints { display: none; }
+}
+@media (max-width: 1399.98px) {
+  .inbox-shell.modern .inbox-context { display: block !important; }
 }
 @media (max-width: 1199.98px) { .inbox-shell.modern { grid-template-columns: 190px 280px minmax(0, 1fr); } }
 @media (max-width: 991.98px) { .inbox-shell.modern { grid-template-columns: 1fr; } }
+
+/* Off-canvas contact panel: not focusable while closed, so Tab can't scroll the shell sideways. */
+@media (max-width: 1799.98px) {
+  .inbox-shell.modern:not(.ctx-open) .inbox-context { visibility: hidden; transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.25s; }
+}
+.inbox-item-meta .chip.tag { text-transform: none; }

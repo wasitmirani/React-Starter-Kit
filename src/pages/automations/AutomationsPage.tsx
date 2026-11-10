@@ -23,7 +23,7 @@ import type { Workflow } from '@/types/automation.types'
 import type { Tone } from '@/types/common.types'
 import { formatRelativeTime } from '@/utils/formatters/date.formatter'
 import { formatCompact, formatRate, plural } from '@/utils/formatters/number.formatter'
-import { channelsOf, countSteps, createStep, defaultSettings, defaultTriggerConfig, hasUnpublishedChanges, newCondition, stepKey } from '@/utils/helpers/workflow'
+import { channelsOf, cloneStep, countSteps, createStep, defaultSettings, defaultTriggerConfig, hasUnpublishedChanges, newCondition, stepKey } from '@/utils/helpers/workflow'
 
 type Recipe = { key: string; title: string; description: string; icon: string; build: () => Pick<Workflow, 'name' | 'description' | 'trigger' | 'steps'> }
 
@@ -132,6 +132,7 @@ export function AutomationsPage() {
   const [picking, setPicking] = useState(params.get('new') === '1')
   const [recipe, setRecipe] = useState('blank')
   const [deleting, setDeleting] = useState<Workflow | null>(null)
+  const [stoppingAll, setStoppingAll] = useState(false)
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<string | undefined>()
   const [trigger, setTrigger] = useState<string | undefined>()
@@ -150,6 +151,29 @@ export function AutomationsPage() {
   const pause = useAction('workflows', workflowsApi.pause, { success: 'Automation paused' })
   const resume = useAction('workflows', workflowsApi.resume, { success: 'Automation resumed' })
   const remove = useAction('workflows', workflowsApi.remove, { success: 'Automation deleted', onSuccess: () => setDeleting(null) })
+  /** Emergency stop: pauses every live workflow at once. Contacts wait in place and continue on resume. */
+  const pauseAll = useAction('workflows', (ids: string[]) => Promise.all(ids.map((id) => workflowsApi.pause(id))), {
+    success: 'All live automations paused',
+    onSuccess: () => setStoppingAll(false),
+  })
+  const duplicate = useAction(
+    'workflows',
+    (w: Workflow) =>
+      workflowsApi.create({
+        name: `${w.name} (copy)`,
+        description: w.description,
+        trigger: w.trigger,
+        steps: w.steps.map(cloneStep),
+        variables: w.variables,
+        allowReentry: w.allowReentry,
+        settings: w.settings,
+        status: 'draft',
+        version: 0,
+        versions: [],
+        stats: { enrolled: 0, active: 0, completed: 0, goalReached: 0 },
+      }),
+    { success: 'Duplicated as a draft', onSuccess: (copy) => navigate(to(ROUTES.AUTOMATION, { id: copy.id })) },
+  )
 
   const closePicker = () => {
     setPicking(false)
@@ -157,6 +181,8 @@ export function AutomationsPage() {
   }
 
   const all = workflows.data?.data ?? []
+  const liveIds = all.filter((w) => w.status === 'active').map((w) => w.id)
+  const liveCount = liveIds.length
   const o = overview.data ?? {}
   const statsOf = (w: Workflow) => o[w.id] ?? EMPTY_OVERVIEW
   const sum = (k: 'running' | 'waiting' | 'completed' | 'failed') => Object.values(o).reduce((n, s) => n + s[k], 0)
@@ -210,6 +236,7 @@ export function AutomationsPage() {
       { key: 'edit', label: 'Open builder', icon: 'ri-git-branch-line', onSelect: () => navigate(builderUrl(w)) },
       { key: 'runs', label: 'View runs', icon: 'ri-pulse-line', onSelect: () => navigate(builderUrl(w, 'runs')) },
       { key: 'versions', label: 'Version history', icon: 'ri-git-commit-line', onSelect: () => navigate(builderUrl(w, 'versions')) },
+      { key: 'duplicate', label: 'Duplicate as draft', icon: 'ri-file-copy-2-line', onSelect: () => duplicate.mutate(w) },
     ]
     if (w.status === 'active') items.push({ key: 'pause', label: 'Pause', icon: 'ri-pause-line', onSelect: () => pause.mutate(w.id) })
     if (w.status === 'paused') items.push({ key: 'resume', label: 'Resume', icon: 'ri-play-line', onSelect: () => resume.mutate(w.id) })
@@ -262,7 +289,18 @@ export function AutomationsPage() {
       <PageHeader
         title="Automations"
         description="Journeys that react to what contacts do. Edit a draft, publish a version, and watch contacts move through it live."
-        actions={<Guard permission="automations.manage"><button type="button" className="btn btn-primary" onClick={() => setPicking(true)}><i className="ri-add-line me-1" />Create automation</button></Guard>}
+        actions={
+          <>
+            {liveCount > 0 && (
+              <Guard permission="automations.manage" mode="hide">
+                <button type="button" className="btn btn-light text-danger" title="Pause every live automation at once" onClick={() => setStoppingAll(true)}>
+                  <i className="ri-stop-circle-line" />Pause all live
+                </button>
+              </Guard>
+            )}
+            <Guard permission="automations.manage"><button type="button" className="btn btn-primary" onClick={() => setPicking(true)}><i className="ri-add-line" />Create automation</button></Guard>
+          </>
+        }
       />
 
       <div className="row g-4 mb-4">
@@ -336,7 +374,7 @@ export function AutomationsPage() {
                     <tr>
                       {sortTh('name', 'Automation')}
                       <th>Status</th>
-                      <th className="text-nowrap">Runs · 14d</th>
+                      <th className="text-nowrap d-none d-xxl-table-cell">Runs · 14d</th>
                       {sortTh('active', 'In progress', true)}
                       {sortTh('success', 'Success')}
                       {sortTh('conversion', 'Conversion', true)}
@@ -362,7 +400,7 @@ export function AutomationsPage() {
                             </div>
                           </td>
                           <td>{statusCell(w)}</td>
-                          <td>{s.daily.some(Boolean) ? <Sparkline values={s.daily} width={84} height={24} /> : <span className="text-muted fs-sm">—</span>}</td>
+                          <td className="d-none d-xxl-table-cell">{s.daily.some(Boolean) ? <Sparkline values={s.daily} width={84} height={24} /> : <span className="text-muted fs-sm">—</span>}</td>
                           <td className="text-end tabular-nums">
                             {inProgress(s)}
                             {s.failed > 0 && <div className="text-danger fs-xs">{s.failed} failed</div>}
@@ -472,6 +510,16 @@ export function AutomationsPage() {
         busy={remove.isPending}
         onClose={() => setDeleting(null)}
         onConfirm={() => remove.mutate(deleting!.id)}
+      />
+      <ConfirmDialog
+        open={stoppingAll}
+        title={`Pause ${liveCount} live automation${liveCount === 1 ? '' : 's'}?`}
+        message="Nobody new enters, and contacts already inside wait at their current step. Resume each automation when you are ready; nothing is lost."
+        confirmLabel="Pause all"
+        danger
+        busy={pauseAll.isPending}
+        onClose={() => setStoppingAll(false)}
+        onConfirm={() => pauseAll.mutate(liveIds)}
       />
     </>
   )

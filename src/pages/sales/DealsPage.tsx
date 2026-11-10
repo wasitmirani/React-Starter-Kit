@@ -166,7 +166,7 @@ export function DealsPage() {
                       onDragEnd={() => setDragId(null)}
                     >
                       <div className="d-flex justify-content-between gap-2">
-                        <button type="button" className="btn btn-link p-0 text-reset fw-medium text-start lh-sm" onClick={() => setEditing(d)}>{d.title}</button>
+                        <button type="button" className="kanban-title" onClick={() => setEditing(d)}>{d.title}</button>
                         {dealMenu(d)}
                       </div>
                       <div className="text-muted fs-sm mt-1">{d.companyName ?? d.contactName ?? 'No company'}</div>

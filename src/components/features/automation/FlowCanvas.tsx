@@ -293,9 +293,26 @@ export function FlowCanvas(props: FlowCanvasProps) {
               {issueTargets.has('trigger') && <i className="ri-error-warning-fill text-warning fs-5" title="Needs setup" />}
             </button>
           </div>
-          {dropZone({ parentId: null, pathId: null, index: 0 })}
-          {renderSteps(workflow.steps, null, null, false)}
-          {!last?.paths && !(last && isTerminal(last)) && <span className="flow-end">Exit</span>}
+          {workflow.steps.length === 0 && !readOnly ? (
+            <>
+              <div className="flow-connector" />
+              <button type="button" className="flow-empty" onClick={() => onInsert({ parentId: null, pathId: null, index: 0 })}>
+                <span className="icon-tile icon-tile-sm"><i className="ri-add-line" /></span>
+                <span>
+                  <strong>Add your first step</strong>
+                  <span>Send a message, wait, branch on a condition…</span>
+                </span>
+              </button>
+              <div className="flow-connector" />
+              <span className="flow-end">Exit</span>
+            </>
+          ) : (
+            <>
+              {dropZone({ parentId: null, pathId: null, index: 0 })}
+              {renderSteps(workflow.steps, null, null, false)}
+              {!last?.paths && !(last && isTerminal(last)) && <span className="flow-end">Exit</span>}
+            </>
+          )}
         </div>
       </div>
       <div className="flow-zoom" role="group" aria-label="Zoom">

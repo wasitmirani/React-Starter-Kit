@@ -77,6 +77,9 @@ export function statusTone(status: string): Tone {
 }
 
 export function humanize(value: string): string {
-  const text = value.replace(/[_-]+/g, ' ').trim()
+  const text = value
+    .replace(/[_-]+/g, ' ')
+    .trim()
+    .replace(/\b(vip|sms|rcs|api|url|ip|id|cta)\b/gi, (word) => word.toUpperCase())
   return text.charAt(0).toUpperCase() + text.slice(1)
 }

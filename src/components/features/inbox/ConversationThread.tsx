@@ -245,6 +245,13 @@ export function ConversationContext({ conversation: c }: { conversation: Convers
   const can = useCan()
   const update = useAction('conversations', (patch: Partial<Conversation>) => inboxApi.update(c.id, patch))
   const windowOpen = c.windowExpiresAt && Date.parse(c.windowExpiresAt) > Date.now()
+  const canTag = can('inbox.assign')
+  const [tagDraft, setTagDraft] = useState('')
+  const addTag = () => {
+    const tag = tagDraft.trim().toLowerCase().replace(/^#/, '').replace(/\s+/g, '-')
+    setTagDraft('')
+    if (tag && !c.tags.includes(tag)) update.mutate({ tags: [...c.tags, tag] })
+  }
   return (
     <div className="inbox-scroll ctx">
       <div className="ctx-card">
@@ -282,7 +289,21 @@ export function ConversationContext({ conversation: c }: { conversation: Convers
 
       <section className="ctx-section">
         <h6 className="tpl-section-title mb-2">Tags</h6>
-        <div className="d-flex flex-wrap gap-1">{c.tags.length ? c.tags.map((t) => <span key={t} className="badge bg-light text-body border fw-normal">#{t}</span>) : <span className="text-muted fs-sm">No tags</span>}</div>
+        <div className="d-flex flex-wrap gap-1">
+          {c.tags.length === 0 && <span className="text-muted fs-sm">No tags</span>}
+          {c.tags.map((t) => (
+            <span key={t} className="ctx-tag">
+              #{t}
+              {canTag && <button type="button" aria-label={`Remove tag ${t}`} onClick={() => update.mutate({ tags: c.tags.filter((x) => x !== t) })}><i className="ri-close-line" /></button>}
+            </span>
+          ))}
+        </div>
+        {canTag && (
+          <form className="input-group input-group-sm mt-2" onSubmit={(e) => { e.preventDefault(); addTag() }}>
+            <input className="form-control" placeholder="Add a tag…" value={tagDraft} onChange={(e) => setTagDraft(e.target.value)} aria-label="New tag" maxLength={32} />
+            <button type="submit" className="btn btn-light" disabled={!tagDraft.trim()}><i className="ri-add-line" />Add</button>
+          </form>
+        )}
       </section>
     </div>
   )

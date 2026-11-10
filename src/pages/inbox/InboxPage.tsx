@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { inboxApi } from '@/api/endpoints/inbox.api'
 import { SearchInput } from '@/components/common/FilterBar'
@@ -88,6 +88,43 @@ export function InboxPage() {
   const selected = (conversations.data?.data ?? []).find((c) => c.id === effectiveId) ?? null
   const folderCount = (key: Folder) => counts.data?.[key]
   const folderLabel = FOLDERS.find((f) => f.key === folder)?.label ?? 'Inbox'
+  // Keyboard triage: J/K (or arrows) move through the list, / focuses search, Esc closes the thread.
+  const nav = useRef({ visible, effectiveId, set })
+  nav.current = { visible, effectiveId, set }
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement
+      if (e.ctrlKey || e.metaKey || e.altKey || el.closest('input, textarea, select, [contenteditable="true"], .modal')) return
+      const { visible: list, effectiveId: current, set: go } = nav.current
+      const index = list.findIndex((c) => c.id === current)
+      if (e.key === 'j' || e.key === 'ArrowDown') {
+        const next = list[Math.min(list.length - 1, index + 1)]
+        if (next) go({ c: next.id })
+      } else if (e.key === 'k' || e.key === 'ArrowUp') {
+        const prev = list[Math.max(0, index - 1)]
+        if (prev) go({ c: prev.id })
+      } else if (e.key === '/') {
+        document.querySelector<HTMLInputElement>('.inbox-list input[type="search"]')?.focus()
+      } else if (e.key === 'Escape') {
+        go({ c: null })
+      } else return
+      e.preventDefault()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  // Keep the keyboard-selected row in view.
+  useEffect(() => {
+    // Scroll only the list pane; scrollIntoView would also shift the page sideways.
+    const row = effectiveId ? document.querySelector<HTMLElement>(`[data-conversation="${CSS.escape(effectiveId)}"]`) : null
+    const box = row?.closest<HTMLElement>('.inbox-scroll')
+    if (!row || !box) return
+    const top = row.offsetTop - box.offsetTop
+    if (top < box.scrollTop) box.scrollTop = top
+    else if (top + row.offsetHeight > box.scrollTop + box.clientHeight) box.scrollTop = top + row.offsetHeight - box.clientHeight
+  }, [effectiveId])
+
   const quickCount = (q: Quick) => inFolder.filter((c) => (q === 'unread' ? c.unreadCount > 0 : q === 'urgent' ? c.priority === 'urgent' || c.priority === 'high' : q === 'waiting' ? waiting(c) : true)).length
 
   return (
@@ -149,7 +186,7 @@ export function InboxPage() {
             <EmptyState icon="ri-chat-check-line" title={quick !== 'all' ? 'Nothing here' : 'Inbox zero'} description={quick !== 'all' ? 'No conversations match this filter.' : folder === 'mine' ? 'Nothing assigned to you right now. Nice work.' : 'Nothing in this view.'} />
           ) : (
             visible.map((c) => (
-              <button key={c.id} type="button" className={`inbox-item${c.id === effectiveId ? ' active' : ''}${c.unreadCount ? ' unread' : ''}`} onClick={() => set({ c: c.id })}>
+              <button key={c.id} type="button" data-conversation={c.id} aria-current={c.id === effectiveId || undefined} className={`inbox-item${c.id === effectiveId ? ' active' : ''}${c.unreadCount ? ' unread' : ''}`} onClick={() => set({ c: c.id })}>
                 <div className="position-relative flex-shrink-0">
                   <Avatar name={c.contactName} size={40} />
                   <span className={`inbox-item-ch bg-${CHANNELS[c.channel].tone}`} title={CHANNELS[c.channel].label}><i className={CHANNELS[c.channel].icon} /></span>
@@ -164,7 +201,7 @@ export function InboxPage() {
                   <div className="inbox-item-meta">
                     {(c.priority === 'urgent' || c.priority === 'high') && <span className={`chip ${c.priority}`}><i className="ri-flag-fill" />{c.priority}</span>}
                     {waiting(c) && <span className="chip wait" title="Waiting for a reply"><i className="ri-time-line" />{waitLabel(c.lastMessageAt, now)}</span>}
-                    {c.tags.slice(0, 1).map((t) => <span key={t} className="chip">{t}</span>)}
+                    {c.tags.slice(0, 1).map((t) => <span key={t} className="chip tag">#{t}</span>)}
                     <span className="ms-auto d-inline-flex align-items-center gap-1">
                       {c.assigneeName ? <span title={`Assigned to ${c.assigneeName}`}><Avatar name={c.assigneeName} size={18} /></span> : <span className="chip ghost" title="Unassigned"><i className="ri-user-add-line" /></span>}
                       {c.unreadCount > 0 && <span className="inbox-unread">{c.unreadCount}</span>}
@@ -191,13 +228,15 @@ export function InboxPage() {
         {selected ? (
           <>
             <button type="button" className="btn btn-sm btn-icon btn-light ctx-close" aria-label="Close contact panel" onClick={() => setCtxOpen(false)}><i className="ri-close-line" /></button>
-            <ConversationContext conversation={selected} />
+            <ConversationContext key={selected.id} conversation={selected} />
           </>
         ) : (
           <div className="inbox-tips">
             <h6 className="tpl-section-title mb-3">Tips</h6>
             <ul>
-              <li><span className="kbd">/</span> inserts a saved reply</li>
+              <li><span className="kbd">J</span> <span className="kbd">K</span> next and previous conversation</li>
+              <li><span className="kbd">/</span> searches here, and inserts a saved reply in the composer</li>
+              <li><span className="kbd">Esc</span> closes the conversation</li>
               <li><span className="kbd">Ctrl</span>+<span className="kbd">Enter</span> sends</li>
               <li><i className="ri-lock-line" /> Internal notes are only seen by your team</li>
             </ul>

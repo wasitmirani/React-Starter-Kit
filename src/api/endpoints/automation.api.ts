@@ -3,12 +3,14 @@ import { latency, paginate } from '@/api/mock/collection'
 import { db } from '@/api/mock/db'
 import { execute, setConnectionCheck } from '@/api/mock/workflow-engine'
 import { definitionOf } from '@/api/mock/workflow-seed'
-import { call, createResourceApi, http, toParams } from '@/api/resource'
+import { callFor, createResourceApi, http, toParams } from '@/api/resource'
 import { STEP_TYPES, TRIGGERS } from '@/constants/automation.constants'
 import { useAuthStore } from '@/store/auth.store'
 import type { StepType, Workflow, WorkflowExecution, WorkflowRunStats } from '@/types/automation.types'
 import type { ListQuery, Page } from '@/types/common.types'
 import { defaultSettings, flattenPayload, normalizeSteps, parseSample, validateWorkflow } from '@/utils/helpers/workflow'
+
+const call = callFor('automation')
 
 type Legacy = Parameters<typeof normalizeSteps>[0]
 

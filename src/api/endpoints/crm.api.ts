@@ -2,9 +2,11 @@ import { AppError } from '@/api/errors'
 import { latency, paginate } from '@/api/mock/collection'
 import { db } from '@/api/mock/db'
 import { matchesSegment } from '@/api/mock/segment-engine'
-import { call, createResourceApi, http, toParams } from '@/api/resource'
+import { callFor, createResourceApi, http, toParams } from '@/api/resource'
 import type { ListQuery, Page } from '@/types/common.types'
 import type { Activity, Contact, ImportJob, SegmentRuleGroup } from '@/types/crm.types'
+
+const call = callFor('crm')
 
 /** Contacts list query: `listId`, `segmentId` and `tag` narrow the audience before paging. */
 function queryContacts(q: ListQuery = {}): Contact[] {
