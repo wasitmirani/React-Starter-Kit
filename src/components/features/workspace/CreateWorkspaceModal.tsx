@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 import { tenantsApi } from '@/api/endpoints/tenants.api'
-import { errorMessage } from '@/api/errors'
+import { errorMessage, toApiError } from '@/api/errors'
 import { FormField } from '@/components/common/FormField'
 import { Modal } from '@/components/common/Modal'
 import { ROUTES } from '@/constants/routes.constants'
@@ -35,7 +35,16 @@ export function CreateWorkspaceModal({ open, onClose }: { open: boolean; onClose
       close()
       navigate(ROUTES.DASHBOARD)
     } catch (err) {
-      toast.error(errorMessage(err))
+      const e = toApiError(err)
+      if (e.code === 'WORKSPACE_LIMIT') {
+        // Plan limit (one Free workspace per person): explain it and offer the way out.
+        toast.warning(e.message, {
+          title: 'Workspace limit reached',
+          action: { label: 'Go to billing', onClick: () => { close(); navigate(ROUTES.SETTINGS_BILLING) } },
+        })
+      } else {
+        toast.error(errorMessage(err), { title: 'Could not create the workspace' })
+      }
     }
   })
 
@@ -57,7 +66,7 @@ export function CreateWorkspaceModal({ open, onClose }: { open: boolean; onClose
     >
       <form id="create-workspace" onSubmit={onSubmit} noValidate>
         <p className="text-muted">
-          A workspace has its own contacts, channels, team and billing. You will be its owner.
+          A workspace has its own contacts, channels, team and billing. You will be its owner. Each person can own one workspace on the Free plan.
         </p>
         <FormField id="workspace-name" label="Workspace name" error={errors.name?.message}>
           <input

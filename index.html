@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-layout="modern" data-theme="material" data-bs-theme="light" data-sidebar-colors="light" data-sidebar-image="none" data-sidebar="large" data-topbar-colors="light" data-nav-type="default" dir="ltr" data-colors="default">
+<html lang="en" data-layout="modern" data-theme="material" data-bs-theme="light" data-sidebar-colors="dark" data-sidebar-image="none" data-sidebar="large" data-topbar-colors="light" data-nav-type="boxed" dir="ltr" data-colors="default">
 <head>
     <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="theme-color" content="#047263">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Dynamic Title -->
     <title>%VITE_APP_TITLE%</title>
@@ -24,6 +24,14 @@
                 html.removeAttribute('data-profile-sidebar');
                 sessionStorage.removeItem('data-profile-sidebar');
             }
+
+            // Brand colour theme (My profile → Appearance), before the first paint.
+            var brands = { lagoon: '#047263', violet: '#6d28d9', ocean: '#2563eb', ember: '#c2410c', berry: '#a21caf' };
+            var brand = 'lagoon';
+            try { var saved = localStorage.getItem('linqflow.brand'); if (saved && brands[saved]) brand = saved; } catch (e) {}
+            html.setAttribute('data-brand', brand);
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', brands[brand]);
 
             keys.forEach(function (key) {
                 var stored = sessionStorage.getItem(key);
@@ -68,10 +76,10 @@
     <link rel="modulepreload" crossorigin href="/assets/main-BSp6wgyE.js">
     <link rel="modulepreload" crossorigin href="/assets/apexcharts.esm-CF-OO0O0.js">
 
-    <!-- Inter is the only UI font; the kit's other families are no longer loaded. -->
+    <!-- Rubik (Alloce Material) is the UI font; Inter stays as a fallback for older pages. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Rubik:wght@400;500;600;700&display=swap">
 
     <link rel="stylesheet" crossorigin href="/assets/css/virtual-select.css">
     <link rel="stylesheet" crossorigin href="/assets/css/admin.css">

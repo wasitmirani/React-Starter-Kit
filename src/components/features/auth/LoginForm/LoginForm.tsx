@@ -42,65 +42,81 @@ export function LoginForm({ onSuccess, className = '' }: LoginFormProps) {
   }
 
   return (
-    <form className={`${styles.root} ${className}`.trim()} onSubmit={onSubmit} noValidate>
+    <form className={`${styles.root} auth-form ${className}`.trim()} onSubmit={onSubmit} noValidate>
+      {/* A failed sign-in stays next to the form (it is about these fields), not in a passing toast. */}
       <FormAlert message={error} onClose={() => setError(null)} />
-      {demo && (
-        <div className="alert alert-info d-flex align-items-center gap-3 mb-6">
-          <i className="ri-flask-line fs-5" />
-          <div className="flex-1 fs-sm">
-            <div className="fw-medium">Demo account</div>
-            <div>
-              <code>{demo.email}</code> · <code>{demo.password}</code>
-            </div>
-            <div className="text-muted fs-xs mt-1">Works without the backend: if the server or database is down you get an offline demo.</div>
-          </div>
-          <button type="button" className="btn btn-sm btn-primary text-nowrap" onClick={useDemo} disabled={isSubmitting}>
-            Sign in as demo
-          </button>
-        </div>
-      )}
-      <div className="row g-6">
-        <FormField id="email" label="Email" error={errors.email?.message} required className="col-12">
+
+      <FormField id="email" label="Email" error={errors.email?.message} className="mb-4">
+        <div className="auth-input">
+          <i className="ri-mail-line" aria-hidden="true" />
           <input
             id="email"
             type="email"
             autoComplete="email"
+            autoFocus
             placeholder="you@company.com"
             className={`form-control${errors.email ? ' is-invalid' : ''}`}
             {...register('email')}
           />
-        </FormField>
-        <FormField id="password" label="Password" error={errors.password?.message} required className="col-12">
-          <div className="position-relative">
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="current-password"
-              className={`form-control pe-8${errors.password ? ' is-invalid' : ''}`}
-              placeholder="Enter your password"
-              {...register('password')}
-            />
-            <button
-              type="button"
-              className="position-absolute top-50 end-0 me-3 translate-middle-y text-muted border-0 bg-transparent p-0"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-              onClick={() => setShowPassword((prev) => !prev)}
-            >
-              <i className={`ri-eye${showPassword ? '' : '-off'}-line size-5`} />
-            </button>
-          </div>
-        </FormField>
-        <div className="col-12 d-flex justify-content-end">
-          <Link to={ROUTES.FORGOT_PASSWORD} className="fs-sm">
+        </div>
+      </FormField>
+
+      <FormField
+        id="password"
+        label="Password"
+        error={errors.password?.message}
+        className="mb-5"
+        aside={
+          <Link to={ROUTES.FORGOT_PASSWORD} className="auth-link-sm">
             Forgot password?
           </Link>
-        </div>
-        <div className="col-12 mt-7">
-          <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
-            {isSubmitting ? 'Signing in…' : 'Sign in'}
+        }
+      >
+        <div className="auth-input">
+          <i className="ri-lock-2-line" aria-hidden="true" />
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="current-password"
+            className={`form-control has-toggle${errors.password ? ' is-invalid' : ''}`}
+            placeholder="Your password"
+            {...register('password')}
+          />
+          <button
+            type="button"
+            className="auth-input-toggle"
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-pressed={showPassword}
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
+            <i className={showPassword ? 'ri-eye-line' : 'ri-eye-off-line'} />
           </button>
         </div>
-      </div>
+      </FormField>
+
+      <button type="submit" className="btn btn-primary btn-lg w-100 auth-submit" disabled={isSubmitting}>
+        {isSubmitting ? (
+          <>
+            <span className="spinner-border spinner-border-sm" aria-hidden="true" /> Signing in…
+          </>
+        ) : (
+          <>
+            Sign in <i className="ri-arrow-right-line" aria-hidden="true" />
+          </>
+        )}
+      </button>
+
+      {demo && (
+        <>
+          <div className="auth-divider"><span>or</span></div>
+          <button type="button" className="btn btn-light btn-lg w-100 auth-demo" onClick={useDemo} disabled={isSubmitting}>
+            <i className="ri-flask-line" aria-hidden="true" /> Try the demo account
+          </button>
+          <p className="auth-demo-note">
+            {demo.email} · works even when the server is offline
+          </p>
+        </>
+      )}
     </form>
   )
 }

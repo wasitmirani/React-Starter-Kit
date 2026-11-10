@@ -10,12 +10,13 @@ export function LoginPage() {
 
   return (
     <AuthCard
-      title="Sign in"
-      subtitle={
+      title="Welcome back"
+      subtitle="Sign in to your workspace to pick up where you left off."
+      footer={
         <>
-          Don&apos;t have an account?{' '}
-          <Link to={registerLink} className="text-body fw-semibold">
-            Sign up
+          New here?{' '}
+          <Link to={registerLink} className="fw-semibold">
+            Create an account
           </Link>
         </>
       }

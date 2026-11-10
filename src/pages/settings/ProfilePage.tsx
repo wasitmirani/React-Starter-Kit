@@ -13,6 +13,7 @@ import { queryKeys, useSessions } from '@/hooks/queries/workspace.queries'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/hooks/useToast'
 import { useAuthStore } from '@/store/auth.store'
+import { applyBrand, BRAND_THEMES, currentBrand, type BrandTheme } from '@/utils/helpers/brand'
 import {
   changePasswordSchema,
   profileSchema,
@@ -168,16 +169,58 @@ function SessionsList() {
   )
 }
 
+/** Brand colour theme: one click, applied live and remembered in this browser. */
+function AppearancePicker() {
+  const [brand, setBrand] = useState<BrandTheme>(() => currentBrand())
+  const pick = (id: BrandTheme) => {
+    applyBrand(id)
+    setBrand(id)
+  }
+  return (
+    <div className="brand-picker" role="radiogroup" aria-label="Colour theme">
+      {BRAND_THEMES.map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          role="radio"
+          aria-checked={brand === t.id}
+          className="brand-option"
+          style={{ ['--swatch-rgb' as string]: t.rgb }}
+          onClick={() => pick(t.id)}
+        >
+          <span className="brand-swatch" aria-hidden="true">
+            {t.shades.map((c) => <span key={c} style={{ background: c }} />)}
+          </span>
+          <span className="brand-option-name">
+            {t.name}
+            {brand === t.id && <i className="ri-checkbox-circle-fill" aria-hidden="true" />}
+          </span>
+          <small>{t.description}</small>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function ProfilePage() {
   return (
     <>
-      <PageHeader title="My profile" description="Your name, password and signed-in devices." />
+      <PageHeader title="My profile" description="Your name, appearance, password and signed-in devices." />
       <div className="card">
         <div className="card-header">
           <h6 className="card-title mb-0">Profile</h6>
         </div>
         <div className="card-body">
           <ProfileForm />
+        </div>
+      </div>
+      <div className="card mt-6">
+        <div className="card-header">
+          <h6 className="card-title mb-0">Appearance</h6>
+          <p className="text-muted fs-sm mb-0 mt-1">Pick the colour of buttons, links and highlights. Saved in this browser; switch light and dark mode with the moon icon in the top bar.</p>
+        </div>
+        <div className="card-body">
+          <AppearancePicker />
         </div>
       </div>
       <div className="card mt-6">

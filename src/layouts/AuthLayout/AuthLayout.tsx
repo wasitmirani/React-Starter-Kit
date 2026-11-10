@@ -1,4 +1,7 @@
-import { Outlet, Navigate, useLocation, useSearchParams } from 'react-router-dom'
+import { Link, Navigate, Outlet, useLocation, useSearchParams } from 'react-router-dom'
+import { BrandMark } from '@/components/common/BrandMark'
+import { appConfig } from '@/config/app.config'
+import { ROUTES } from '@/constants/routes.constants'
 import { useAuth } from '@/hooks/useAuth'
 import { safeRedirect } from '@/utils/helpers/redirect'
 
@@ -7,6 +10,7 @@ interface AuthLayoutProps {
   redirectIfAuthenticated?: boolean
 }
 
+/** Sign-in screens: the form on the left, a product preview on the right (wide screens). */
 export function AuthLayout({ redirectIfAuthenticated = true }: AuthLayoutProps) {
   const { isAuthenticated } = useAuth()
   const [searchParams] = useSearchParams()
@@ -19,47 +23,76 @@ export function AuthLayout({ redirectIfAuthenticated = true }: AuthLayoutProps) 
   }
 
   return (
-    <div className="auth-wrapper auth-modern">
-      <div className="row justify-content-between align-items-center h-100 p-xl-5 g-0">
-        <div className="col-xl-7 h-100 position-relative">
-          <div className="row g-0 auth-modern-row justify-content-center align-items-center">
-            <Outlet />
-          </div>
+    <div className="auth-shell">
+      <main className="auth-main">
+        <header className="auth-top">
+          <Link to={ROUTES.HOME} className="text-reset text-decoration-none" aria-label={appConfig.name}>
+            <BrandMark />
+          </Link>
+        </header>
+        <div className="auth-center">
+          <Outlet />
         </div>
-        <aside className="col-xl-5 h-100 d-none d-xl-block">
-          <div className="auth-showcase">
-            <div className="auth-showcase-body">
-              <span className="auth-showcase-eyebrow">Omnichannel engagement</span>
-              <h2>Every conversation, campaign and customer in one place.</h2>
-              <p>Send email, SMS and WhatsApp, answer customers from a shared inbox, and let automations follow up for you.</p>
-              <ul className="auth-showcase-points">
-                {SHOWCASE_POINTS.map((point) => (
-                  <li key={point.title}>
-                    <span className="auth-showcase-icon"><i className={point.icon} /></span>
-                    <span>
-                      <strong>{point.title}</strong>
-                      {point.text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+        <footer className="auth-foot">
+          <span>© {new Date().getFullYear()} {appConfig.name}</span>
+          <span aria-hidden="true">·</span>
+          <a href="#privacy">Privacy</a>
+          <span aria-hidden="true">·</span>
+          <a href="#terms">Terms</a>
+        </footer>
+      </main>
+
+      <aside className="auth-showcase auth-aside" aria-label={`About ${appConfig.name}`}>
+        <div className="auth-aside-copy">
+          <span className="auth-showcase-eyebrow">Omnichannel engagement</span>
+          <h2>Every conversation, campaign and customer in one place.</h2>
+          <p>Email, SMS, WhatsApp and Telegram in one workspace, with a shared inbox and automations that follow up for you.</p>
+        </div>
+
+        {/* Product preview (illustrative, not live data). */}
+        <div className="auth-preview" aria-hidden="true">
+          <div className="auth-preview-card auth-preview-campaign">
+            <div className="auth-preview-head">
+              <span className="auth-preview-icon"><i className="ri-send-plane-fill" /></span>
+              <div>
+                <strong>Spring sale</strong>
+                <small>Email · sent to 12,480 contacts</small>
+              </div>
+              <span className="auth-preview-pill">Completed</span>
             </div>
-            <div className="auth-showcase-channels" aria-label="Supported channels">
-              {CHANNEL_ICONS.map((icon) => (
-                <span key={icon}><i className={icon} /></span>
+            <div className="auth-preview-stats">
+              <div><span>98.4%</span><small>Delivered</small></div>
+              <div><span>46.2%</span><small>Opened</small></div>
+              <div><span>12.8%</span><small>Clicked</small></div>
+            </div>
+            <div className="auth-preview-bars">
+              {[38, 52, 46, 70, 64, 82, 76, 94, 88, 72, 60, 84].map((h, i) => (
+                <span key={i} style={{ height: `${h}%` }} />
               ))}
             </div>
           </div>
-        </aside>
-      </div>
+
+          <div className="auth-preview-card auth-preview-chat">
+            <div className="auth-preview-head">
+              <span className="auth-preview-avatar">MK</span>
+              <div>
+                <strong>Maya Khan</strong>
+                <small><i className="ri-whatsapp-fill" /> WhatsApp · just now</small>
+              </div>
+            </div>
+            <div className="auth-bubble in">Hi! Has my order shipped yet?</div>
+            <div className="auth-bubble out">Yes, it arrives tomorrow before noon. 📦</div>
+            <div className="auth-preview-auto"><i className="ri-flashlight-fill" /> Replied by automation “Order updates”</div>
+          </div>
+        </div>
+
+        <ul className="auth-aside-points">
+          <li><i className="ri-inbox-2-line" /> Shared inbox</li>
+          <li><i className="ri-send-plane-line" /> Campaigns</li>
+          <li><i className="ri-git-branch-line" /> Automations</li>
+          <li><i className="ri-pie-chart-2-line" /> Analytics</li>
+        </ul>
+      </aside>
     </div>
   )
 }
-
-const SHOWCASE_POINTS = [
-  { icon: 'ri-inbox-2-line', title: 'Shared inbox', text: 'Assign, snooze and resolve conversations from every channel.' },
-  { icon: 'ri-send-plane-line', title: 'Campaigns', text: 'Reach a list or segment and see opens, clicks and revenue.' },
-  { icon: 'ri-git-branch-line', title: 'Automations', text: 'Journeys that react to what contacts do, step by step.' },
-]
-
-const CHANNEL_ICONS = ['ri-mail-line', 'ri-message-2-line', 'ri-whatsapp-line', 'ri-phone-line', 'ri-chat-smile-2-line', 'ri-instagram-line']
