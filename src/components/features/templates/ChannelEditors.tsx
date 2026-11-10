@@ -6,7 +6,20 @@ import { numberedVars } from '@/utils/helpers/template'
 import { EditorSection } from './EditorParts'
 import { TokenField } from './TokenField'
 
-export type MessageDraft = Pick<Template, 'subject' | 'body' | 'examples' | 'whatsapp' | 'push' | 'category'>
+export type MessageDraft = Pick<Template, 'subject' | 'body' | 'examples' | 'variableFields' | 'whatsapp' | 'push' | 'category'>
+
+/** Contact fields a WhatsApp variable can be filled with when sending. */
+const VARIABLE_FIELDS = [
+  { value: '', label: 'Fixed text (the example)' },
+  { value: 'first_name', label: 'First name' },
+  { value: 'last_name', label: 'Last name' },
+  { value: 'full_name', label: 'Full name' },
+  { value: 'email', label: 'Email' },
+  { value: 'phone', label: 'Phone' },
+  { value: 'company', label: 'Company' },
+  { value: 'city', label: 'City' },
+  { value: 'country', label: 'Country' },
+]
 
 interface EditorProps {
   value: MessageDraft
@@ -51,8 +64,12 @@ export function WhatsAppEditor({ value, onChange }: EditorProps) {
               <div key={n} className="input-group input-group-sm">
                 <span className="input-group-text font-monospace">{`{{${n}}}`}</span>
                 <input id={`example-${n}`} className={`form-control${value.examples?.[String(n)]?.trim() ? '' : ' is-invalid'}`} placeholder="Example value for review" value={value.examples?.[String(n)] ?? ''} onChange={(e) => onChange({ examples: { ...value.examples, [String(n)]: e.target.value } })} aria-label={`Example for variable ${n}`} />
+                <select className="form-select wa-var-field" value={value.variableFields?.[String(n)] ?? ''} onChange={(e) => onChange({ variableFields: { ...value.variableFields, [String(n)]: e.target.value } })} aria-label={`What fills variable ${n} when sending`} title="What fills this variable when the message is sent">
+                  {VARIABLE_FIELDS.map((f) => <option key={f.value} value={f.value}>{f.value ? `Filled with: ${f.label}` : f.label}</option>)}
+                </select>
               </div>
             ))}
+            <p className="form-text mb-0">Meta reviews the template with the examples. When sending, each variable is filled with the chosen contact field, or the example text if none is chosen.</p>
           </div>
         )}
       </EditorSection>

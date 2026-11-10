@@ -132,6 +132,11 @@ export interface Template extends Entity {
   rejectionReason: string | null
   /** Sample value per placeholder, shown in previews and sent to Meta for review. */
   examples?: Record<string, string>
+  /** WhatsApp: contact field that fills each numbered variable when sending ({"1": "first_name"}). Unmapped variables send their example as fixed text. */
+  variableFields?: Record<string, string>
+  /** WhatsApp: name and id of the template at Meta, set on submit. */
+  metaName?: string
+  metaId?: string
   /** Email: inbox preview line shown after the subject. */
   previewText?: string
   /** Email: brand look. */

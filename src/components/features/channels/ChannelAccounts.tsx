@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { channelAccountsApi } from '@/api/endpoints/channels.api'
 import { ConfirmDialog } from '@/components/common/ConfirmDialog'
+import { CopyButton } from '@/components/common/Misc'
 import { FormField } from '@/components/common/FormField'
 import { Modal } from '@/components/common/Modal'
 import { Panel } from '@/components/common/Panel'
@@ -89,6 +90,25 @@ export function ConnectChannelModal({ channel, open, onClose }: { channel: Chann
   )
 }
 
+/** Where the provider must send incoming messages: copyable URL and verify token. */
+function WebhookSetup({ setup }: { setup: NonNullable<ChannelAccount['setup']> }) {
+  const [open, setOpen] = useState(setup.registered === false)
+  return (
+    <div className="webhook-setup mt-2">
+      <button type="button" className="btn btn-link btn-sm p-0 fs-sm" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <i className={open ? 'ri-arrow-down-s-line' : 'ri-arrow-right-s-line'} /> Webhook setup{setup.registered ? ' · registered automatically' : ''}
+      </button>
+      {open && (
+        <div className="webhook-setup-body">
+          {setup.note && <p className="text-muted fs-sm mb-2">{setup.note}</p>}
+          <div className="endpoint-box mb-2"><span className="http-method">URL</span><code className="text-truncate">{setup.inboundUrl}</code><CopyButton value={setup.inboundUrl} label="" className="btn btn-sm btn-light btn-icon" /></div>
+          {setup.verifyToken && <div className="endpoint-box"><span className="http-method bg-secondary">Token</span><code className="text-truncate">{setup.verifyToken}</code><CopyButton value={setup.verifyToken} label="" className="btn btn-sm btn-light btn-icon" /></div>}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /** Connected accounts for one channel with check/default/disconnect actions. */
 export function ChannelAccountsPanel({ channel, title = 'Connected accounts' }: { channel: Channel; title?: string }) {
   const accounts = useAll('channel-accounts', channelAccountsApi.list, { channel })
@@ -115,6 +135,7 @@ export function ChannelAccountsPanel({ channel, title = 'Connected accounts' }: 
                   <div className="fw-medium d-flex align-items-center gap-2">{a.name}{a.isDefault && <ToneBadge tone="primary">Default</ToneBadge>}</div>
                   <div className="text-muted fs-sm">{a.provider} · {a.identifier}{a.throughput ? ` · ${a.throughput} msg/s` : ''}</div>
                   {a.statusDetail && <div className={`fs-sm ${a.status === 'error' ? 'text-danger' : 'text-warning'}`}>{a.statusDetail}</div>}
+                  {a.setup && <WebhookSetup setup={a.setup} />}
                 </div>
                 {a.quality && <span className="fs-sm text-muted">Quality: <StatusBadge status={a.quality} /></span>}
                 <StatusBadge status={a.status} />

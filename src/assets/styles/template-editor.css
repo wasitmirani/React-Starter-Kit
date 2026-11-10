@@ -98,7 +98,8 @@
 .var-menu code { font-size: 0.6875rem; color: var(--dx-secondary-color); }
 
 /* Message editors */
-.examples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 0.5rem; }
+.examples-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+.examples-grid .wa-var-field { flex: 0 0 auto; width: auto; max-width: 14rem; }
 .wa-button-row { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--dx-border-color); border-radius: 0.625rem; background: var(--dx-tertiary-bg); animation: flow-pop 0.2s ease backwards; }
 .sms-meter-bar { display: flex; gap: 0.25rem; }
 .sms-meter-bar span { flex: 1; height: 0.4375rem; border-radius: 999px; background: var(--dx-tertiary-bg); position: relative; overflow: hidden; }

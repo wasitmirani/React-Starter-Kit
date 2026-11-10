@@ -7,11 +7,13 @@ import { WorkspaceSwitcher } from '@/components/features/workspace/WorkspaceSwit
 import { Dropdown } from '@/components/ui/Dropdown'
 import { ROUTES } from '@/constants/routes.constants'
 import { useCan } from '@/hooks/useCan'
+import { useRealtimeStatus } from '@/hooks/useRealtimeSync'
 
 export function HeaderMenu() {
   const navigate = useNavigate()
   // Create actions the role cannot perform stay visible but disabled.
   const can = useCan()
+  const live = useRealtimeStatus((s) => s.status)
   const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform)
 
   return (
@@ -57,6 +59,12 @@ export function HeaderMenu() {
             { key: 'import', label: 'Import contacts', icon: 'ri-upload-2-line', disabled: !can('contacts.import'), onSelect: () => navigate(ROUTES.CONTACT_IMPORT) },
           ]}
         />
+        {live !== 'off' && (
+          <span className={`live-indicator ${live}`} role="status" title={live === 'live' ? 'Live: changes appear as they happen' : live === 'connecting' ? 'Connecting to live updates…' : 'Live updates paused; reconnecting'}>
+            <span className="live-indicator-dot" aria-hidden="true" />
+            <span className="d-none d-xl-inline">{live === 'live' ? 'Live' : live === 'connecting' ? 'Connecting' : 'Offline'}</span>
+          </span>
+        )}
         <WorkspaceSwitcher />
         <NotificationsMenu />
         <button type="button" id="fullscreenButton" className="topbar-link btn d-none d-xl-flex" aria-label="Fullscreen">

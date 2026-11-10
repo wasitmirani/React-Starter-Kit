@@ -31,6 +31,8 @@ export interface ChannelAccount extends Entity {
   /** Credentials are stored (encrypted) on the server. */
   credentialsSet?: boolean
   lastCheckedAt?: string | null
+  /** Messaging accounts: where the provider sends incoming messages and delivery reports. */
+  setup?: { inboundUrl: string; verifyToken?: string; registered?: boolean; note?: string }
 }
 
 export type DnsRecordStatus = 'verified' | 'pending' | 'failed'

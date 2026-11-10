@@ -13,16 +13,16 @@ html:root[data-theme] {
   --dx-font-weight-semibold: 600;
 
   /* Iris primary: calmer than stock indigo, AA contrast with white text. */
-  --dx-primary: #5b5bd6;
-  --dx-primary-rgb: 91, 91, 214;
-  --dx-primary-hover: #4c4cc4;
-  --dx-primary-bg-subtle: #f0f0fd;
-  --dx-primary-border-subtle: #cfd0f7;
-  --dx-primary-text-emphasis: #3d3da8;
-  --dx-link-color: #5b5bd6;
-  --dx-link-color-rgb: 91, 91, 214;
-  --dx-link-hover-color: #4c4cc4;
-  --dx-link-hover-color-rgb: 76, 76, 196;
+  --dx-primary: #4f46e5;
+  --dx-primary-rgb: 79, 70, 229;
+  --dx-primary-hover: #4338ca;
+  --dx-primary-bg-subtle: #eef0ff;
+  --dx-primary-border-subtle: #c7cbfb;
+  --dx-primary-text-emphasis: #3730a3;
+  --dx-link-color: #4f46e5;
+  --dx-link-color-rgb: 79, 70, 229;
+  --dx-link-hover-color: #4338ca;
+  --dx-link-hover-color-rgb: 67, 56, 202;
 
   /* Semantic colours. The kit ships purple "secondary", neon green and yellow; these are muted and legible. */
   --dx-secondary: #64748b; --dx-secondary-rgb: 100, 116, 139; --dx-secondary-text-emphasis: #475569; --dx-secondary-bg-subtle: #f1f4f8; --dx-secondary-border-subtle: #dde3eb;
@@ -32,8 +32,8 @@ html:root[data-theme] {
   --dx-danger: #e5484d; --dx-danger-rgb: 229, 72, 77; --dx-danger-text-emphasis: #c22a2f; --dx-danger-bg-subtle: #fef1f1; --dx-danger-border-subtle: #f9c6c7;
   --dx-orange: #ea580c; --dx-orange-rgb: 234, 88, 12;
 
-  --dx-body-bg: #f6f7fb;
-  --dx-body-bg-rgb: 246, 247, 251;
+  --dx-body-bg: #f6f7f9;
+  --dx-body-bg-rgb: 246, 247, 249;
   --dx-body-color: #0f172a;
   --dx-body-color-rgb: 15, 23, 42;
   --dx-heading-color: #0f172a;
@@ -42,11 +42,11 @@ html:root[data-theme] {
   --dx-secondary-bg-rgb: 255, 255, 255;
   --dx-secondary-color: #64748b;
   --dx-secondary-color-rgb: 100, 116, 139;
-  --dx-tertiary-bg: #f1f3f9;
+  --dx-tertiary-bg: #f2f4f7;
   --dx-tertiary-bg-rgb: 241, 243, 249;
-  --dx-light: #f1f3f9;
+  --dx-light: #f2f4f7;
   --dx-light-rgb: 241, 243, 249;
-  --dx-border-color: #e4e7ef;
+  --dx-border-color: #e4e7ec;
   --dx-border-color-translucent: rgba(15, 23, 42, 0.08);
   --dx-custom-bg: var(--dx-tertiary-bg);
 
@@ -57,7 +57,7 @@ html:root[data-theme] {
   --dx-box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
   --dx-element-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
   --bc-shadow-pop: 0 12px 32px -8px rgba(15, 23, 42, 0.18), 0 2px 6px rgba(15, 23, 42, 0.06);
-  --bc-ring: 0 0 0 3px rgba(91, 91, 214, 0.2);
+  --bc-ring: 0 0 0 3px rgba(79, 70, 229, 0.2);
 
   /* Light sidebar, regardless of the kit's stored sidebar colour preset. */
   --dx-sidebar-bg: #ffffff;
@@ -66,11 +66,11 @@ html:root[data-theme] {
   --dx-sidebar-link-color: #475569;
   --dx-sidebar-link-hover-color: #0f172a;
   --dx-sidebar-link-bg-hover-color: #f1f3f9;
-  --dx-sidebar-link-active-color: #3d3da8;
-  --dx-sidebar-link-bg-active-color: #f0f0fd;
+  --dx-sidebar-link-active-color: #3730a3;
+  --dx-sidebar-link-bg-active-color: #eef0ff;
   --dx-sidebar-link-sub-color: #64748b;
   --dx-sidebar-link-sub-hover-color: #0f172a;
-  --dx-sidebar-link-sub-active-color: #3d3da8;
+  --dx-sidebar-link-sub-active-color: #3730a3;
   --dx-sidebar-font-size: 0.875rem;
   --dx-sidebar-menu-title-font-size: 0.6875rem;
 
@@ -82,14 +82,14 @@ html:root[data-theme] {
 }
 
 html:root[data-theme][data-bs-theme='dark'] {
-  --dx-primary: #8d8ff7;
-  --dx-primary-rgb: 141, 143, 247;
-  --dx-primary-hover: #a9abfa;
-  --dx-primary-bg-subtle: rgba(141, 143, 247, 0.14);
-  --dx-primary-border-subtle: rgba(141, 143, 247, 0.35);
-  --dx-primary-text-emphasis: #c9caff;
-  --dx-link-color: #a9abfa;
-  --dx-link-hover-color: #c9caff;
+  --dx-primary: #818cf8;
+  --dx-primary-rgb: 129, 140, 248;
+  --dx-primary-hover: #a5b4fc;
+  --dx-primary-bg-subtle: rgba(129, 140, 248, 0.14);
+  --dx-primary-border-subtle: rgba(129, 140, 248, 0.35);
+  --dx-primary-text-emphasis: #c7d2fe;
+  --dx-link-color: #a5b4fc;
+  --dx-link-hover-color: #c7d2fe;
 
   --dx-secondary: #94a3b8; --dx-secondary-rgb: 148, 163, 184; --dx-secondary-text-emphasis: #cbd5e1; --dx-secondary-bg-subtle: rgba(148, 163, 184, 0.14); --dx-secondary-border-subtle: rgba(148, 163, 184, 0.3);
   --dx-success: #3ecf8e; --dx-success-rgb: 62, 207, 142; --dx-success-text-emphasis: #86efac; --dx-success-bg-subtle: rgba(62, 207, 142, 0.13); --dx-success-border-subtle: rgba(62, 207, 142, 0.3);
@@ -115,7 +115,7 @@ html:root[data-theme][data-bs-theme='dark'] {
   --dx-border-color: #242c42;
   --dx-border-color-translucent: rgba(255, 255, 255, 0.08);
   --bc-shadow-pop: 0 16px 40px -8px rgba(0, 0, 0, 0.6);
-  --bc-ring: 0 0 0 3px rgba(141, 143, 247, 0.28);
+  --bc-ring: 0 0 0 3px rgba(129, 140, 248, 0.28);
 
   --dx-sidebar-bg: #0e1424;
   --dx-sidebar-menu-title: #64748b;
@@ -123,7 +123,7 @@ html:root[data-theme][data-bs-theme='dark'] {
   --dx-sidebar-link-hover-color: #f1f5f9;
   --dx-sidebar-link-bg-hover-color: #1a2135;
   --dx-sidebar-link-active-color: #c7d2fe;
-  --dx-sidebar-link-bg-active-color: rgba(141, 143, 247, 0.14);
+  --dx-sidebar-link-bg-active-color: rgba(129, 140, 248, 0.14);
   --dx-sidebar-link-sub-color: #94a3b8;
   --dx-sidebar-link-sub-active-color: #c7d2fe;
 

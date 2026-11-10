@@ -11,10 +11,13 @@ import { RolePreviewBanner } from '@/components/features/account/RolePreviewBann
 import { NoWorkspace } from '@/components/features/workspace/NoWorkspace'
 import { ROUTES } from '@/constants/routes.constants'
 import { useAuth } from '@/hooks/useAuth'
+import { useRealtimeSync } from '@/hooks/useRealtimeSync'
 
 const MasterLayout = () => {
   const location = useLocation()
   const { currentMembership } = useAuth()
+  // Live updates (inbox, delivery statuses, runs) over WebSocket.
+  useRealtimeSync()
   // Profile settings do not need a workspace; everything else does.
   const needsWorkspace = !currentMembership && location.pathname !== ROUTES.SETTINGS_PROFILE
 

@@ -8,9 +8,9 @@
  */
 
 html:root[data-theme] {
-  --dx-body-bg: #f7f8fc;
-  --dx-body-bg-rgb: 247, 248, 252;
-  --dx-border-color: #e7eaf3;
+  --dx-body-bg: #f6f7f9;
+  --dx-body-bg-rgb: 246, 247, 249;
+  --dx-border-color: #e4e7ec;
   --dx-border-color-translucent: rgba(15, 23, 42, 0.07);
   --dx-border-radius-lg: 1rem;
   --dx-box-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.03);
@@ -1151,7 +1151,7 @@ html:root[data-theme] .table > thead .btn-link { min-height: 0; height: 0.5rem; 
 .auth-showcase { position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-height: 36rem; padding: 3rem; border-radius: 1.25rem; overflow: hidden; color: #fff;
   background:
     radial-gradient(640px 400px at 110% -10%, rgba(255, 255, 255, 0.1), transparent 60%),
-    #3d3da8; }
+    #3730a3; }
 .auth-showcase::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px); background-size: 22px 22px; mask-image: linear-gradient(180deg, transparent, #000 70%); pointer-events: none; }
 .auth-showcase-body { position: relative; z-index: 1; max-width: 30rem; margin-top: auto; }
 .auth-showcase-eyebrow { display: inline-block; margin-bottom: 1rem; padding: 0.25rem 0.75rem; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.02em; }
@@ -1276,3 +1276,140 @@ html:root[data-theme][data-sidebar=small] .main-sidebar:not(:hover) .navbar-menu
 html:root[data-theme][data-sidebar=small] .main-sidebar:not(:hover) .navbar-menu .nav-item .nav-link .menu-arrow { display: none; }
 html:root[data-theme][data-sidebar=small] .main-sidebar:not(:hover) .navbar-menu .nav-item > .nav-link { justify-content: center; }
 html:root[data-theme][data-sidebar=small] .main-sidebar:not(:hover) .navbar-menu .nav-item > .nav-link.active::before { display: none; }
+
+/* ---------- Workflow builder: hideable panels ----------
+ * Column widths are variables per breakpoint; .no-library / .no-inspector drop a
+ * column so the canvas takes the room. The library is always off below 1200px.
+ */
+html:root[data-theme] .wf-body { --wf-lib: 248px; --wf-insp: 380px; position: relative; grid-template-columns: var(--wf-lib) minmax(0, 1fr) var(--wf-insp); }
+html:root[data-theme] .wf-body.no-library { grid-template-columns: minmax(0, 1fr) var(--wf-insp); }
+html:root[data-theme] .wf-body.no-inspector { grid-template-columns: var(--wf-lib) minmax(0, 1fr); }
+html:root[data-theme] .wf-body.no-library.no-inspector { grid-template-columns: minmax(0, 1fr); }
+html:root[data-theme] .wf-body > .wf-panel[hidden] { display: none !important; }
+@media (max-width: 1599.98px) { html:root[data-theme] .wf-body { --wf-lib: 232px; --wf-insp: 352px; } }
+@media (max-width: 1299.98px) { html:root[data-theme] .wf-body { --wf-lib: 216px; --wf-insp: 336px; } }
+@media (max-width: 1199.98px) {
+  html:root[data-theme] .wf-body,
+  html:root[data-theme] .wf-body.no-library { grid-template-columns: minmax(0, 1fr) var(--wf-insp); }
+  html:root[data-theme] .wf-body.no-inspector,
+  html:root[data-theme] .wf-body.no-library.no-inspector { grid-template-columns: minmax(0, 1fr); }
+  html:root[data-theme] .wf-panel-toggles > .btn:first-child { display: none; }
+}
+@media (max-width: 767.98px) {
+  html:root[data-theme] .wf-body, html:root[data-theme] .wf-body[class] { grid-template-columns: 1fr; }
+}
+html:root[data-theme] .wf-panel-toggles .btn { gap: 0.3125rem; }
+html:root[data-theme] .wf-panel-toggles .btn[aria-pressed=false] { color: var(--dx-secondary-color); background: var(--dx-secondary-bg); box-shadow: none; }
+html:root[data-theme] .wf-panel-toggles .btn[aria-pressed=false] > i { opacity: 0.55; }
+html:root[data-theme] .wf-focus-pill {
+  position: absolute; top: 0.75rem; left: 1rem; z-index: 4;
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.3125rem 0.75rem;
+  border: 1px solid var(--dx-border-color); border-radius: 999px; background: var(--dx-secondary-bg);
+  box-shadow: var(--dx-box-shadow-sm); font-size: 0.8125rem; color: var(--dx-secondary-color);
+}
+
+/* Webhook setup on channel accounts */
+.webhook-setup-body { margin-top: 0.5rem; padding: 0.75rem; border: 1px solid var(--dx-border-color); border-radius: 0.625rem; background: var(--dx-tertiary-bg); max-width: 40rem; }
+.webhook-setup-body .endpoint-box { background: var(--dx-secondary-bg); }
+.webhook-setup-body .http-method.bg-secondary { background: var(--dx-secondary) !important; }
+
+/* ---------- Tabs: modern SaaS style ----------
+ * Line tabs: muted labels, a soft rounded hover, a strong label with a 2px brand
+ * underline when active, and quiet count badges. Pill tabs: a segmented control.
+ */
+html:root[data-theme] .nav-tabs {
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--dx-border-color);
+  padding-bottom: 0;
+}
+html:root[data-theme] .nav-tabs .nav-link {
+  position: relative;
+  margin: 0 0 0.375rem;
+  padding: 0.4375rem 0.75rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--dx-secondary-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.15s, background-color 0.15s;
+}
+html:root[data-theme] .nav-tabs .nav-link:hover:not(.active) {
+  color: var(--dx-heading-color);
+  background: var(--dx-tertiary-bg);
+}
+html:root[data-theme] .nav-tabs .nav-link.active {
+  color: var(--dx-heading-color);
+  font-weight: 600;
+  background: transparent;
+}
+html:root[data-theme] .nav-tabs .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: calc(-0.375rem - 1px);
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: transparent;
+  transition: background-color 0.15s;
+}
+html:root[data-theme] .nav-tabs .nav-link.active::after { background: var(--dx-primary); }
+html:root[data-theme] .nav-tabs .nav-link:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(var(--dx-primary-rgb), 0.2); }
+html:root[data-theme] .nav-tabs .nav-link > i { font-size: 1rem; opacity: 0.8; }
+html:root[data-theme] .nav-tabs .nav-link .badge {
+  margin-left: 0.25rem !important;
+  min-width: 1.375rem;
+  padding: 0.125rem 0.4375rem;
+  border-radius: 999px;
+  background: var(--dx-tertiary-bg) !important;
+  color: var(--dx-secondary-color) !important;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+html:root[data-theme] .nav-tabs .nav-link.active .badge {
+  background: var(--dx-primary-bg-subtle) !important;
+  color: var(--dx-primary-text-emphasis) !important;
+}
+
+/* Pill tabs: a segmented control, matching the view switch in the builder. */
+html:root[data-theme] .nav-pills {
+  display: inline-flex;
+  gap: 0.125rem;
+  padding: 0.1875rem;
+  border: 1px solid var(--dx-border-color);
+  border-radius: 0.625rem;
+  background: var(--dx-tertiary-bg);
+}
+html:root[data-theme] .nav-pills .nav-link {
+  padding: 0.3125rem 0.75rem;
+  border-radius: 0.4375rem;
+  color: var(--dx-secondary-color);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+html:root[data-theme] .nav-pills .nav-link:hover:not(.active) { color: var(--dx-heading-color); background: transparent; }
+html:root[data-theme] .nav-pills .nav-link.active {
+  background: var(--dx-secondary-bg);
+  color: var(--dx-heading-color);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08), 0 0 0 1px var(--dx-border-color);
+}
+html:root[data-theme] .nav-pills .nav-link .badge { background: transparent !important; color: inherit !important; padding: 0; }
+
+/* Builder view switch: the active view in the brand colour for orientation. */
+html:root[data-theme] .wf-view-tabs .btn.active { color: var(--dx-primary-text-emphasis); }
+html:root[data-theme][data-bs-theme='dark'] .nav-tabs .nav-link.active .badge,
+html:root[data-theme][data-bs-theme='dark'] .wf-view-tabs .btn.active { color: var(--dx-primary) !important; }
+
+/* Live updates indicator in the topbar */
+.live-indicator { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.625rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; color: var(--dx-success-text-emphasis); background: var(--dx-success-bg-subtle); }
+.live-indicator.connecting { color: var(--dx-secondary-color); background: var(--dx-tertiary-bg); }
+.live-indicator.offline { color: var(--dx-warning-text-emphasis); background: var(--dx-warning-bg-subtle); }
+.live-indicator-dot { width: 0.4375rem; height: 0.4375rem; border-radius: 50%; background: currentColor; }
+.live-indicator.live .live-indicator-dot { box-shadow: 0 0 0 0 rgba(var(--dx-success-rgb), 0.5); animation: live-pulse 2.4s infinite; }
+@media (prefers-reduced-motion: reduce) { .live-indicator.live .live-indicator-dot { animation: none; } }
+
+/* Inline code: neutral, not Bootstrap pink. */
+html:root[data-theme] code { color: #475467; }
+html:root[data-theme][data-bs-theme='dark'] code { color: #d0d5dd; }

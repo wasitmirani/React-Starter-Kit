@@ -77,6 +77,7 @@ const issueMeta = {
 
 const CLIPBOARD_KEY = 'birdcrm.workflow-clipboard'
 const AUTOSAVE_KEY = 'birdcrm.workflow-autosave'
+const PANELS_KEY = 'birdcrm.workflow-panels'
 
 /** Every step with its depth, in canvas order (for Find). */
 function flatten(steps: WorkflowStep[], out: WorkflowStep[] = []): WorkflowStep[] {
@@ -167,14 +168,46 @@ function traceOf(run: WorkflowExecution | null): Map<string, RunLogStatus> | und
 function Builder({ workflow: w }: { workflow: Workflow }) {
   const toast = useToast()
   const [params, setParams] = useSearchParams()
-  const view = (params.get('view') as View) || 'builder'
-  const setView = (v: View) => setParams(v === 'builder' ? {} : { view: v }, { replace: true })
+  // A live automation opens on its runs (what is happening now); drafts and paused ones on the builder.
+  const defaultView: View = w.status === 'active' ? 'runs' : 'builder'
+  const view = (params.get('view') as View) || defaultView
+  const setView = (v: View) => setParams(v === defaultView ? {} : { view: v }, { replace: true })
   const history = useHistory<Editable>(editable(w))
   const draft = history.value
   const [saved, setSaved] = useState<Editable>(() => editable(w))
   // A brand-new, empty workflow opens on the trigger picker.
   const fresh = w.version === 0 && w.steps.length === 0
   const [selected, setSelected] = useState<string | null>(fresh ? 'trigger' : null)
+  /** Which side panels are open; remembered per browser so the canvas can stay wide. */
+  const [panels, setPanelsState] = useState<{ library: boolean; inspector: boolean }>(() => {
+    try {
+      return { library: true, inspector: true, ...JSON.parse(localStorage.getItem(PANELS_KEY) ?? '{}') }
+    } catch {
+      return { library: true, inspector: true }
+    }
+  })
+  /** Updates from the latest state (several toggles in a row must not undo each other). */
+  const updatePanels = useCallback((change: (prev: { library: boolean; inspector: boolean }) => { library: boolean; inspector: boolean }) => {
+    setPanelsState((prev) => {
+      const next = change(prev)
+      try {
+        localStorage.setItem(PANELS_KEY, JSON.stringify(next))
+      } catch {
+        /* private mode: the choice lasts for this page only */
+      }
+      return next
+    })
+  }, [])
+  const setPanels = (next: { library: boolean; inspector: boolean }) => updatePanels(() => next)
+  const togglePanel = (p: 'library' | 'inspector') => updatePanels((prev) => ({ ...prev, [p]: !prev[p] }))
+  // Picking a step means editing it: bring the details panel back if it was hidden.
+  const selectStep = useCallback(
+    (id: string | null) => {
+      setSelected(id)
+      if (id) updatePanels((prev) => (prev.inspector ? prev : { ...prev, inspector: true }))
+    },
+    [updatePanels],
+  )
   /** Bumped to reopen the trigger inspector with the picker showing. */
   const [pickNonce, setPickNonce] = useState(fresh ? 1 : 0)
   const [quickAdd, setQuickAdd] = useState<InsertPoint | null>(null)
@@ -441,16 +474,26 @@ function Builder({ workflow: w }: { workflow: Workflow }) {
 
         <div className="wf-toolbar-row wf-toolbar-sub">
           <div className="wf-view-tabs" role="tablist" aria-label="View">
-            <button type="button" role="tab" aria-selected={view === 'builder'} className={`btn${view === 'builder' ? ' active' : ''}`} onClick={() => setView('builder')}><i className="ri-git-branch-line me-1" />Builder</button>
             <button type="button" role="tab" aria-selected={view === 'runs'} className={`btn${view === 'runs' ? ' active' : ''}`} onClick={() => setView('runs')}>
               <i className="ri-pulse-line me-1" />Runs{s && s.running + s.waiting > 0 && <span className="badge rounded-pill bg-info ms-1">{s.running + s.waiting}</span>}
             </button>
+            <button type="button" role="tab" aria-selected={view === 'builder'} className={`btn${view === 'builder' ? ' active' : ''}`} onClick={() => setView('builder')}><i className="ri-git-branch-line me-1" />Builder</button>
             <button type="button" role="tab" aria-selected={view === 'versions'} className={`btn${view === 'versions' ? ' active' : ''}`} onClick={() => setView('versions')}><i className="ri-git-commit-line me-1" />Versions</button>
           </div>
           {view === 'builder' && (
             <div className="btn-group btn-group-sm" role="group" aria-label="History">
               <button type="button" className="btn btn-light btn-icon" disabled={!history.canUndo} onClick={history.undo} title="Undo (Ctrl+Z)" aria-label="Undo"><i className="ri-arrow-go-back-line" /></button>
               <button type="button" className="btn btn-light btn-icon" disabled={!history.canRedo} onClick={history.redo} title="Redo (Ctrl+Y)" aria-label="Redo"><i className="ri-arrow-go-forward-line" /></button>
+            </div>
+          )}
+          {view === 'builder' && (
+            <div className="btn-group btn-group-sm wf-panel-toggles" role="group" aria-label="Panels">
+              <button type="button" className="btn btn-light" aria-pressed={panels.library} onClick={() => togglePanel('library')} title="Show or hide the step library">
+                <i className="ri-layout-left-2-line" /><span className="d-none d-lg-inline">Steps</span>
+              </button>
+              <button type="button" className="btn btn-light" aria-pressed={panels.inspector} onClick={() => togglePanel('inspector')} title="Show or hide the details panel">
+                <i className="ri-layout-right-2-line" /><span className="d-none d-lg-inline">Details</span>
+              </button>
             </div>
           )}
           <span className="text-muted fs-xs d-none d-xxl-inline ms-1">{countSteps(draft.steps)} steps{channelsOf(draft.steps).length ? ` · ${channelsOf(draft.steps).length} channels` : ''}</span>
@@ -519,8 +562,14 @@ function Builder({ workflow: w }: { workflow: Workflow }) {
       )}
 
       {view === 'builder' && (
-        <div className="wf-body">
-          <aside className="wf-panel wf-panel-left" aria-label="Steps">
+        <div className={`wf-body${panels.library ? '' : ' no-library'}${panels.inspector ? '' : ' no-inspector'}`}>
+          {!panels.library && !panels.inspector && (
+            <div className="wf-focus-pill">
+              <i className="ri-fullscreen-line" /> Canvas only
+              <button type="button" className="btn btn-link btn-sm p-0" onClick={() => setPanels({ library: true, inspector: true })}>Show panels</button>
+            </div>
+          )}
+          <aside className="wf-panel wf-panel-left" aria-label="Steps" hidden={!panels.library}>
             <div className="wf-panel-title">Add steps</div>
             <p className="text-muted fs-xs mb-3">Drag onto the flow, or click to add after the selected step.</p>
             <StepLibrary
@@ -549,7 +598,7 @@ function Builder({ workflow: w }: { workflow: Workflow }) {
               issueTargets={issueTargets}
               triggerSummary={triggerSummary}
               dragActive={dragging}
-              onSelect={setSelected}
+              onSelect={selectStep}
               onInsert={insert}
               onMove={(id, dir) => setSteps((list) => moveStep(list, id, dir))}
               onDuplicate={duplicate}
@@ -562,7 +611,7 @@ function Builder({ workflow: w }: { workflow: Workflow }) {
               trace={trace}
             />
           </main>
-          <aside className="wf-panel wf-panel-right" aria-label="Inspector">
+          <aside className="wf-panel wf-panel-right" aria-label="Inspector" hidden={!panels.inspector}>
             <StepInspector
               key={`${selected ?? 'settings'}-${selected === 'trigger' ? pickNonce : 0}`}
               startPicking={selected === 'trigger' && pickNonce > 0}
