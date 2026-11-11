@@ -1,101 +1,62 @@
-# React Kit
+# LinqWorks web app
 
-A production-oriented React + TypeScript starter built with Vite. It ships a layered folder structure for API, features, state, routing, and shared UI so you can start building features instead of wiring the project from scratch.
+OMS + WMS frontend for LinqWorks (see `../CommerceOS_Complete_Development_Plan.md`).
+React 19 · TypeScript · Vite · React Router · TanStack Query · Zustand · React Hook Form + Zod, on the Alloce Material theme (same foundation as bird-crm).
 
-## Stack
-
-| Layer | Library |
-| --- | --- |
-| UI | React 19 |
-| Build | Vite 8 + TypeScript |
-| Routing | React Router 7 |
-| Server state | TanStack Query |
-| Client state | Zustand |
-| HTTP | Axios |
-| Validation | Zod |
-| Lint | Oxlint |
-
-## Getting started
+## Run
 
 ```bash
 npm install
-cp .env.example .env
-npm run dev
+cp .env.example .env   # mocks on, demo account enabled
+npm run dev            # http://localhost:5173
 ```
 
-Open [http://localhost:5173](http://localhost:5173).
+Sign in with **Try the demo account** (`demo@linqworks.app` / `Demo@12345`). It works without a backend: auth falls back to a local offline session and every product module uses the in-browser demo API.
 
-### Scripts
-
-| Command | Description |
+| Command | |
 | --- | --- |
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Type-check and build for production |
-| `npm run preview` | Preview the production build |
-| `npm run lint` | Run Oxlint |
+| `npm run dev` | Dev server |
+| `npm run build` | Type-check + production build |
+| `npm run lint` | Oxlint |
 
-### Environment
+## Backend vs demo data
 
-Copy `.env.example` to `.env` and adjust as needed:
+Each product module calls `VITE_API_BASE_URL` (`/api/v1/...`, paths from plan §6) or the mock, per `VITE_USE_MOCKS`:
+`true`, `false`, or a list such as `inventory,warehouse` to keep only those mocked while the rest go live.
+Modules: `commerce, inventory, warehouse, procurement, shipping, threepl, integrations, platform`.
+Responses use the NestJS envelope `{ success, statusCode, message, data }`; lists return `{ data, current_page, last_page, from, to, total }`.
 
-```env
-VITE_APP_NAME=React Kit
-VITE_API_BASE_URL=http://localhost:3000/api
-```
+The mock (`src/api/mock`) is per-workspace, persisted in localStorage, and enforces the same rules the API must: order state machine, reservations, the stock ledger as the only way stock changes, approval steps, idempotent booking. Reset it by clearing site data.
 
-Values are read through `src/config/env.config.ts`.
-
-## Project structure
+## Structure
 
 ```text
 src/
-├── api/                 # HTTP client, interceptors, endpoint modules
-├── assets/              # Fonts, icons, images, global CSS
+├── api/
+│   ├── endpoints/   one file per module (commerce, inventory, warehouse, procurement, shipping, threepl, integrations, platform) + foundation (auth, tenants, access)
+│   ├── mock/        seed.ts (demo data), db.ts (collections), ops.ts (stock moves + ledger)
+│   └── resource.ts  createResourceApi + mock/live switch per module
 ├── components/
-│   ├── common/          # Shared primitives (Button, Input, Modal, DataTable, …)
-│   ├── features/        # Feature-specific UI (auth, dashboard, products)
-│   └── ui/              # Presentational UI (Card, Badge, Toast, …)
-├── config/              # App, env, routes, and theme config
-├── constants/           # API paths, routes, messages, regex
-├── contexts/            # Auth, theme, and notification providers
-├── hooks/               # Reusable React hooks
-├── layouts/             # Main, auth, and master (app shell) layouts
-├── lib/                 # Axios, React Query, router, validation
-├── pages/               # Route-level screens (auth, dashboard, products, users)
-├── services/            # Domain services over API endpoints
-├── store/               # Zustand stores (auth, user, ui)
-├── types/               # Shared TypeScript types
-├── utils/               # Formatters, helpers, validators
-├── App.tsx
-└── main.tsx
+│   ├── common/      ResourceList (list pages), EntityFormModal (schema-driven forms), DataTable, PageHeader, Panel, Guard…
+│   ├── features/    shared/LineItemsEditor, scan/ScanInput, shell, workspace, account…
+│   └── ui/          StatusBadge, Drawer, Dropdown, Tabs, Controls…
+├── constants/       routes, permissions (plan §3.2), domain options + order state machine, status tones
+├── hooks/queries/   useList / useOne / useAction, reference data (warehouses, suppliers…)
+├── layouts/         Auth, Master (app shell), Scan (warehouse scanner)
+├── pages/           dashboard, reports, orders, customers, catalog, inventory, warehouse, procurement, shipping, threepl, integrations, automation, scan, settings, admin
+└── types/           one file per domain
 ```
 
-Path alias `@/` maps to `src/`.
+## Screens
 
-## Architecture notes
-
-- **API layer** — `api/http-client.ts` and `api/interceptors.ts` wrap Axios. Endpoint files under `api/endpoints/` stay thin; `services/` owns domain calls.
-- **State** — Zustand for global UI/auth/user state (`useAuthStore`, `useUserStore`, `useUiStore`); TanStack Query for server data.
-- **Routing** — Route constants live in `constants/routes.constants.ts`; the router is assembled in `lib/router.config.tsx`.
-- **Layouts** — `MainLayout` is the root shell; `AuthLayout` wraps public auth pages; `MasterLayout` wraps the authenticated app (header, sidebar, theme scripts). Sidebar items come from `utils/helpers/sidebar.menu.ts`.
-- **Providers** — `App.tsx` wires React Query, Auth, Theme, Notification, and an error boundary around the router.
-- **Components** — Prefer co-located folders (`Component.tsx`, `Component.types.ts`, `Component.styles.ts`, `index.ts`).
-
-## Routes
-
-| Path | Page |
-| --- | --- |
-| `/` | Redirects to dashboard |
-| `/login`, `/register`, `/forgot-password` | Auth |
-| `/dashboard` | Dashboard (CRM) |
-| `/dashboard/analytics` | Analytics |
-| `/dashboard/settings` | Settings |
-| `/products` | Product list |
-| `/products/:id` | Product detail |
-| `/products/create` | Create product |
-| `/users` | Users |
-| `*` | 404 |
-
-## License
-
-Private / internal starter kit.
+Public landing + regional pricing (`/welcome`) · Dashboard (launch checklist, quick actions) · Global sales and Shipping performance dashboards · Reports · Orders (status rail, detail, manual create, bulk actions) · Customers · Products · Catalog imports · Sales channels ·
+App marketplace (plug-and-play install wizard for ~50 marketplace, store, courier, payment, accounting and messaging apps across UAE, KSA, USA, UK, Australia) · Marketplace listings (publish, reprice, resubmit) · Storefronts (per-market, Arabic RTL preview) · Couriers + rate shopper ·
+Stock overview, ledger, reservations, adjustments, transfers, stock counts, lots, replenishment ·
+Warehouses, locations, receipts, putaway, pick waves, tasks, packing, dispatch, staff ·
+Purchase orders, suppliers, requisitions, supplier returns ·
+Shipments, tracking exceptions, carriers, COD reconciliation, returns ·
+3PL clients, rate cards, usage ledger, statements, SLA ·
+Connectors, LinqWorks Direct API, webhooks, sync jobs, failed events, automation rules (visual flow preview), 16 automation templates, execution history ·
+Settings: workspace, tax/currency/operations, users, roles, API keys, subscription, invoice & airway-bill template designer, audit log, system health ·
+Documents (`/print/documents`): tax invoices (UAE/KSA bilingual, VAT/GST) and airway bills (4×6, A6, 100×100, A4) with Code 128 barcodes, single or bulk print ·
+Scanner app (`/scan`): my tasks, guided pick/putaway with short-pick, receiving, bin-to-bin moves (keyboard-wedge scanners, camera fallback, no offline stock changes).

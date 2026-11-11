@@ -336,7 +336,7 @@ async function i(e) {
   if (e)
     try {
       e = e.replace(/"/g, ``);
-      let t = await fetch(`assets/lang/` + e + `.json`);
+      let t = await fetch(`/assets/lang/` + e + `.json`);
       if (!t.ok) throw Error(`Network response was not ok`);
       r = await t.json();
     } catch (e) {

@@ -1,3 +1,5 @@
+import { CURRENT_TENANT_STORAGE_KEY } from '@/constants/auth.constants'
+
 const ACCESS_TOKEN_KEY = 'access_token'
 const REFRESH_TOKEN_KEY = 'refresh_token'
 
@@ -22,6 +24,13 @@ export const storageService = {
   clearAuth: (): void => {
     localStorage.removeItem(ACCESS_TOKEN_KEY)
     localStorage.removeItem(REFRESH_TOKEN_KEY)
+  },
+
+  getTenantId: (): string | null => localStorage.getItem(CURRENT_TENANT_STORAGE_KEY),
+
+  setTenantId: (tenantId: string | null): void => {
+    if (tenantId) localStorage.setItem(CURRENT_TENANT_STORAGE_KEY, tenantId)
+    else localStorage.removeItem(CURRENT_TENANT_STORAGE_KEY)
   },
 
   getItem: <T>(key: string): T | null => {

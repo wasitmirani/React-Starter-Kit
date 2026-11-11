@@ -1,1 +1,1 @@
-export { RequireAuth } from './RequireAuth'
+export { HomeRedirect, RequireAuth, RequirePermission } from './RequireAuth'

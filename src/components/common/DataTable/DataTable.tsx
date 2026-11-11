@@ -255,7 +255,7 @@ function DataTableInner<T>(
                 data-column={column.key}
               >
                 <div className={s.thInner}>
-                  <span>{column.label ?? column.header}</span>
+                  <span>{column.label ?? column.key}</span>
                   {column.sortable ? (
                     <span className={s.sort}>
                       <button
@@ -294,11 +294,15 @@ function DataTableInner<T>(
 
         <tbody>
           {isLoading ? (
-            <tr>
-              <td colSpan={Math.max(colSpan, 1)} className={s.empty}>
-                {loadingMessage}
-              </td>
-            </tr>
+            Array.from({ length: 5 }, (_, i) => (
+              <tr key={`skeleton-${i}`} className="placeholder-glow" aria-busy="true">
+                {Array.from({ length: Math.max(colSpan, 1) }, (_, c) => (
+                  <td key={c}>
+                    <span className="placeholder rounded col-8" style={{ height: 12 }} aria-label={c === 0 && i === 0 ? String(loadingMessage) : undefined} />
+                  </td>
+                ))}
+              </tr>
+            ))
           ) : rows.data.length === 0 ? (
             <tr>
               <td colSpan={Math.max(colSpan, 1)} className={s.empty}>

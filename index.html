@@ -3,7 +3,8 @@
 <head>
     <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Dynamic Title -->
     <title>%VITE_APP_TITLE%</title>
@@ -12,17 +13,9 @@
     <script>
         (function () {
             var html = document.documentElement;
-            var keys = [
-                'data-layout',
-                'data-theme',
-                'data-nav-type',
-                'data-bs-theme',
-                'data-sidebar',
-                'data-sidebar-colors',
-                'data-topbar-colors',
-                'data-colors',
-                'data-sidebar-image',
-            ];
+            // Only user preferences (dark mode, sidebar size) are restored.
+            // Colours and chrome come from the app theme (src/assets/styles/theme.css).
+            var keys = ['data-bs-theme', 'data-sidebar'];
 
             // Profile widget is opt-in; Alloce removes it unless sessionStorage is exactly "true".
             if (sessionStorage.getItem('data-profile-sidebar') === 'true') {
@@ -31,6 +24,14 @@
                 html.removeAttribute('data-profile-sidebar');
                 sessionStorage.removeItem('data-profile-sidebar');
             }
+
+            // Brand colour theme (My profile → Appearance), before the first paint.
+            var brands = { lagoon: '#047263', violet: '#6d28d9', ocean: '#2563eb', ember: '#c2410c', berry: '#a21caf' };
+            var brand = 'ocean';
+            try { var saved = localStorage.getItem('linqworks.brand'); if (saved && brands[saved]) brand = saved; } catch (e) {}
+            html.setAttribute('data-brand', brand);
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', brands[brand]);
 
             keys.forEach(function (key) {
                 var stored = sessionStorage.getItem(key);
@@ -74,6 +75,11 @@
     <link rel="modulepreload" crossorigin href="/assets/admin.bundle-DOCqQWIh.js">
     <link rel="modulepreload" crossorigin href="/assets/main-BSp6wgyE.js">
     <link rel="modulepreload" crossorigin href="/assets/apexcharts.esm-CF-OO0O0.js">
+
+    <!-- Rubik (Alloce Material) is the UI font; Inter stays as a fallback for older pages. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Rubik:wght@400;500;600;700&display=swap">
 
     <link rel="stylesheet" crossorigin href="/assets/css/virtual-select.css">
     <link rel="stylesheet" crossorigin href="/assets/css/admin.css">

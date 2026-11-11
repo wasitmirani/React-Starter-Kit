@@ -1,0 +1,145 @@
+/*
+ * Sign-in screens (layouts/AuthLayout, components/features/auth/*): a centred
+ * form column with the logo on top and a footer, and a product preview panel in
+ * the brand colour on wide screens. The panel colour comes from brand-themes.css.
+ */
+.auth-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  min-height: 100vh;
+  background: var(--dx-secondary-bg);
+}
+
+/* ---------- Form column ---------- */
+.auth-main { display: flex; flex-direction: column; min-height: 100vh; padding: 1.75rem 2.5rem; }
+.auth-top { display: flex; align-items: center; justify-content: space-between; }
+.auth-center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.5rem 0; }
+.auth-foot { display: flex; align-items: center; gap: 0.5rem; color: var(--dx-secondary-color); font-size: 0.8125rem; }
+.auth-foot a { color: inherit; text-decoration: none; }
+.auth-foot a:hover { color: var(--dx-heading-color); }
+
+.auth-card { width: 100%; max-width: 25rem; }
+.auth-card-head { margin-bottom: 2rem; }
+html:root[data-theme] .auth-card-head h1 { margin: 0 0 0.5rem; font-size: 1.875rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.03em; color: var(--dx-heading-color); }
+.auth-card-head p { margin: 0; color: var(--dx-secondary-color); font-size: 0.9375rem; line-height: 1.5; }
+.auth-card-head p a { font-weight: 600; }
+.auth-card-foot { margin-top: 2rem; text-align: center; color: var(--dx-secondary-color); font-size: 0.875rem; }
+.auth-card-foot a { font-weight: 600; text-decoration: none; }
+.auth-card-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Inputs with a leading icon (and an optional show/hide toggle). */
+.auth-input { position: relative; }
+.auth-input > i {
+  position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%);
+  color: var(--dx-secondary-color); font-size: 1.0625rem; pointer-events: none; transition: color 0.15s;
+}
+html:root[data-theme] .auth-input > .form-control { min-height: 2.75rem; padding-left: 2.625rem; font-size: 0.9375rem; border-radius: 0.625rem; }
+html:root[data-theme] .auth-input > .form-control.has-toggle { padding-right: 2.75rem; }
+.auth-input:focus-within > i { color: var(--dx-primary); }
+.auth-input-toggle {
+  position: absolute; right: 0.375rem; top: 50%; transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem;
+  padding: 0; border: 0; border-radius: 0.5rem; background: transparent; color: var(--dx-secondary-color); font-size: 1.0625rem;
+}
+.auth-input-toggle:hover { color: var(--dx-heading-color); background: var(--dx-tertiary-bg); }
+.auth-input-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(var(--dx-primary-rgb), 0.25); }
+.auth-link-sm { font-size: 0.8125rem; font-weight: 500; text-decoration: none; }
+.auth-link-sm:hover { text-decoration: underline; text-underline-offset: 3px; }
+.auth-form .form-label-row { margin-bottom: 0; }
+
+html:root[data-theme] .auth-submit,
+html:root[data-theme] .auth-demo { min-height: 2.875rem; border-radius: 0.625rem; font-size: 0.9375rem; font-weight: 600; }
+.auth-submit > i { transition: transform 0.15s; }
+.auth-submit:not(:disabled):hover > i { transform: translateX(2px); }
+
+.auth-divider { display: flex; align-items: center; gap: 0.75rem; margin: 1.25rem 0; color: var(--dx-secondary-color); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--dx-border-color); }
+.auth-demo-note { margin: 0.625rem 0 0; text-align: center; color: var(--dx-secondary-color); font-size: 0.75rem; }
+
+/* ---------- Product preview panel ---------- */
+html:root[data-theme] .auth-shell .auth-aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.25rem;
+  height: auto;
+  min-height: 0;
+  margin: 0.75rem;
+  padding: 3rem clamp(2rem, 4vw, 3.75rem);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  color: #fff;
+}
+/* Soft grid that fades out towards the top. */
+.auth-aside::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 70% 60%, #000 20%, transparent 75%);
+  pointer-events: none;
+}
+.auth-aside::after { display: none; }
+.auth-aside > * { position: relative; z-index: 1; }
+.auth-aside-copy { max-width: 30rem; }
+html:root[data-theme] .auth-aside h2 { margin: 0 0 0.875rem; color: #fff; font-size: clamp(1.625rem, 2.2vw, 2.125rem); line-height: 1.15; font-weight: 700; letter-spacing: -0.03em; }
+.auth-aside-copy p { margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 1rem; line-height: 1.55; }
+
+.auth-preview { position: relative; display: grid; gap: 1rem; max-width: 28rem; }
+.auth-preview-card {
+  padding: 1rem 1.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  color: #1f2937;
+  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.45), 0 6px 16px -8px rgba(0, 0, 0, 0.25);
+  font-size: 0.8125rem;
+}
+.auth-preview-chat { margin-left: 3rem; margin-right: -1.5rem; }
+.auth-preview-head { display: flex; align-items: center; gap: 0.75rem; }
+.auth-preview-head strong { display: block; color: #111827; font-size: 0.875rem; }
+.auth-preview-head small { display: flex; align-items: center; gap: 0.25rem; color: #6b7280; font-size: 0.75rem; }
+.auth-preview-head small .ri-whatsapp-fill { color: #16a34a; }
+.auth-preview-icon, .auth-preview-avatar {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 2.25rem; height: 2.25rem; border-radius: 0.625rem;
+  background: var(--dx-primary-bg-subtle); color: var(--brand-deep, var(--dx-primary)); font-size: 1rem; font-weight: 700;
+}
+.auth-preview-avatar { border-radius: 999px; font-size: 0.75rem; background: #fde68a; color: #92400e; }
+.auth-preview-pill { margin-left: auto; padding: 0.125rem 0.5rem; border-radius: 999px; background: #dcfce7; color: #166534; font-size: 0.6875rem; font-weight: 600; }
+.auth-preview-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 1rem 0 0.875rem; }
+.auth-preview-stats div { padding: 0.5rem 0.625rem; border-radius: 0.625rem; background: #f8fafc; }
+.auth-preview-stats span { display: block; color: #111827; font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; }
+.auth-preview-stats small { color: #6b7280; font-size: 0.6875rem; }
+.auth-preview-bars { display: flex; align-items: flex-end; gap: 0.3125rem; height: 3.25rem; }
+.auth-preview-bars span { flex: 1; border-radius: 3px 3px 1px 1px; background: var(--brand-deep, var(--dx-primary)); opacity: 0.85; }
+.auth-preview-bars span:nth-child(odd) { opacity: 0.55; }
+.auth-bubble { max-width: 85%; margin-top: 0.625rem; padding: 0.5rem 0.75rem; border-radius: 0.875rem; line-height: 1.4; }
+.auth-bubble.in { background: #f1f5f9; border-bottom-left-radius: 0.25rem; }
+.auth-bubble.out { margin-left: auto; background: var(--brand-deep, var(--dx-primary)); color: #fff; border-bottom-right-radius: 0.25rem; }
+.auth-preview-auto { display: flex; align-items: center; gap: 0.3125rem; justify-content: flex-end; margin-top: 0.5rem; color: #6b7280; font-size: 0.6875rem; }
+.auth-preview-auto i { color: #f59e0b; }
+
+.auth-aside-points { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.auth-aside-points li {
+  display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 999px; background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9); font-size: 0.8125rem; font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1099.98px) {
+  .auth-shell { grid-template-columns: 1fr; }
+  html:root[data-theme] .auth-shell .auth-aside { display: none; }
+}
+@media (max-width: 575.98px) {
+  .auth-main { padding: 1.25rem; }
+  .auth-center { align-items: flex-start; padding-top: 2rem; }
+  html:root[data-theme] .auth-card-head h1 { font-size: 1.625rem; }
+  .auth-foot { justify-content: center; }
+}
+
+/* Dark mode: the form column follows the app; the preview stays light like a screenshot. */
+html[data-bs-theme='dark'] .auth-shell { background: var(--dx-body-bg); }

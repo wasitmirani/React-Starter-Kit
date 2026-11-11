@@ -7,17 +7,56 @@ export interface RegisterPayload {
   name: string
   email: string
   password: string
-  confirmPassword: string
+  workspaceName: string
 }
 
 export interface AuthTokens {
   accessToken: string
   refreshToken: string
+  /** Access-token lifetime in seconds. */
+  expiresIn: number
+}
+
+/** Brand theme id and light/dark mode; unset keys fall back to the workspace default. */
+export interface Appearance {
+  brandTheme?: string
+  colorMode?: 'light' | 'dark'
 }
 
 export interface AuthUser {
   id: string
   name: string
   email: string
-  role: 'admin' | 'user'
+  emailVerified: boolean
+  isPlatformAdmin: boolean
+  mfaEnabled: boolean
+  avatarUrl: string | null
+  /** Personal preferences stored on the account (follow the person across devices). */
+  preferences?: Appearance
+  lastLoginAt: string | null
+  createdAt: string
+}
+
+export interface Membership {
+  memberId: string
+  tenant: { id: string; name: string; slug: string; status: 'active' | 'suspended' }
+  role: { id: string; key: string; name: string }
+  permissions: string[]
+}
+
+export interface Profile {
+  user: AuthUser
+  memberships: Membership[]
+}
+
+export type AuthResult = AuthTokens & Profile
+
+export interface UserSession {
+  id: string
+  userAgent: string | null
+  ip: string | null
+  createdAt: string
+  lastUsedAt: string
+  expiresAt: string
+  current: boolean
 }

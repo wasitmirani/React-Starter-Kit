@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000/api'
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8888/api/v1'
 
 export const API_ENDPOINTS = {
   AUTH: {
@@ -6,17 +6,23 @@ export const API_ENDPOINTS = {
     REGISTER: '/auth/register',
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
-    FORGOT_PASSWORD: '/auth/forgot-password',
-    RESET_PASSWORD: '/auth/reset-password',
+    ME: '/auth/me',
+    SESSIONS: '/auth/sessions',
+    FORGOT_PASSWORD: '/auth/password/forgot',
+    RESET_PASSWORD: '/auth/password/reset',
+    CHANGE_PASSWORD: '/auth/password/change',
+    VERIFY_EMAIL: '/auth/email/verify',
+    RESEND_VERIFICATION: '/auth/email/resend',
   },
   USERS: {
-    BASE: '/users',
     ME: '/users/me',
   },
-  PRODUCTS: {
-    BASE: '/products',
-  },
-  
+  TENANTS: '/tenants',
+  PERMISSIONS: '/permissions',
+  ROLES: '/roles',
+  INVITATIONS: '/invitations',
+  API_KEYS: '/api-keys',
+  AUDIT_LOGS: '/audit-logs',
 } as const
 
 export const HTTP_STATUS = {

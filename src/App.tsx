@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext'
 import { NotificationProvider } from '@/contexts/NotificationContext'
 import { ErrorBoundary } from '@/pages'
 import { AppSplash } from '@/components/common/AppSplash'
+import { ToastViewport } from '@/components/ui/Toast'
 
 
 
@@ -19,6 +20,7 @@ function App() {
             <ErrorBoundary>
               <AppSplash minMs={780} ready />
               <RouterProvider router={router} />
+              <ToastViewport />
             </ErrorBoundary>
           </AuthProvider>
         </NotificationProvider>
